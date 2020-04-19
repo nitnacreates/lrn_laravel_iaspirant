@@ -1,0 +1,37 @@
+@base: #465C8B;
+@import "../front/wyswyg.less";
+
+body{
+    /*media page*/
+    &.media-lib{
+        #media-list{
+            ul{
+                width: 100%;
+                li{
+                    text-align: center;
+                    padding: 1em 3em;
+                    .fa-backward{
+                        font-size: 4em;
+                        color: #3994e4;                        
+                    }
+                    .fa-folder{
+                        font-size: 4em;
+                        color: #e4c139;
+                    }
+                    img{
+                        max-width: 200px;
+                        max-height: 100px;
+                    }
+                    .pick-image{
+                        &.active{
+                            border: 2px dotted #68f0d0;
+                            display: block;
+                            padding: 0.2em;
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}
