@@ -48,6 +48,20 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'aspirant' => [
+            'driver' => 'local',
+            'root' => storage_path('app/aspirant'),
+            'url' => env('APP_URL').'/aspirant',
+            'visibility' => 'public',
+        ],
+
+        'mlib' => [
+            'driver' => 'local',
+            'root' => storage_path('app/mlib'),
+            'url' => env('APP_URL').'/mlib',
+            'visibility' => 'public',
+        ], 
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
