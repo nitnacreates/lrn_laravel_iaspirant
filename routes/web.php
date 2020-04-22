@@ -11,8 +11,10 @@
 |
 */
 Auth::routes();
-Route::get('/super/register','\App\Http\Controllers\Auth\Super\RegisterController@showRegistrationForm')->name('super::register');
-Route::post('/super/register','\App\Http\Controllers\Auth\Super\RegisterController@register');
+/* super registration routes
+* Route::get('/super/register','\App\Http\Controllers\Auth\Super\RegisterController@showRegistrationForm')->name('super::register');
+* Route::post('/super/register','\App\Http\Controllers\Auth\Super\RegisterController@register');
+*/
 Route::get('/super/login','\App\Http\Controllers\Auth\Super\LoginController@showLoginForm')->name('super::login');
 Route::post('/super/login','\App\Http\Controllers\Auth\Super\LoginController@login');
 Route::post('/super/logout','\App\Http\Controllers\Auth\Super\LoginController@logout')->name('super::logout');

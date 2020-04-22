@@ -16,6 +16,8 @@ class DashboardController extends Controller
 
     public function show()
     {
+
+        //$this->request->session()->get('account_id');
         return view('super.dashboard.show');
     }
 }

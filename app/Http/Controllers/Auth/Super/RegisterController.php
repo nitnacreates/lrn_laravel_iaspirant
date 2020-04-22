@@ -81,6 +81,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        return false; // no user creation in super
         $super_user = SuperUser::create([
             'name' => $data['name'],
             'password' => Hash::make($data['password']),

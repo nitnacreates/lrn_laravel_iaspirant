@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use App\Model\Account;
+
 class LoginController extends Controller
 {
     /*
@@ -22,10 +24,13 @@ class LoginController extends Controller
     */
     use AuthenticatesUsers;
 
-    public function showLoginForm()
+    protected $redirectTo = '/super/dashboard';
+
+    public function showLoginForm(Request $request)
     {
         view()->share('page', 'login-page');
         view()->share('pagetitle', 'Login');
+        
         return view('auth.super.login');
     }
 
@@ -36,7 +41,13 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        return redirect('/super/dashboard');
+        if($user_id = $user->id){
+            $account = Account::select(['id'])->where('all_id',$user_id)->where('user_type','s')->first();
+            if(!empty($account)){
+                $request->session()->put('account_id', $account->id);        
+            }
+        }
+        return redirect()->intended($this->redirectPath());
     }
 
     public function logout(Request $request)

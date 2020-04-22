@@ -27,6 +27,17 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+    protected function authenticated(Request $request, $user)
+    {
+        if($user_id = $user->id){
+            $account = Account::select(['id'])->where('all_id',$user_id)->where('user_type','n')->first();
+            if(!empty($account)){
+                $request->session()->put('account_id', $account->id);        
+            }
+        }
+        return redirect()->intended($this->redirectPath());
+    }
+
     /**
      * Create a new controller instance.
      *

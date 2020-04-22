@@ -17,6 +17,8 @@ class CreateAccountsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('all_id')->unsigned();
             $table->enum('user_type',['s', 'n'])->default('n');
+
+            $table->unique(['all_id', 'user_type'], 'account_user_unique');
         });
     }
 
