@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'superg' => [
+            'driver' => 'session',
+            'provider' => 'superp',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -71,6 +76,11 @@ return [
             'model' => App\User::class,
         ],
 
+        'superp' => [
+            'driver' => 'eloquent',
+            'model' => App\Model\Super\SuperUser::class,
+        ]
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -97,6 +107,13 @@ return [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
+        ],
+        
+        'superp' => [
+            'provider' => 'superp',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
         ],
     ],
 

@@ -59,12 +59,13 @@
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item disabled" href="javascript:void(0);">My Account</a>
                       <a class="dropdown-item disabled" href="javascript:void(0);">My Notes</a>                      
-                    @else
+                    @endguest
+                    @auth
                       <a class="dropdown-item" href="#">My Account</a>
                       <a class="dropdown-item" href="#">My Notes</a>
                       <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-                    @endguest
+                    @endauth
                   </div>
                 </div>
                 <button type="button" class="btn sidebar-toggler d-lg-none d-xl-none right-bar-toggle" data-sidebar="right"><i class="fa fa-angle-double-left" aria-hidden="true"></i></button>
