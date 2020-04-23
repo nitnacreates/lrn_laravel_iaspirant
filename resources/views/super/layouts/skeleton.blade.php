@@ -78,24 +78,13 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item has-treeview">
-                                <a class="nav-link" href="javascript:void(0);">
+                            <li class="nav-item">
+                                <a href="{{ route('super::syllabus', ['action' => 'show']) }}" class="nav-link">
                                     <i class="nav-icon fa fa-book"></i>
                                     <p>
                                         Syllabus
                                     </p>
                                 </a>
-                                <ul class="nav nav-treeview">
-                                    <?php $subject_map = config('aspirant.subject_map'); ?>
-                                    @foreach($subject_map as $loop_slug => $sub)
-                                    <li class="nav-item">
-                                        <a href="{{ route('super::syllabus', ['action' => 'show', 'sub' => $loop_slug]) }}" class="nav-link">
-                                            <i class="fa fa-arrow-circle-right nav-icon"></i>
-                                            <p>{{ $sub }}</p>
-                                        </a>
-                                    </li>
-                                    @endforeach
-                                </ul>
                             </li>
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">

@@ -1,12 +1,4 @@
 {
-    "/assets/css/front_main.css": "/assets/css/front_main.css",
     "/assets/css/super_main.css": "/assets/css/super_main.css",
-    "/assets/js/front_libs.js": "/assets/js/front_libs.js",
-    "/assets/css/front_libs.css": "/assets/css/front_libs.css",
-    "/assets/js/front_main.js": "/assets/js/front_main.js",
-    "/assets/js/super_core_libs.js": "/assets/js/super_core_libs.js",
-    "/assets/js/tinymce/tinymce.min.js": "/assets/js/tinymce/tinymce.min.js",
-    "/resources/js/main/tinymce/plugins/image/plugin.min.js": "/resources/js/main/tinymce/plugins/image/plugin.min.js",
-    "/assets/css/super_core_libs.css": "/assets/css/super_core_libs.css",
     "/assets/js/super_main.js": "/assets/js/super_main.js"
 }

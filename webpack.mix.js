@@ -18,13 +18,13 @@ const mix = require('laravel-mix');
 /*
 *  temperory small ones
 */
-// mix.scripts(['resources/js/super/backy.js'], 'public/assets/js/super_main.js');
-// mix.less('resources/less/super/backy.less', 'public/assets/css/super_main.css');
+mix.scripts(['resources/js/super/backy.js'], 'public/assets/js/super_main.js');
+mix.less('resources/less/super/backy.less', 'public/assets/css/super_main.css');
 
 /* ******** FULL ******** */
 
 // **** FRONT **** */
-
+/*
 mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/date-and-time/date-and-time.min.js',
@@ -46,10 +46,10 @@ mix.copyDirectory([
 
 mix.scripts(['resources/js/main/front.js'], 'public/assets/js/front_main.js');
 mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
-
+*/
 
 /* **** SUPER **** */
-
+/*
 mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
@@ -76,4 +76,4 @@ mix.styles([
 
 mix.scripts(['resources/js/super/backy.js'], 'public/assets/js/super_main.js');
 mix.less('resources/less/super/backy.less', 'public/assets/css/super_main.css');
-
+*/

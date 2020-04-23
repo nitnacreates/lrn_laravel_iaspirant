@@ -317,5 +317,11 @@ $(document).ready(function() {
             }, tiny_gl_configs);
             tinymce.init(tiny_lc_configs);
         }
+    } else if($('body').hasClass('syllabus')){
+    // sylabus
+        $('.card-tools select[name="subject_switch"]').on('change', function(){
+            let subref = $(this).find('option:selected').attr('data-url');
+            window.location.href = subref;
+        });
     }
 });
