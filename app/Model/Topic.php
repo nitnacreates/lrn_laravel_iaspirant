@@ -37,7 +37,7 @@ class Topic extends Model
 
     public function structuredSubject($sub)
     {
-        $topic_arr = self::where('sub','=',$sub)->orderBy('level','ASC')->orderBy('title','ASC')->get()->toArray();
+        $topic_arr = self::where('sub','=',$sub)->orderBy('level','ASC')->orderBy('id','ASC')->get()->toArray();
         // return $topic_arr;
         return $this->fetchSubjectStructure($topic_arr);
     }

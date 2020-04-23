@@ -16,12 +16,6 @@ class SyllabusController extends Controller
         $this->request = $request;
     }
 
-    protected function getSub($sub)
-    {
-        $sub_arr = config('aspirant.subject_map');
-        return array_key_exists($sub, $sub_arr) ? $sub_arr[$sub] : 0;
-    }
-
     public function show()
     {
         $sub = $this->request->input('sub');
@@ -46,7 +40,7 @@ class SyllabusController extends Controller
     {
         $params = $this->request->all();
         $sub = $params['sub'];
-        if(!($sub_title = $this->getSub($sub))){
+        if(!($sub_title = \SubjectHelper::checkSubTitle($sub))){
             $this->request->session()->flash('msgs', array('Subject does not exist'));
             return redirect()->route('super::syllabus', ['action' => 'show', 'sub' => 'history']);
         }
@@ -62,7 +56,9 @@ class SyllabusController extends Controller
                 'mode' => 'required|alpha',
                 'category' => 'in:p,m,b'
             ]);
+
             $params['about'] = is_null($params['about']) ? "" : $params['about'];
+            $params['title'] = trim($params['title']);
 
             $msg = 'There was an error';
             switch ($params['mode']) {
@@ -123,7 +119,7 @@ class SyllabusController extends Controller
                 return redirect()->route('super::syllabus', ['action' => 'show', 'sub' => $sub]);
             }
             $mode = 'display';
-            $syllabus = Syllabus::find($subid);
+            $syllabus = Topic::find($subid);
 
             if(is_null($syllabus)){
                 return redirect()->route('super::syllabus', ['action' => 'show', 'sub' => $sub]);   
@@ -143,7 +139,7 @@ class SyllabusController extends Controller
     public function picker()
     {
         $sub = $this->request->input('sub');
-        if(!($sub_title = $this->getSub($sub))){
+        if(!($sub_title = \SubjectHelper::checkSubTitle($sub))){
             exit('No syllabus selected');
         }
         $syllabus = new Syllabus();
