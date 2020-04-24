@@ -179,6 +179,7 @@ return [
          * Local
          */
         App\Providers\SubjectsServiceProvider::class,
+        App\Providers\SuperServiceProvider::class,
     ],
 
     /*
@@ -231,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // local
         'SubjectHelper' => App\Facades\SubjectFacade::class,
+        'SuperHelper' => App\Facades\SuperFacade::class,
     ],
 
 ];

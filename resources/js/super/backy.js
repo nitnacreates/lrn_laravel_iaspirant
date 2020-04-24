@@ -52,16 +52,21 @@ var tiny_gl_configs = {
 
 $(document).ready(function() {
 
-    // global
+// global
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
+    $('select[name="subject_switch"').change(function(){
+        let subref = $(this).val();
+        window.location.href = subref;
+    });
+
     // subject picker
         $('#stash_form select[name="sub"]').on('change', function(){
-            $('#subject-heading input[name="syllabi_id"]').val(0);
+            $('#subject-heading input[name="topic_id"]').val(0);
             $('#subject-heading input.sublabel').val('Pick...');
             $('#frame_modal .modal-dialog').empty();
         });
@@ -71,7 +76,7 @@ $(document).ready(function() {
             if($(sel_rad).length){
                 var label = $(sel_rad).closest('li').find('> .label').html();
                 var subid = $(sel_rad).val();
-                $('#subject-heading input[name="syllabi_id"]').val(subid);
+                $('#subject-heading input[name="topic_id"]').val(subid);
                 $('#subject-heading input.sublabel').val(label);
                 $('#frame_modal').modal('hide');
             }
@@ -247,12 +252,8 @@ $(document).ready(function() {
         }
     } else if($('body').hasClass('theory')){
     // theory
-        $('select[name="subject_switch"').change(function(){
-            let subref = $(this).val();
-            window.location.href = subref;
-        });
-
         /*Stash starts */
+        $('.select2').select2();
         if($('#stash_form textarea[name="theory_content"]').length){
             let tiny_lc_configs = $.extend({
                 selector: '#stash_form textarea[name="theory_content"]',

@@ -142,13 +142,13 @@ class SyllabusController extends Controller
         if(!($sub_title = \SubjectHelper::checkSubTitle($sub))){
             exit('No syllabus selected');
         }
-        $syllabus = new Syllabus();
-        $syllabus_arr = $syllabus->structuredSyllabus($sub);
+        $topics = new Topic;
+        $topics_arr = $topics->structuredSubject($sub);
 
         $view_arr = array(
             'sub' => $sub,
             'sub_title' => $sub_title,
-            'syllabus_arr' => $syllabus_arr
+            'topics_arr' => $topics_arr
         );
 
         return view('super.syllabus.picker')->with($view_arr);

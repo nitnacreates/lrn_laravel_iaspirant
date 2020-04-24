@@ -8,7 +8,7 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-12">
-                @include('super.partials.syllabus_picker', array('syllabus_arr' => $syllabus_arr))
+                @include('super.partials.syllabus_picker', array('topics_arr' => $topics_arr))
             </div>
         </div>
     </div>

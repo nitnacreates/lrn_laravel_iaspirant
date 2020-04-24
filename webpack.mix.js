@@ -63,6 +63,8 @@ mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/js/tinymce/plug
     .copyDirectory('node_modules/tinymce/skins', 'public/assets/js/tinymce/skins')
     .copyDirectory('node_modules/tinymce/themes', 'public/assets/js/tinymce/themes')
     .copyDirectory('resources/js/main/tinymce/plugins', 'public/assets/js/tinymce/plugins')
+    .copy('node_modules/select2/dist/js/select2.min.js', 'public/assets/plugins/select2/')
+    .copy('node_modules/select2/dist/css/select2.min.css', 'public/assets/plugins/select2/')
     .copy('node_modules/tinymce/tinymce.min.js', 'public/assets/js/tinymce/')
     .minify('resources/js/main/tinymce/plugins/image/plugin.js');
 
