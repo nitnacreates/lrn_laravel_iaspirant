@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Model\Theory\Theory;
-use App\Model\Theory\TheoryContent;
 use App\Model\Theory\TheorySummary;
 
 use App\Model\Alliance\AllianceSuper;
@@ -31,7 +30,7 @@ class TheoryController extends Controller
                 return redirect()->route('super::theory', ['action' => 'show']);
             }
 
-            $view_arr['theories'] = Theory::where('sub', $sub)->get();
+            $view_arr['theories'] = Theory::select(['id', 'theory_title', 'account_id', 'user_type', 'sub', 'topic_id', 'category', 'weightage', 'locked'])->where('sub', $sub)->get();
             /*
             $view_arr['theory_particulars'] = TheoryParticular::with(['theory_content' => function ($query) use ($sub) {
                                 $query->select(['id', 'theory_title']);
@@ -64,7 +63,7 @@ class TheoryController extends Controller
                 'theory_title' => 'required',
                 'locked' => 'boolean',
                 'sub' => 'required|string',
-                'topic_id' => 'required|integer',
+                'topic_id' => 'required|integer|min:1',
                 'category' => 'required|in:p,m,b',
                 'weightage' => 'required|integer',
                 // 'theory_reference' => 'nullable|min:50',
@@ -72,7 +71,11 @@ class TheoryController extends Controller
                 // 'theory_summary' => 'nullable|min:100',
                 'summary_locked' => 'boolean',
                 'theory_summary_id' => 'required|integer'
+            ],[
+                'topic_id.min' => 'Topic is missing'
             ]);
+
+            // TODO: check title against subject
 
             $sub = $params['sub'];
             if(!($sub_title = \SubjectHelper::checkSubTitle($sub))){
@@ -84,6 +87,8 @@ class TheoryController extends Controller
 
             $theory_obj = Theory::firstOrNew(['id' => $theory_id]);
             $theory_obj->theory_title = $params['theory_title'];
+            $theory_obj->theory_content = $params['theory_content'];
+            $theory_obj->theory_reference = $params['theory_reference'];
             if(!$theory_obj->exists) {
                 $theory_obj->account_id = $account_id;
                 $theory_obj->user_type = 's'; // only super can add from backend
@@ -97,17 +102,9 @@ class TheoryController extends Controller
 
             $theory_id = $theory_obj->id;
 
-            // firstOrCreate auto saves
-            $theory_content_obj = TheoryContent::updateOrCreate(
-                ['theory_id' => $theory_id],
-                [
-                    'theory_content' => $params['theory_content'], 
-                    'theory_reference' => $params['theory_reference']
-                ]
-            );
-
             if(!empty($params['theory_summary'])){
                 $theory_summary_obj = TheorySummary::firstOrNew(['theory_id' => $theory_id]);
+                $theory_summary_obj->theory_id = $theory_id;
                 if(!$theory_summary_obj->exists) {
                     $theory_summary_obj->account_id = $account_id;
                     $theory_summary_obj->user_type = 's'; // only super can add from backend
@@ -125,7 +122,7 @@ class TheoryController extends Controller
         $mode = 'add';
         if($theory_id){
             $mode = 'edit';
-            $theory = Theory::find($theory_id)->with('theory_content')->with(['theory_summaries' => function ($query) use ($account_id) {
+            $theory = Theory::find($theory_id)->with(['theory_summaries' => function ($query) use ($account_id) {
                 $query->where('account_id', $account_id)
                         ->where('user_type', 's');
             }])->first();

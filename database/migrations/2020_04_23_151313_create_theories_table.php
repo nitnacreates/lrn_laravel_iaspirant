@@ -16,6 +16,8 @@ class CreateTheoriesTable extends Migration
         Schema::create('theories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('theory_title');
+            $table->text('theory_content');
+            $table->text('theory_reference')->nullable();
             $table->unsignedBigInteger('account_id')->unsigned();
             $table->enum('user_type',['s', 'n'])->default('n');
             $table->string('sub',70);

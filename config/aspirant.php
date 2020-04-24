@@ -80,7 +80,11 @@ return [
     'essay_word_limits' => [50,100,150,200,250,300,500,1000],
 
     'news' => [
-        'remove_lock_at' => '17:00:00'
+        'remove_lock_at' => '17:00:00',
+        'type' => [
+            'dn' => 'Daily News',
+            'ed' => 'Editorial'
+        ]
     ],
 
     'media' => [

@@ -23,7 +23,7 @@ class CreateTheorySummariesTable extends Migration
 
             $table->timestamps();
             $table->foreign('account_id')->references('id')->on('accounts');
-            $table->unique(['theory_id', 'account_id'], 'theory_summary_unique');
+            $table->unique(['theory_id', 'account_id', 'user_type'], 'theory_summary_unique');
         });
     }
 

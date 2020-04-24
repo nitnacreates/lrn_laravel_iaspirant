@@ -70,11 +70,11 @@
                     </div>
                     <div class="form-group">
                         <label>Theory References</label>
-                        <textarea class="form-control" name="theory_reference" rows="3" placeholder="References ...">@if($mode == 'edit'){{ $theory->theory_content->theory_reference }}@endif</textarea>
+                        <textarea class="form-control" name="theory_reference" rows="3" placeholder="References ...">@if($mode == 'edit'){{ $theory->theory_reference }}@endif</textarea>
                     </div>
                     <div class="form-group">
                         <label>Theory Content</label>
-                        <textarea class="form-control wyswyg_block" name="theory_content" rows="3" placeholder="Content ...">@if($mode == 'edit'){{ $theory->theory_content->theory_content }}@endif</textarea>
+                        <textarea class="form-control wyswyg_block" name="theory_content" rows="3" placeholder="Content ...">@if($mode == 'edit'){{ $theory->theory_content }}@endif</textarea>
                     </div>
                     <?php
                         $summary = 0;
