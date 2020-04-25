@@ -109,9 +109,12 @@
             <input type="hidden" id="opener_media_select" value="">
         </div>
     </section>
+    <script type="text/javascript">
+        myglobes.picker_url = "{{ $picker_url }}";
+    </script>
 @stop
 
 @push('scripts_foot')
     <script type="text/javascript" src="{!! asset('assets/plugins/select2/select2.min.js') !!}"></script>
-    <script type="text/javascript" src="{!! asset('assets/js/tinymce/tinymce.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('assets/plugins/tinymce/tinymce.min.js') !!}"></script>
 @endpush

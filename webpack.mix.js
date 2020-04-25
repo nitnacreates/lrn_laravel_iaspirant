@@ -18,16 +18,30 @@ const mix = require('laravel-mix');
 /*
 *  temperory small ones
 */
+
 mix.scripts(['resources/js/super/backy.js'], 'public/assets/js/super_main.js');
 mix.less('resources/less/super/backy.less', 'public/assets/css/super_main.css');
 
 /* ******** FULL ******** */
-
-// **** FRONT **** */
 /*
+// ////////////////// PLUGINS ////////////////// 
+mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/plugins/tinymce/plugins')
+    .copyDirectory('node_modules/tinymce/skins', 'public/assets/plugins/tinymce/skins')
+    .copyDirectory('node_modules/tinymce/themes', 'public/assets/plugins/tinymce/themes')
+    .copyDirectory('resources/js/main/tinymce/plugins', 'public/assets/plugins/tinymce/plugins')
+    .copy('node_modules/tinymce/tinymce.min.js', 'public/assets/plugins/tinymce/')
+    .copy('node_modules/select2/dist/js/select2.min.js', 'public/assets/plugins/select2/')
+    .copy('node_modules/select2/dist/css/select2.min.css', 'public/assets/plugins/select2/')
+    .copy('node_modules/clndr/clndr.min.js', 'public/assets/plugins/clndr/')
+    .copy('resources/less/front/plugins/triangle.svg', 'public/assets/plugins/clndr/');
+
+mix.less('resources/less/front/plugins/clndr.less', 'public/assets/plugins/clndr/clndr.css');
+mix.minify('resources/js/main/tinymce/plugins/image/plugin.js');
+// ////////////////// FRONT ////////////////// 
+ 
 mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
-    'node_modules/date-and-time/date-and-time.min.js',
+    'node_modules/moment/min/moment.min.js',
     'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 ], 'public/assets/js/front_libs.js');
 
@@ -35,6 +49,7 @@ mix.styles([
     'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'node_modules/font-awesome/css/font-awesome.min.css'
 ], 'public/assets/css/front_libs.css');
+
 
 mix.copyDirectory([
     'resources/imgs'
@@ -46,27 +61,19 @@ mix.copyDirectory([
 
 mix.scripts(['resources/js/main/front.js'], 'public/assets/js/front_main.js');
 mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
-*/
 
-/* **** SUPER **** */
-/*
+
+// ////////////////// Super //////////////////
+
 mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
-    'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
-    'node_modules/date-and-time/date-and-time.min.js',
-    'node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
     'node_modules/underscore/underscore-min.js',
+    'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+    'node_modules/moment/min/moment.min.js',
+    'node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
     'resources/adminlte/js/adminlte.js'
 ], 'public/assets/js/super_core_libs.js');
 
-mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/js/tinymce/plugins')
-    .copyDirectory('node_modules/tinymce/skins', 'public/assets/js/tinymce/skins')
-    .copyDirectory('node_modules/tinymce/themes', 'public/assets/js/tinymce/themes')
-    .copyDirectory('resources/js/main/tinymce/plugins', 'public/assets/js/tinymce/plugins')
-    .copy('node_modules/select2/dist/js/select2.min.js', 'public/assets/plugins/select2/')
-    .copy('node_modules/select2/dist/css/select2.min.css', 'public/assets/plugins/select2/')
-    .copy('node_modules/tinymce/tinymce.min.js', 'public/assets/js/tinymce/')
-    .minify('resources/js/main/tinymce/plugins/image/plugin.js');
 
 mix.styles([
     'node_modules/font-awesome/css/font-awesome.min.css',

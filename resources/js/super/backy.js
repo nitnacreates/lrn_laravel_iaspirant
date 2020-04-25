@@ -118,6 +118,15 @@ $(document).ready(function() {
     
     if($('body').hasClass('news')){
     // news
+
+        if($('#full-clndr').length){
+            var currentMonth = moment().format('YYYY-MM');
+            var nextMonth    = moment().add('month', 1).format('YYYY-MM');
+            $('#full-clndr').clndr({
+                template: $('#full-clndr-template').html(),
+                forceSixRows: true
+            });
+        }
         /*show starts*/
         function fetchNews(dt)
         {
