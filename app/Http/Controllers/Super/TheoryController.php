@@ -30,7 +30,7 @@ class TheoryController extends Controller
                 return redirect()->route('super::theory', ['action' => 'show']);
             }
 
-            $view_arr['theories'] = Theory::select(['id', 'theory_title', 'account_id', 'user_type', 'sub', 'topic_id', 'category', 'weightage', 'locked'])->where('sub', $sub)->get();
+            $view_arr['theories'] = Theory::select(['id', 'theory_title', 'account_id', 'user_type', 'sub', 'topic_id', 'category', 'weightage', 'locked', \DB::raw("CAST(`created_at` AS DATE) AS created_date")])->where('sub', $sub)->get();
             /*
             $view_arr['theory_particulars'] = TheoryParticular::with(['theory_content' => function ($query) use ($sub) {
                                 $query->select(['id', 'theory_title']);
@@ -76,7 +76,6 @@ class TheoryController extends Controller
             ]);
 
             // TODO: check title against subject
-
             $sub = $params['sub'];
             if(!($sub_title = \SubjectHelper::checkSubTitle($sub))){
                 $this->request->session()->flash('msgs', array('Subject does not exist'));

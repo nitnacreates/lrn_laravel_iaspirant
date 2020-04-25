@@ -119,14 +119,6 @@ $(document).ready(function() {
     if($('body').hasClass('news')){
     // news
 
-        if($('#full-clndr').length){
-            var currentMonth = moment().format('YYYY-MM');
-            var nextMonth    = moment().add('month', 1).format('YYYY-MM');
-            $('#full-clndr').clndr({
-                template: $('#full-clndr-template').html(),
-                forceSixRows: true
-            });
-        }
         /*show starts*/
         function fetchNews(dt)
         {
@@ -135,8 +127,8 @@ $(document).ready(function() {
                 if(searchParams.has('date')){
                     dt = searchParams.get('date');
                 } else{
-                    let now = new Date();
-                    dt = date.format(now, 'YYYY-MM-DD');
+                    dt = moment().format();
+                    console.log(dt);
                 }
             }
 
@@ -149,37 +141,26 @@ $(document).ready(function() {
                 },
                 success: function(data){
                     $('#news_display').html(data);
-                }   ,
-                complete: function(){
-                    news_fired = 0;
                 }
             });
         }
 
-        if($('#news_calendar_show').length){
-            fetchNews();    
-        }
-        
-        $('#news_calendar_show').datepicker({
-            todayBtn: true,
-            todayHighlight: true,
-            toggleActive: true,
-            beforeShowDay: function(date){
-                if (date.getMonth() == (new Date()).getMonth())
-                switch (date.getDate()){
-                    case 4:
-                    case 26:
-                        return {
-                            tooltip: 'Click to fetch news',
-                            classes: 'active'
-                        };
+        if($('#full-clndr').length){
+            $('#full-clndr').clndr({
+                template: $('#full-clndr-template').html(),
+                forceSixRows: true,
+                clickEvents: {
+                    click: function(target) {
+                        if(!$(this).hasClass('adjacent-month')){
+                            let dtck = moment(target.date).format("YYYY-MM-DD");    
+                            fetchNews(dtck);
+                        }
+                    }
                 }
-            }
-        }).on('changeDate', function(e) {
-            var dt = e.date;
-            var fmdt = date.format(dt, 'YYYY-MM-DD');
-            fetchNews(fmdt);
-        });
+            });
+
+            fetchNews();
+        }
 
         /*Stash starts */
         if($('#stash_form textarea[name="news_content"]').length){
@@ -262,7 +243,10 @@ $(document).ready(function() {
     } else if($('body').hasClass('theory')){
     // theory
         /*Stash starts */
-        $('.select2').select2();
+        if($('#stash_form').length){
+            $('.select2').select2();
+        }
+
         if($('#stash_form textarea[name="theory_content"]').length){
             let tiny_lc_configs = $.extend({
                 selector: '#stash_form textarea[name="theory_content"]',

@@ -32,7 +32,7 @@
         </div>
         <div class="card-body p-0">
           @if(!empty($theories) && $theories->count())
-            <table class="table table-striped">
+            <table class="table">
                   <thead>
                     <tr>
                       <th style="width: 10px">id</th>
@@ -49,7 +49,7 @@
                     <?php $counter = 1; ?>
                     @foreach ($theories as $theory)
                       <tr>
-                        <td rowspan="2">{{ $counter++ }}</td>
+                        <td rowspan="2" class="align-middle">{{ $counter++ }}</td>
                         <td>{{ ($theory->user_type == 's' ? 'Super' : 'Normal') }} - {{ $theory->account_id }}</td>
                         <td>{{ config('aspirant.subject_map')[$theory->sub] }}</td>
                         <td>{{ $theory->topic_id }}</td>
@@ -60,7 +60,7 @@
                         @endswitch</td>
                         <td>{{ $theory->weightage }}</td>
                         <td>{{ $theory->locked ? 'Yes' : 'No' }}</td>
-                        <td>{{ $theory->created_on }}</td>
+                        <td>{{ $theory->created_date }}</td>
                       </tr>
                       <tr>
                           <td colspan="7"><a href="{{ route('super::theory', ['action' => 'stash', 'id' => $theory->id]) }}">{{ $theory->theory_title }}</a></td>

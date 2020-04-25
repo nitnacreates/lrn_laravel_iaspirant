@@ -39,13 +39,13 @@
                     </select>
                 </div>
                 <div class="form-group" id="subject-heading">
-                    <label>Topic Heading</label>
+                    <label>Select Topic</label>
                     <div class="input-group mb-3">
                         <input type="hidden" name="topic_id" value="{{ $mode == 'edit' ? $theory->topic_id : 0 }}"/>
                         <div class="input-group-prepend">
-                            <button type="button" class="btn btn-primary" id="select_heading">Select Heading</button>
+                            <button type="button" class="btn btn-primary" id="select_heading">Select Topic</button>
                         </div>
-                        <input type="text" class="form-control sublabel" placeholder="Pick..." disabled>
+                        <input type="text" autocomplete="off" class="form-control sublabel" placeholder="Pick..." disabled>
                     </div>
                 </div>
                 <div class="form-group">
@@ -102,7 +102,7 @@
                     <a href="javascript:history.go(-1)" class="btn btn-block btn-primary">Back</a>
                 </div>
                 <div class="btn-group">
-                    <button type="submit" name="mode" value="{{$mode == 'edit' ? 'edit' : $mode}}" class="btn btn-block btn-success">Save</button>
+                    <button type="submit" name="mode" value="{{$mode}}" class="btn btn-block btn-success">Save</button>
                 </div>
             </div>
             </form>
