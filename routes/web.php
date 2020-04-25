@@ -36,7 +36,7 @@ Route::group([
         'auth' => ['login'],
         'dashboard' => ['show'],
         'media' => ['show', 'store', 'picker'],
-        'news' => ['show','stash'],
+        'news' => ['show','stash', 'summon'],
         'syllabus' => ['show', 'stash', 'picker'],
         'theory' => ['show', 'stash'],
         'theory-summaries' => ['show', 'stash'],

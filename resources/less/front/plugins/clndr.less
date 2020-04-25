@@ -77,12 +77,19 @@
         background-image: url('./triangle.svg');
         background-size: cover;
         background-position: center;
-        &.event
-        {
+        &.event{
+          color: @dark-blue;
+          background-color: #d7e2e6;
+          cursor: pointer;
           .day-number
           {
             padding-bottom: 4px;
             border-bottom: 2px solid @dark-blue;
+          }
+        }
+        &.inactive{
+          .day-number{
+            opacity: 0.3;
           }
         }
         &.adjacent-month

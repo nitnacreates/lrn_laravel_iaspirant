@@ -127,8 +127,7 @@ $(document).ready(function() {
                 if(searchParams.has('date')){
                     dt = searchParams.get('date');
                 } else{
-                    dt = moment().format();
-                    console.log(dt);
+                    dt = moment().format("YYYY-MM-DD");
                 }
             }
 
@@ -146,15 +145,52 @@ $(document).ready(function() {
         }
 
         if($('#full-clndr').length){
-            $('#full-clndr').clndr({
+            var popM = {};
+
+            function getMonthEvents(month){
+                let m = moment(month).startOf('month').format("YYYY_MM")
+                if(_.has(popM, m)){
+                    myCalendar.setEvents(popM[m]);
+                } else{
+                    let s = moment(month).startOf('month').format("YYYY-MM-DD"); 
+                    let e = moment(month).endOf('month').format("YYYY-MM-DD"); 
+                    $.ajax({
+                        url:"/super/news/summon",
+                        type:"POST",
+                        dataType: "json",
+                        data:{
+                            type: 'month_news',
+                            sdt: s,
+                            edt: e
+                        },
+                        success: function(data){
+                            popM[m] = data;
+                            myCalendar.setEvents(popM[m]);
+                        }
+                    });
+                }
+            }
+
+            var myCalendar = $('#full-clndr').clndr({
                 template: $('#full-clndr-template').html(),
                 forceSixRows: true,
+                ignoreInactiveDaysInSelection: true,
+                constraints: {
+                    startDate: '2020-03-10',
+                    endDate: '2020-05-09'
+                },
+                ready: function(){
+                    getMonthEvents(moment().format());
+                },
                 clickEvents: {
                     click: function(target) {
-                        if(!$(this).hasClass('adjacent-month')){
+                        if($(target.element).hasClass('event')){
                             let dtck = moment(target.date).format("YYYY-MM-DD");    
                             fetchNews(dtck);
                         }
+                    },
+                    onMonthChange: function (month) {
+                        getMonthEvents(month);
                     }
                 }
             });

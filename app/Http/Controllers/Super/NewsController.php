@@ -93,4 +93,34 @@ class NewsController extends Controller
         $view_arr['picker_url'] = route('super::media', ['action' => 'picker']);
         return view('super.news.stash')->with($view_arr);
     }
+
+    public function summon()
+    {
+        if($this->request->ajax()){
+            $type = $this->request->input('type');
+            switch ($type) {
+                case 'month_news':
+                    $start_date = $this->request->input('sdt');
+                    $start_date =\SuperHelper::transformDate('Y-m-d','Y-m-d H:i:s', $start_date);
+
+                    $end_date = $this->request->input('edt');
+                    $end_date =\SuperHelper::transformDate('Y-m-d','Y-m-d H:i:s', $end_date);
+
+                    $dates = News::select([\DB::raw("DATE(`created_at`) AS dater")])
+                                    ->whereBetween('created_at', [$start_date, $end_date])
+                                    ->groupBy(\DB::raw("DATE(`created_at`)"))
+                                    ->get();
+                    $dt_arr = [];
+                    foreach ($dates as $dt) {
+                        $dt_arr[] = ['date' => $dt->dater];
+                    }          
+                    return response()->json($dt_arr);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+        return response('Invalid request', 404)->header('Content-Type', 'text/plain');
+    }
 }
