@@ -83,12 +83,13 @@ class TheoryController extends Controller
             }
 
             $msg = 'There was an error';
-
+            $msg_type = 'added';
             $theory_obj = Theory::firstOrNew(['id' => $theory_id]);
             $theory_obj->theory_title = $params['theory_title'];
             $theory_obj->theory_content = $params['theory_content'];
             $theory_obj->theory_reference = $params['theory_reference'];
             if(!$theory_obj->exists) {
+                $msg_type = 'updated';
                 $theory_obj->account_id = $account_id;
                 $theory_obj->user_type = 's'; // only super can add from backend
             }
@@ -113,7 +114,7 @@ class TheoryController extends Controller
                 $theory_summary_obj->save();
             }
 
-            $this->request->session()->flash('msgs', array('Theory successfully ' . ($theory_obj->exists ? 'updated' : 'added')));
+            $this->request->session()->flash('msgs', array('Theory successfully ' . $msg_type));
             return redirect()->route('super::theory', ['action' => 'show', 'sub' => $sub]);  
         }
 

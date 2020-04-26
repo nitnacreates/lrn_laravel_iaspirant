@@ -68,31 +68,31 @@
                         </div>
                         @endfor
                     </div>
-                    <div class="form-group">
-                        <label>Theory References</label>
-                        <textarea class="form-control" name="theory_reference" rows="3" placeholder="References ...">@if($mode == 'edit'){{ $theory->theory_reference }}@endif</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Theory Content</label>
-                        <textarea class="form-control wyswyg_block" name="theory_content" rows="3" placeholder="Content ...">@if($mode == 'edit'){{ $theory->theory_content }}@endif</textarea>
-                    </div>
-                    <?php
-                        $summary = 0;
-                        if(!empty($theory->theory_summaries) && ($theory->theory_summaries->count() == 1)){
-                            $summary = $theory->theory_summaries[0];
-                        }
-                    ?>
-                    <div class="form-group">
-                        <label>Theory Summary</label>
-                        <input type="hidden" name="theory_summary_id" value="{{ $mode == 'edit' && !empty($summary) ?  $summary->id : 0}}">
-                        <textarea class="form-control" name="theory_summary" rows="3" placeholder="Summary ...">@if($mode == 'edit' && !empty($summary)){{$summary->theory_summary}} @endif</textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                          <input type="hidden" name="summary_locked" value="0">
-                          <input class="form-check-input" name="summary_locked" value="1" type="checkbox" @if($mode != 'edit' || (!empty($summary) && $summary->locked)) checked @endif>
-                          <label class="form-check-label">Summary Locked ?</label>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label>Theory References</label>
+                    <textarea class="form-control" name="theory_reference" rows="3" placeholder="References ...">@if($mode == 'edit'){{ $theory->theory_reference }}@endif</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Theory Content</label>
+                    <textarea class="form-control wyswyg_block" name="theory_content" rows="3" placeholder="Content ...">@if($mode == 'edit'){{ $theory->theory_content }}@endif</textarea>
+                </div>
+                <?php
+                    $summary = 0;
+                    if(!empty($theory->theory_summaries) && ($theory->theory_summaries->count() == 1)){
+                        $summary = $theory->theory_summaries[0];
+                    }
+                ?>
+                <div class="form-group">
+                    <label>Theory Summary</label>
+                    <input type="hidden" name="theory_summary_id" value="{{ $mode == 'edit' && !empty($summary) ?  $summary->id : 0}}">
+                    <textarea class="form-control" name="theory_summary" rows="3" placeholder="Summary ...">@if($mode == 'edit' && !empty($summary)){{$summary->theory_summary}} @endif</textarea>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                      <input type="hidden" name="summary_locked" value="0">
+                      <input class="form-check-input" name="summary_locked" value="1" type="checkbox" @if($mode != 'edit' || (!empty($summary) && $summary->locked)) checked @endif>
+                      <label class="form-check-label">Summary Locked ?</label>
                     </div>
                 </div>
             </div>

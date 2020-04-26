@@ -145,12 +145,12 @@ $(document).ready(function() {
         }
 
         if($('#full-clndr').length){
-            var popM = {};
+            let popN = {};
 
-            function getMonthEvents(month){
+            function getMonthNews(month){
                 let m = moment(month).startOf('month').format("YYYY_MM")
-                if(_.has(popM, m)){
-                    myCalendar.setEvents(popM[m]);
+                if(_.has(popN, m)){
+                    myCalendar.setEvents(popN[m]);
                 } else{
                     let s = moment(month).startOf('month').format("YYYY-MM-DD"); 
                     let e = moment(month).endOf('month').format("YYYY-MM-DD"); 
@@ -164,8 +164,8 @@ $(document).ready(function() {
                             edt: e
                         },
                         success: function(data){
-                            popM[m] = data;
-                            myCalendar.setEvents(popM[m]);
+                            popN[m] = data;
+                            myCalendar.setEvents(popN[m]);
                         }
                     });
                 }
@@ -180,7 +180,7 @@ $(document).ready(function() {
                     endDate: '2020-05-09'
                 },
                 ready: function(){
-                    getMonthEvents(moment().format());
+                    getMonthNews(moment().format());
                 },
                 clickEvents: {
                     click: function(target) {
@@ -190,7 +190,7 @@ $(document).ready(function() {
                         }
                     },
                     onMonthChange: function (month) {
-                        getMonthEvents(month);
+                        getMonthNews(month);
                     }
                 }
             });
@@ -306,8 +306,7 @@ $(document).ready(function() {
                 if(searchParams.has('date')){
                     dt = searchParams.get('date');
                 } else{
-                    let now = new Date();
-                    dt = date.format(now, 'YYYY-MM-DD');
+                    dt = moment().format("YYYY-MM-DD");
                 }
             }
 
@@ -324,25 +323,72 @@ $(document).ready(function() {
             });
         }
 
-        if($('#essays_calendar_show').length){
-            fetchEssays();    
+        if($('#full-clndr').length){
+            let popE = {};
+
+            function getMonthEssays(month){
+                let m = moment(month).startOf('month').format("YYYY_MM")
+                if(_.has(popE, m)){
+                    myCalendar.setEvents(popE[m]);
+                } else{
+                    let s = moment(month).startOf('month').format("YYYY-MM-DD"); 
+                    let e = moment(month).endOf('month').format("YYYY-MM-DD"); 
+                    $.ajax({
+                        url:"/super/essays/summon",
+                        type:"POST",
+                        dataType: "json",
+                        data:{
+                            type: 'month_essays',
+                            sdt: s,
+                            edt: e
+                        },
+                        success: function(data){
+                            popE[m] = data;
+                            myCalendar.setEvents(popE[m]);
+                        }
+                    });
+                }
+            }
+
+            var myCalendar = $('#full-clndr').clndr({
+                template: $('#full-clndr-template').html(),
+                forceSixRows: true,
+                ignoreInactiveDaysInSelection: true,
+                constraints: {
+                    startDate: '2020-03-10',
+                    endDate: '2020-05-09'
+                },
+                ready: function(){
+                    getMonthEssays(moment().format());
+                },
+                clickEvents: {
+                    click: function(target) {
+                        if($(target.element).hasClass('event')){
+                            let dtck = moment(target.date).format("YYYY-MM-DD");    
+                            fetchEssays(dtck);
+                        }
+                    },
+                    onMonthChange: function (month) {
+                        getMonthEssays(month);
+                    }
+                }
+            });
+
+            fetchEssays(); 
         }
-        
-        $('#essays_calendar_show').datepicker({
-            todayBtn: true,
-            todayHighlight: true,
-            toggleActive: true
-        }).on('changeDate', function(e) {
-            var dt = e.date;
-            var fmdt = date.format(dt, 'YYYY-MM-DD');
-            fetchEssays(fmdt);
-        });
 
 
         // stash
-        if($('#stash_form textarea[name="essay_framework"]').length){
+        if($('#stash_form textarea[name="framework"]').length){
             let tiny_lc_configs = $.extend({
-                selector: '#stash_form textarea[name="essay_framework"]',
+                selector: '#stash_form textarea[name="framework"]',
+                height: 500,
+            }, tiny_gl_configs);
+            tinymce.init(tiny_lc_configs);
+        }
+        if($('#stash_form textarea[name="references"]').length){
+            let tiny_lc_configs = $.extend({
+                selector: '#stash_form textarea[name="references"]',
                 height: 500,
             }, tiny_gl_configs);
             tinymce.init(tiny_lc_configs);

@@ -54,13 +54,34 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('super::essays', ['action' => 'show']) }}" class="nav-link">
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-pencil-square-o"></i>
                                     <p>
                                         Essays
+                                        <i class="fa fa-angle-left right"></i>
                                     </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('super::essays', ['action' => 'show']) }}" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Content</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0)" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Responses</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0)" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Reactions</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('super::news', ['action' => 'show']) }}" class="nav-link">
