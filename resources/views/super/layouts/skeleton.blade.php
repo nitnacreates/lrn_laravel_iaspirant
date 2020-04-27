@@ -99,6 +99,37 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-question-circle-o"></i>
+                                    <p>
+                                        Prelims
+                                        <i class="fa fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('super::essays', ['action' => 'show']) }}" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Schedule</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0)" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Questions</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('super::syllabus', ['action' => 'show']) }}" class="nav-link">
+                                    <i class="nav-icon fa fa-university"></i>
+                                    <p>
+                                        Question Bank
+                                    </p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('super::syllabus', ['action' => 'show']) }}" class="nav-link">
                                     <i class="nav-icon fa fa-book"></i>
