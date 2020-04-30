@@ -37,6 +37,8 @@ Route::group([
         'dashboard' => ['show'],
         'media' => ['show', 'store', 'picker'],
         'news' => ['show','stash', 'summon'],
+        'prelim' => ['schedule', 'pariksha', 'pariksha-uttar', 'pariksha-stash'],
+        'question' => ['show','stash', 'summon'],
         'syllabus' => ['show', 'stash', 'picker'],
         'theory' => ['show', 'stash'],
         'theory-summaries' => ['show', 'stash'],

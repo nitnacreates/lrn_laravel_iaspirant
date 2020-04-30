@@ -109,21 +109,21 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{ route('super::essays', ['action' => 'show']) }}" class="nav-link">
+                                        <a href="{{ route('super::prelim', ['action' => 'schedule']) }}" class="nav-link">
                                             <i class="fa fa-circle nav-icon"></i>
                                             <p>Schedule</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="javascript:void(0)" class="nav-link">
+                                        <a href="{{ route('super::prelim', ['action' => 'pariksha']) }}" class="nav-link">
                                             <i class="fa fa-circle nav-icon"></i>
-                                            <p>Questions</p>
+                                            <p>Pariksha</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('super::syllabus', ['action' => 'show']) }}" class="nav-link">
+                                <a href="{{ route('super::question', ['action' => 'show']) }}" class="nav-link">
                                     <i class="nav-icon fa fa-university"></i>
                                     <p>
                                         Question Bank
