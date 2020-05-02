@@ -19,7 +19,61 @@ class QuestionController extends Controller
 
     public function show()
     {
-        $view_arr = array();
+        $view_arr = [
+            'current' => []
+        ];
+
+        $questions = Question::select(['id', 'type', 'sub', 'topic_id', 'account_id', 'user_type', 'question', 'locked', 'created_at', 'updated_at']);
+        if ($this->request->isMethod('get')){
+            $question_types = array_keys(config('aspirant.question.types.front') + config('aspirant.question.types.super'));
+            
+            // dd($this->request->all());
+
+            $this->validate($this->request, [
+                'type' => ['nullable',Rule::in($question_types)],
+                'sub' => 'nullable|string',
+                'user_type' => 'nullable|in:s,n',
+                'question' => 'nullable',
+                'explanation' => 'nullable'
+            ]);
+            
+            foreach ($this->request->all() as $param => $val) {
+                if(empty($val)){
+                    $this->request->offsetUnset($param);
+                    continue;
+                }
+
+                switch ($param) {
+                    case 'type':
+                        $questions->where('type',strip_tags($val));
+                        break;
+                    case 'sub':
+                        $questions->where('sub',strip_tags($val));
+                        break;
+                    case 'user_type':
+                        $questions->where('user_type',strip_tags($val));
+                        break;
+                    case 'question':
+                        $val = strip_tags($val);
+                        $questions->where('question', 'like', "%{$val}%");
+                        break;
+                    case 'explanation':
+                        $val = strip_tags($val);
+                        $questions->where('explanation', 'like', "%{$val}%");
+                        break;
+                    default:
+                        # code...
+                        break;
+                }
+            }
+
+            $view_arr['current'] = $this->request->all();
+        }
+
+        $questions = $questions->orderBy('created_at' ,'DESC')
+            ->simplePaginate(config('aspirant.page_limit'));
+        
+        $view_arr['questions'] = $questions;
         return view('super.question.show')->with($view_arr);
     }
 
@@ -85,7 +139,7 @@ class QuestionController extends Controller
 
         // view
         if($question_id){
-            $question = Essay::find($question_id);
+            $question = Question::find($question_id);
             if(empty($question)){
                 $this->request->session()->flash('msgs', array('question does not exist'));
                 return redirect()->route('super::question', ['action' => 'show']);  

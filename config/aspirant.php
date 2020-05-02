@@ -77,6 +77,13 @@ return [
         'o-litr-urdu' => 'Language - Urdu'
     ],
 
+    'user_types' => [
+        's' => 'Super',
+        'n' => 'Normal'
+    ],
+
+    'page_limit' => 10,
+
     'essay_word_limits' => [50,100,150,200,250,300,500,1000],
 
     'news' => [

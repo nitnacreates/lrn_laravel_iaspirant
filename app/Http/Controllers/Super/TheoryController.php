@@ -88,10 +88,11 @@ class TheoryController extends Controller
             $theory_obj->theory_title = $params['theory_title'];
             $theory_obj->theory_content = $params['theory_content'];
             $theory_obj->theory_reference = $params['theory_reference'];
-            if(!$theory_obj->exists) {
+            if($theory_obj->exists){
                 $msg_type = 'updated';
+            } else{
                 $theory_obj->account_id = $account_id;
-                $theory_obj->user_type = 's'; // only super can add from backend
+                $theory_obj->user_type = 's'; // only super can add from super controller
             }
             $theory_obj->sub = $sub;
             $theory_obj->topic_id = $params['topic_id'];

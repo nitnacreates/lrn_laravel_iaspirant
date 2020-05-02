@@ -70,10 +70,10 @@
                     <label>Answer</label>
                     <select class="form-control" name="answer" autocomplete="off">
                         <option>Select</option>
-                        <option value="a" @if(($mode == 'edit') && ('A' == $question->answer)) selected="selected" @endif>A</option>
-                        <option value="b" @if(($mode == 'edit') && ('B' == $question->answer)) selected="selected" @endif>B</option>
-                        <option value="c" @if(($mode == 'edit') && ('C' == $question->answer)) selected="selected" @endif>C</option>
-                        <option value="d" @if(($mode == 'edit') && ('D' == $question->answer)) selected="selected" @endif>D</option>
+                        <option value="a" @if(($mode == 'edit') && ('a' == $question->answer)) selected="selected" @endif>A</option>
+                        <option value="b" @if(($mode == 'edit') && ('b' == $question->answer)) selected="selected" @endif>B</option>
+                        <option value="c" @if(($mode == 'edit') && ('c' == $question->answer)) selected="selected" @endif>C</option>
+                        <option value="d" @if(($mode == 'edit') && ('d' == $question->answer)) selected="selected" @endif>D</option>
                     </select>
                 </div>
                 <div class="form-group">
