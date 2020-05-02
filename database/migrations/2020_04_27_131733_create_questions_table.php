@@ -25,9 +25,9 @@ class CreateQuestionsTable extends Migration
             $table->string('option_b', 1000);
             $table->string('option_c', 1000);
             $table->string('option_d', 1000);
-            $table->enum('answer',['option_a', 'option_b', 'option_c', 'option_d']);
+            $table->enum('answer',['a', 'b', 'c', 'd']);
             $table->string('explanation', 5000);
-            $table->string('secret_text', 5000);
+            $table->string('secret_text', 5000)->nullable();
             $table->boolean('locked')->default(1);
             $table->timestamps();
 

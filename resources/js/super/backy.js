@@ -50,6 +50,30 @@ var tiny_gl_configs = {
     }
 };
 
+var tiny_gl_small_configs = {
+    'browser_spellcheck': true,
+    'init_instance_callback': "tiny_gl_configs.shortcutsTinyMCEFunctions",
+    'toolbar1': 'formatselect styleselect | bold italic underline | forecolor backcolor link | alignleft aligncenter alignright alignjustify superscript subscript | numlist bullist | removeformat code',
+    'image_advtab': true,
+    'menubar':false,
+    'statusbar':false,
+    'paste_as_text': true,
+    'style_formats' : [
+        { title: 'Highlight', inline: 'span', classes: 'tincy-style-2' },
+        { title: 'Very Important', inline: 'span', classes: 'tincy-style-3' },
+        { title: 'Keywords', inline: 'span', classes: 'tincy-style-1' },
+        { title: 'Expected', inline: 'span', classes: 'tincy-style-4' },
+        { title: 'Focus', inline: 'span', classes: 'tincy-style-5' }
+    ],
+    'formats' : {
+        fmt_hl : {inline: 'span', classes: 'tincy-style-2'},
+        fmt_vi : {inline: 'span', classes: 'tincy-style-3'},
+        fmt_kw : {inline: 'span', classes: 'tincy-style-1'},
+        fmt_ex : {inline: 'span', classes: 'tincy-style-4'},
+        fmt_fc : {inline: 'span', classes: 'tincy-style-5'}
+    }
+};
+
 $(document).ready(function() {
 
 // global
@@ -399,5 +423,23 @@ $(document).ready(function() {
             let subref = $(this).find('option:selected').attr('data-url');
             window.location.href = subref;
         });
+    } else if($('body').hasClass('question_bank')){
+
+            tinymce.init($.extend({
+                selector: '#stash_form textarea[name="question"]',
+                height: 300,
+            }, tiny_gl_configs));
+            tinymce.init($.extend({
+                selector: '#stash_form textarea[name="secret_text"]',
+                height: 200,
+            }, tiny_gl_small_configs));
+
+
+            let tiny_lc_configs = $.extend({
+                selector: '#stash_form textarea[name="explanation"]',
+                height: 500,
+            }, tiny_gl_configs);
+            tinymce.init(tiny_lc_configs);
+
     }
 });

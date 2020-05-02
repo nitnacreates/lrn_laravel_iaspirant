@@ -90,5 +90,20 @@ return [
     'media' => [
         'super' => '/public/mlib/',
         'users' => '/public/aspirant/'
+    ],
+
+    'question' => [
+        'types' => [
+            'front' => [
+                '1' => 'Daily Question',
+                '2' => 'User Question',
+                '3' => 'Previous years'
+            ],
+            'super' => [
+                '21' => 'Bank Insight',
+                '22' => 'Bank Vision'
+            ],
+            'front_max' => 3
+        ]
     ]
 ];
