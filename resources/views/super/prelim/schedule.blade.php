@@ -29,7 +29,7 @@
                         <td>{{ $roster->weightage }}</td>
                         <td>{{ $roster->locked ? "Yes" : "No"}}</td>
                         <td>{{ $roster->available_from }}</td>
-                        <td><a href="{{ route('super::question', ['action' => 'pariksha', 'id' => $roster->id]) }}">Questions</a> | <a href="{{ route('super::question', ['action' => 'pariksha-uttar', 'id' => $roster->id]) }}">Attmpts</a></td>
+                        <td><a href="{{ route('super::prelim', ['action' => 'pariksha', 'pid' => $roster->id]) }}">Questions</a> | <a href="{{ route('super::prelim', ['action' => 'pariksha-attempts', 'pid' => $roster->id]) }}">Attmpts</a></td>
                     </tr>
                     @endforeach
                 </tbody>

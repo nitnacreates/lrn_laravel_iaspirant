@@ -53,7 +53,10 @@ var tiny_gl_configs = {
 var tiny_gl_small_configs = {
     'browser_spellcheck': true,
     'init_instance_callback': "tiny_gl_configs.shortcutsTinyMCEFunctions",
-    'toolbar1': 'formatselect styleselect | bold italic underline | forecolor backcolor link | alignleft aligncenter alignright alignjustify superscript subscript | numlist bullist | removeformat code',
+    'plugins': [
+        'lists link hr anchor table',
+    ],
+    'toolbar1': 'formatselect styleselect table | bold italic underline | forecolor backcolor link | alignleft aligncenter alignright alignjustify superscript subscript | numlist bullist | removeformat code',
     'image_advtab': true,
     'menubar':false,
     'statusbar':false,
@@ -424,22 +427,37 @@ $(document).ready(function() {
             window.location.href = subref;
         });
     } else if($('body').hasClass('question_bank')){
+    // Question bank
+        tinymce.init($.extend({
+            selector: '#stash_form textarea[name="question"]',
+            height: 300,
+        }, tiny_gl_small_configs));
+        tinymce.init($.extend({
+            selector: '#stash_form textarea[name="secret_text"]',
+            height: 200,
+        }, tiny_gl_small_configs));
 
-            tinymce.init($.extend({
-                selector: '#stash_form textarea[name="question"]',
-                height: 300,
-            }, tiny_gl_configs));
-            tinymce.init($.extend({
-                selector: '#stash_form textarea[name="secret_text"]',
-                height: 200,
-            }, tiny_gl_small_configs));
+        let tiny_lc_configs = $.extend({
+            selector: '#stash_form textarea[name="explanation"]',
+            height: 500,
+        }, tiny_gl_configs);
+        tinymce.init(tiny_lc_configs);
+    } else if($('body').hasClass('prelim_stash')){
+    // Prelim Stash
 
+        tinymce.init($.extend({
+            selector: '#stash_form textarea[name="question"]',
+            height: 300,
+        }, tiny_gl_small_configs));
+        tinymce.init($.extend({
+            selector: '#stash_form textarea[name="secret_text"]',
+            height: 200,
+        }, tiny_gl_small_configs));
 
-            let tiny_lc_configs = $.extend({
-                selector: '#stash_form textarea[name="explanation"]',
-                height: 500,
-            }, tiny_gl_configs);
-            tinymce.init(tiny_lc_configs);
-
+        let tiny_lc_configs = $.extend({
+            selector: '#stash_form textarea[name="explanation"]',
+            height: 500,
+        }, tiny_gl_configs);
+        tinymce.init(tiny_lc_configs);
     }
 });

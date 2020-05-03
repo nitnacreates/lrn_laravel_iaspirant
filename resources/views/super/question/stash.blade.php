@@ -97,6 +97,9 @@
             <input type="hidden" id="opener_media_select" value="">
         </div>
     </section>
+    <script type="text/javascript">
+        myglobes.picker_url = "{{ $picker_url }}";
+    </script>
 @stop
 
 @push('scripts_foot')

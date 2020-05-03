@@ -105,7 +105,7 @@ class QuestionController extends Controller
             $sub = $params['sub'];
             if(!($sub_title = \SubjectHelper::checkSubTitle($sub))){
                 $this->request->session()->flash('msgs', array('Subject does not exist'));
-                return redirect()->route('super::news', ['action' => 'show']);
+                return redirect()->route('super::question', ['action' => 'show']);  
             }
 
             $msg = 'There was an error';

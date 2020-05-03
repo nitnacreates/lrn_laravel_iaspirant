@@ -37,7 +37,7 @@ Route::group([
         'dashboard' => ['show'],
         'media' => ['show', 'store', 'picker'],
         'news' => ['show','stash', 'summon'],
-        'prelim' => ['schedule', 'pariksha', 'pariksha-uttar', 'pariksha-stash'],
+        'prelim' => ['schedule', 'pariksha', 'pariksha-stash', 'pariksha-attempts', 'pariksha-attempts-show'],
         'question' => ['show','stash', 'summon'],
         'syllabus' => ['show', 'stash', 'picker'],
         'theory' => ['show', 'stash'],
@@ -52,6 +52,7 @@ Route::group([
             $controller_path = '\App\Http\Controllers\Super\\'. $laid_controller .'Controller';
             $createdController = $app->make($controller_path);
 
+            $action = implode("_", explode('-', $action));
             return $createdController->callAction($action, array());
         }])->where(array(
             'action' => '^('. implode('|', $act) .')',
