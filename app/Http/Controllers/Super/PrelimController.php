@@ -47,7 +47,7 @@ class PrelimController extends Controller
             'pid' => $prelim_id
         ];
 
-        $view_arr['questions'] = PrelimQuestion::where('prelim_roster_id', $prelim_id)->orderBy('display_id','ASC');
+        $view_arr['questions'] = PrelimQuestion::where('prelim_roster_id', $prelim_id)->orderBy('display_id','ASC')->get();
         
         return view('super.prelim.pariksha')->with($view_arr);
     }
@@ -108,7 +108,7 @@ class PrelimController extends Controller
             $msg_type = $pre_ques_obj->exists ? 'updated' : 'added';
 
             $pre_ques_obj->prelim_roster_id = $params['pid'];
-            $pre_ques_obj->display_id = 5;
+            $pre_ques_obj->display_id = rand(1,100);
             $pre_ques_obj->sub = $params['sub'];
             $pre_ques_obj->topic_id = $params['topic_id'];
             $pre_ques_obj->question = $params['question'];
