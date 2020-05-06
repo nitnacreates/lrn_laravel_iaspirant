@@ -18,9 +18,16 @@ html, body{
     height:100%;
 }
 body{
-    background-color: #f4eed6;
+    background-color: #f6f5f2;
+    color: #827966;
 }
 
+h1{font-size: 4em; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; line-height: 1; text-align: center; color: #333;}
+h2{font-size: 3.5em; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; line-height: 1; color: #333; text-align: center;}
+h3{font-size: 3em; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; line-height: 1; color: #333; text-align: center;}
+h4{font-size: 2.5em; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; line-height: 1; color: #333; text-align: center;}
+h5{font-size: 2em; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; line-height: 1; color: #333; text-align: center;}
+h6{font-size: 1.5em; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; line-height: 1; color: #333; text-align: center;}
 
 /* *********** Header *********** */
 header{
@@ -50,9 +57,7 @@ header{
         }
     }
 }
-main{
-
-}
+/* *********** Footer *********** */
 footer {
     margin-top:auto;
     .container-fluid{
@@ -74,5 +79,81 @@ footer {
     }
 }
 
+/* *********** Sidebars *********** */
+.siderbars{
+    .sidebar-item{
+        &:not(:last-child){
+            margin-bottom: 30px;
+        }
+        .sidebar-item-radial{
+            border: 1px solid #f0e9da;
+            border-radius: 4px;
+            background-color: #fdfbf7;
+            .side-item-container{
+                margin: 30px;
+                overflow: hidden;
+                h2{
+                    &.title{
+                        font-size: 18px;
+                        font-weight: bold;
+                        position: relative;
+                        display: inline-block;
+                        padding-right: 5px;
+                        &::before{
+                            content: "";
+                            position: absolute;
+                            height: 1px;
+                            width: 2000px;
+                            background-color: #eaeaea;
+                            top: 50%;
+                            margin-top: 5%;
+                            left: 100%;
+                        }
+                    }
+                }
+
+                ul{
+                    li{
+                        &.list-group-item{
+                            background-color: inherit;
+                            &.active{
+                                background-color: #fbf7f0;
+                                border-color: #e6d5b4;
+                                a{
+                                    color: #625f57;
+                                }
+                            }
+                        }
+                        a{
+                            color: #7893d3;
+                            &:hover{
+                                color: #3a62c2;
+                                text-decoration: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* *********** Sidebars *********** */
+main{
+    margin-top: 2em;
+    .main-wrapper{
+        display: flex;
+        .main-wrapper-radial{
+            border: 1px solid #f0e9da;
+            border-radius: 4px;
+            background-color: #fdfbf7;
+            flex: 1 1;
+            .main-content{
+                margin: 30px;
+                overflow: hidden;
+            }
+        }
+    }
+}
 /* *********** Last line imports *********** */
 @import "responsive.less";

@@ -61,7 +61,7 @@
                       <a class="dropdown-item disabled" href="javascript:void(0);">My Notes</a>                      
                     @endguest
                     @auth
-                      <a class="dropdown-item" href="#">My Account</a>
+                      <a class="dropdown-item" href="{{ route('user::profile', ['action' => 'show']) }}">My Account</a>
                       <a class="dropdown-item" href="#">My Notes</a>
                       <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
@@ -76,13 +76,32 @@
             <div class="main-container container-fluid flex-grow-1 d-flex">
                 <div class="row position-relative flex-fill">
                     <div class="left-side siderbars col-lg-2 col-xl-2 d-none d-lg-block d-xl-block col-8">
-                        Left col
+                        @stack('col_left_top')\
+                        <div class="sidebar-item">
+                          <div class="sidebar-item-radial">
+                            <div class="side-item-container">
+                                <h2 class="title">Schdeule</h2>
+                                <p>New batches start from June</p>
+                            </div>
+                          </div>
+                        </div>
                     </div>
-                    <div class="col-lg-8 col-xl-8 col-12">
-                        @yield('content')
+                    <div class="main-wrapper col-lg-8 col-xl-8 col-12">
+                      <div class="main-wrapper-radial">
+                        <div class="main-content">
+                          @yield('content')
+                        </div>
+                      </div>
                     </div>
                     <div class="right-side siderbars col-lg-2 col-xl-2 d-none d-lg-block d-xl-block col-8">
-                        Right col
+                        <div class="sidebar-item">
+                          <div class="sidebar-item-radial">
+                            <div class="side-item-container">
+                                <h2 class="title">Prelims</h2>
+                                <p>12 months left</p>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>

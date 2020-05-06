@@ -10,19 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+
 /* super registration routes
 * Route::get('/super/register','\App\Http\Controllers\Auth\Super\RegisterController@showRegistrationForm')->name('super::register');
 * Route::post('/super/register','\App\Http\Controllers\Auth\Super\RegisterController@register');
 */
+
+// ////////// superadmin section //////////
 Route::get('/super/login','\App\Http\Controllers\Auth\Super\LoginController@showLoginForm')->name('super::login');
 Route::post('/super/login','\App\Http\Controllers\Auth\Super\LoginController@login');
 Route::post('/super/logout','\App\Http\Controllers\Auth\Super\LoginController@logout')->name('super::logout');
 
-// frontend
-Route::get('/', '\App\Http\Controllers\Front\IndexController@index');
-
-// superadmin
+// superadmin grouping
 Route::group([
     'as' => 'super::',
     'prefix' => 'super',
@@ -64,37 +63,52 @@ Route::group([
     })->where('notfound', '.*');
 });
 
+// ////////// user section //////////
 
-
+Auth::routes();
 Route::group([
-    'as' => 'front::',
-    'namespace' => 'Front',
-    'middleware' => 'web'
+    'as' => 'user::',
+    'prefix' => 'user',
+    'namespace' => 'User',
+    'middleware' => 'auth'
     ], function () {
 
-    \View::share ( 'namespace', 'front');
-
+    \View::share ( 'namespace', 'user');
+    
     $allowed_paths = array(
-        'home' => ['show'],
-        'theory' => ['show'],
-        'essay' => ['show', 'roster'],
-        'question' => ['show', 'roster', 'rear'],
-        'news' => ['show', 'today']
+        'profile' => ['show', 'update'],
+        'subscription' => ['show'],
+        'media' => ['show', 'store', 'picker'],
+        'essays' => ['show', 'stash'],
     );
-
-
     foreach($allowed_paths as $controller => $act) {
-        Route::match(['get', 'post'], $controller.'/{action}', ['as' => $controller, function (Request $request, $action = 'show') use($controller) {
+        Route::match(['get', 'post'], $controller.'/{action}', ['as' => $controller, function (Request $request, $action) use($controller) {
             $app = app();
-            $controller_path = '\App\Http\Controllers\Front\\'. ucfirst($controller) .'Controller';
+            $laidall = array_map("ucfirst", explode('-', $controller));
+            $laid_controller = implode('', $laidall);
+            $controller_path = '\App\Http\Controllers\User\\'. $laid_controller .'Controller';
             $createdController = $app->make($controller_path);
 
+            $action = implode("_", explode('-', $action));
             return $createdController->callAction($action, array());
         }])->where(array(
             'action' => '^('. implode('|', $act) .')',
         ));
     }
 
+});
+
+// ////////// public section //////////
+Route::get('/', '\App\Http\Controllers\Front\IndexController@index');
+Route::group([
+    'as' => 'front::',
+    'namespace' => 'Front',
+    // 'middleware' => 'web'    // web is default middleware
+    ], function () {
+
+    \View::share ( 'namespace', 'front');
+
+    // last line
     Route::any('{notfound?}', function () {
         return redirect()->to('/');
     })->where('notfound', '.*');
