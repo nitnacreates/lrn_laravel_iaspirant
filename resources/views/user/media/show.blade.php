@@ -64,6 +64,9 @@
         <i class="fa fa-folder" aria-hidden="true"></i>
         <span class="name d-block"><%= foldername %></span>
     </a>
+    <span class="delete">
+        <a href="javascript:void(0)" class="delete-current" del-attr="delete-folder" title="delete folder" data-path="<%= folderpath %>"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </span>
 </li>
 </script>
 <script type="text/unders" id="media-render-image">
@@ -72,6 +75,9 @@
         <img src="<%= imageurl %>" />
         <span class="name d-block"><%= imagename %></span>
     </a>
+    <span class="delete">
+        <a href="javascript:void(0)" class="delete-current" del-attr="delete-image" title="delete image" data-path="<%= imageurl %>"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </span>
 </li>
 </script>
 <script type="text/unders" id="media-render-back">

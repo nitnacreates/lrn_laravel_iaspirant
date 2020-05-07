@@ -6,7 +6,7 @@
     <script type="text/javascript">
         var pub_globes = {};
     </script>
-    <body class="{{ $page }}">
+    <body class="{{ empty($page) ? 'orphan' : $page }}">
         <header>
             <div class="container-fluid">
                 <div class="row">
@@ -92,7 +92,7 @@
                     <div class="main-wrapper col-lg-8 col-xl-8 col-12">
                       <div class="main-wrapper-radial">
                         <div class="main-content">
-                          @include('super.partials.messages')
+                          @include('front.partials.messages')
                           @yield('content')
                         </div>
                       </div>

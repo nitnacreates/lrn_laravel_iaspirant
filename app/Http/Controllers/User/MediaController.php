@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class MediaController extends Controller
 {
@@ -37,48 +38,57 @@ class MediaController extends Controller
         $msg = 'There was an error';
         if ($this->request->isMethod('post')) {
 
+            $site_url = $this->getUserMediaUrl();
             $this->validate($this->request, [
-                'current-dir' => 'required',
+                'current-dir' => 'required|starts_with:'.$site_url,
                 'create-folder' => 'nullable|max:50|regex:/^[a-z0-9\-_]+$/',
-                'create-image' => 'nullable|image|max:1000000',
+                'create-image' => 'nullable|image|max:5000',
             ],[
-                'create-folder.regex' => 'Only small alpha, digits, hyphen and underscore allowed'
+                'create-folder.regex' => 'Only small alpha, digits, hyphen and underscore allowed',
+                'current-dir.starts_with' => 'Invalid directory provided',
+                'create-image.max' => 'Image should be smaller than 5 mb'
             ]);
+
             $params = $this->request->all();
             
             $dir = $this->toAbsolutePath($params['current-dir']);
-            
-            if(File::isDirectory($dir)){
-                if(!empty($params['create-folder'])){
-                    $new_dir = $dir . DIRECTORY_SEPARATOR . $params['create-folder'];
-                    if(!File::isDirectory($new_dir)){
-                        File::makeDirectory($new_dir);
-                        $msg = 'Direcctory successfully created';
-                    } else{
-                        $msg = 'Direcctory already exists';
+            $abs_usr_path = $this->getUserAbsPath();
+
+            if(stripos($dir, $abs_usr_path) === 0){ // reconfirm paths
+                if(File::isDirectory($dir)){
+                    if(!empty($params['create-folder'])){
+                        $new_dir = $dir . DIRECTORY_SEPARATOR . $params['create-folder'];
+                        if(!File::isDirectory($new_dir)){
+                            File::makeDirectory($new_dir);
+                            $msg = 'Direcctory successfully created';
+                        } else{
+                            $msg = 'Direcctory already exists';
+                        }
                     }
+
+                    if(!empty($params['create-image'])){
+                        $orig_name = $this->request->file('create-image')->getClientOriginalName();
+                        $filename = File::name($orig_name);
+                        $extname = File::extension($orig_name);
+
+                        $filename = strtolower($filename);
+                        $filename = preg_replace('/[\s]+/','-',$filename);
+                        $filename = preg_replace('/[^a-z0-9\-_]+/','',$filename);
+
+                        $abs_base_path = $this->toBaseAbsolutePath($dir);
+                        $new_name = $filename . '.'. $extname;
+                        if(!File::exists($dir . $new_name)){
+                            Storage::disk('aspirant')->putFileAs($abs_base_path, $this->request->file('create-image'), $new_name);
+                            $msg = 'File saved as ' . $new_name;
+                        } else{
+                            $msg = 'File already exists';
+                        }
+                    }  
+                } else{
+                    $msg = 'Directory does not exist';
                 }
-
-                if(!empty($params['create-image'])){
-                    $orig_name = $this->request->file('create-image')->getClientOriginalName();
-                    $filename = File::name($orig_name);
-                    $extname = File::extension($orig_name);
-
-                    $filename = strtolower($filename);
-                    $filename = preg_replace('/[\s]+/','-',$filename);
-                    $filename = preg_replace('/[^a-z0-9\-_]+/','',$filename);
-
-                    $abs_base_path = $this->toBaseAbsolutePath($dir);
-                    $new_name = $filename . '.'. $extname;
-                    if(!File::exists($dir . $new_name)){
-                        Storage::disk('aspirant')->putFileAs($abs_base_path, $this->request->file('create-image'), $new_name);
-                        $msg = 'File saved as ' . $new_name;
-                    } else{
-                        $msg = 'File already exists';
-                    }
-                }  
             } else{
-                $msg = 'Directory does not exist';
+                $msg = 'Invalid path';
             }
         }
 
@@ -87,8 +97,61 @@ class MediaController extends Controller
         return redirect()->route('user::media', ['action' => 'show']);
     }
 
-    /* protected */
+    public function summon()
+    {
+        if($this->request->ajax()){
+            $type = $this->request->input('type');
+            
+            $data = ['item' => $this->request->input('item')];
+            $site_url = $this->getUserMediaUrl();
+            $validator = Validator::make($data, [
+                'item' => 'required|starts_with:'.$site_url,
+            ],[
+                'item.starts_with' => 'Invalid item'
+            ]);
+            if($validator->fails()){
+                return response()->json(['message' => 'An error occurred'], 404);
+            }
 
+            switch ($type) {
+                case 'delete-folder':
+                    $folder = $this->request->input('item');
+                    $abs_fld = $this->toAbsolutePath($folder);
+                    $abs_pub_path = $this->getUserAbsPath();
+                    
+                    // recheck for path
+                    if(stripos($abs_fld, $abs_pub_path) === 0){
+                        if(File::isDirectory($abs_fld)){
+                            File::deleteDirectory($abs_fld);
+                            return response()->json(['message' => 1]);
+                        }
+                    }
+                    return response()->json(['message' => 'An error occurred'], 404);
+                    break;
+                case 'delete-image':
+                    $img = $this->request->input('item');
+                    $abs_img = $this->toAbsolutePath($img);
+                    $abs_img = rtrim($abs_img, '/\/');
+                    $abs_pub_path = $this->getUserAbsPath();
+                    
+                    // recheck for path
+                    if(stripos($abs_img, $abs_pub_path) === 0){
+                        if(File::isFile($abs_img)){
+                            File::delete($abs_img);
+                            return response()->json(['message' => 1]);
+                        }
+                    }
+                    return response()->json(['message' => 'An error occurred'], 404);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+        return response('Invalid request', 404)->header('Content-Type', 'text/plain');
+    }
+
+    /* ******* protected ******* */
     protected function getUserAbsPath()
     {
         $media_dir = Storage::disk('aspirant')->path('') . \UserHelper::getUserId() . DIRECTORY_SEPARATOR;

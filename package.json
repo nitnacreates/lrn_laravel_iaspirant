@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.0.6",
+        "bootbox": "^5.4.0",
         "bootstrap": "^4.4.1",
         "bootstrap-datepicker": "^1.9.0",
         "clndr": "^1.5.1",

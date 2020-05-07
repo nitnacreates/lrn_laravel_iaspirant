@@ -1,5 +1,11 @@
 $(document).ready(function() {
-    
+
+/*** Pages ***/
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 /*** Pages ***/
     
     if($('body').hasClass('user-media')){
@@ -53,6 +59,36 @@ $(document).ready(function() {
         $('#media-list').on('click','a.back', function(){
             curr_obj.pop();
             currentMedia(curr_obj);
+        });
+
+        $('#media-list').on('click','.delete-current', function(){
+            let ttl = $(this).attr('title');
+            let del_type = $(this).attr('del-attr');
+            let del_item = $(this).attr('data-path');
+            bootbox.confirm("Do you want to " + ttl, function(result){
+                if(result){
+                    $.ajax({
+                        url:"/user/media/summon",
+                        type:"POST",
+                        dataType: "json",
+                        data:{
+                            type: del_type,
+                            item: del_item
+                        },
+                        success: function(data){
+                            if(data.message == "1"){
+                                bootbox.alert(ttl + " done");
+                                window.location.reload();
+                            }
+                        },
+                        error: function(error) {
+                            if(error.status == 404){
+                                bootbox.alert(error.responseJSON.message);
+                            }
+                        }
+                    });
+                }
+            })
         });
 
         $('input[type=file]#imageUploadImage').change(function(e){

@@ -45,6 +45,7 @@ mix.scripts([
     'node_modules/underscore/underscore-min.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+    'node_modules/bootbox/dist/bootbox.all.min.js',
 ], 'public/assets/js/front_libs.js');
 
 mix.styles([
@@ -74,6 +75,7 @@ mix.scripts([
     'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
+    'node_modules/bootbox/dist/bootbox.all.min.js',
     'resources/adminlte/js/adminlte.js'
 ], 'public/assets/js/super_core_libs.js');
 
