@@ -3,7 +3,10 @@
     <head>
         @include('front.layouts.head')
     </head>
-    <body>
+    <script type="text/javascript">
+        var pub_globes = {};
+    </script>
+    <body class="{{ $page }}">
         <header>
             <div class="container-fluid">
                 <div class="row">
@@ -140,8 +143,8 @@
             </div>
         </footer>
         <!-- Footer -->
-        @stack('scripts')
         <script type="text/javascript" src="{!! asset('assets/js/front_libs.js') !!}"></script>
-        <script type="text/javascript" src="{!! asset('assets/js/main/front.js') !!}"></script>
+        @stack('scripts_foot')
+        <script type="text/javascript" src="{!! asset('assets/js/front_main.js') !!}"></script>
     </body>
 </html>

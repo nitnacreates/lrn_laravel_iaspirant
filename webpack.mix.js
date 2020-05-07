@@ -19,10 +19,11 @@ const mix = require('laravel-mix');
 *  temperory small ones
 */
 
-// mix.scripts(['resources/js/main/front.js'], 'public/assets/js/front_main.js');
+mix.scripts(['resources/js/main/user.js'], 'public/assets/js/front_user.js');
 mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
 
 /* ******** FULL ******** */
+
 /*
 // ////////////////// PLUGINS ////////////////// 
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/plugins/tinymce/plugins')
@@ -41,6 +42,7 @@ mix.minify('resources/js/main/tinymce/plugins/image/plugin.js');
  
 mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/underscore/underscore-min.js',
     'node_modules/moment/min/moment.min.js',
     'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 ], 'public/assets/js/front_libs.js');
@@ -60,6 +62,7 @@ mix.copyDirectory([
 ], 'public/assets/fonts');
 
 mix.scripts(['resources/js/main/front.js'], 'public/assets/js/front_main.js');
+mix.scripts(['resources/js/main/user.js'], 'public/assets/js/front_user.js');
 mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
 
 
