@@ -76,7 +76,7 @@
             <div class="main-container container-fluid flex-grow-1 d-flex">
                 <div class="row position-relative flex-fill">
                     <div class="left-side siderbars col-lg-2 col-xl-2 d-none d-lg-block d-xl-block col-8">
-                        @stack('col_left_top')\
+                        @stack('col_left_top')
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
@@ -89,6 +89,7 @@
                     <div class="main-wrapper col-lg-8 col-xl-8 col-12">
                       <div class="main-wrapper-radial">
                         <div class="main-content">
+                          @include('super.partials.messages')
                           @yield('content')
                         </div>
                       </div>

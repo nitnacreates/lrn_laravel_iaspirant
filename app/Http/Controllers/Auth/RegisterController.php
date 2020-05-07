@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use App\Model\User\UserKeep;
 use App\Model\Account;
 
 class RegisterController extends Controller
@@ -70,6 +71,12 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user_keep = new UserKeep;
+        $user_keep->user_id = $user->id;
+        $user_keep->phone_validated = 0;
+        $user_keep->subscription = 0;
+        $user_keep->save();
 
         $account = new Account;
         $account->all_id = $user->id;

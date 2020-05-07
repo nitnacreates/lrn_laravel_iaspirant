@@ -112,5 +112,21 @@ return [
             ],
             'front_max' => 3
         ]
+    ],
+
+    'user' => [
+        'qualification_type' => [
+            '1' => 'Primary Education',
+            '2' => 'Secondary education ',
+            '3' => 'Bachelor\'s degree',
+            '4' => 'Master\'s degree',
+            '5' => 'Doctorate or higer'
+        ],
+        'upsc_stage' => [
+            '1' => 'Prelims',
+            '2' => 'Mains',
+            '3' => 'Interview',
+            '4' => 'Cleared'
+        ]
     ]
 ];

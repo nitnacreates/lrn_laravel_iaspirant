@@ -76,7 +76,7 @@ Route::group([
     \View::share ( 'namespace', 'user');
     
     $allowed_paths = array(
-        'profile' => ['show', 'update'],
+        'profile' => ['show', 'mutate-profile', 'mutate-password'],
         'subscription' => ['show'],
         'media' => ['show', 'store', 'picker'],
         'essays' => ['show', 'stash'],

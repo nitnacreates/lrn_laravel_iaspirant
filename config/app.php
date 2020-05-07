@@ -180,6 +180,7 @@ return [
          */
         App\Providers\SubjectsServiceProvider::class,
         App\Providers\SuperServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
     ],
 
     /*
@@ -233,6 +234,7 @@ return [
         // local
         'SubjectHelper' => App\Facades\SubjectFacade::class,
         'SuperHelper' => App\Facades\SuperFacade::class,
+        'UserHelper' => App\Facades\UserFacade::class
     ],
 
 ];
