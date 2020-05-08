@@ -80,6 +80,7 @@ Route::group([
         'subscription' => ['show'],
         'media' => ['show', 'store', 'picker', 'summon'],
         'essays' => ['show', 'stash'],
+        'notes' => ['create'],
     );
     foreach($allowed_paths as $controller => $act) {
         Route::match(['get', 'post'], $controller.'/{action}', ['as' => $controller, function (Request $request, $action) use($controller) {
@@ -108,8 +109,31 @@ Route::group([
 
     \View::share ( 'namespace', 'front');
 
-    // last line
-    Route::any('{notfound?}', function () {
-        return redirect()->to('/');
-    })->where('notfound', '.*');
+    $at_allowed_paths = array(
+        'notes' => ['show', 'list']
+    );
+
+    foreach($at_allowed_paths as $current_controller => $act) {
+        Route::match(['get', 'post'], '@{user_name}/{controller}/{action}', ['as' => $current_controller, function(Request $request, $user_name, $controller_name, $action_name) {
+
+            $app = app();
+            $laidall = array_map("ucfirst", explode('-', $controller_name));
+            $laid_controller = implode('', $laidall);
+            $controller_path = '\App\Http\Controllers\Front\\'. $laid_controller .'Controller';
+            $createdController = $app->make($controller_path);
+
+            $action_name = implode("_", explode('-', $action_name));
+            return $createdController->callAction($action_name, array('user_name' => $user_name));
+
+        }])->where(array(
+            'controller' => $current_controller,
+            'action' => '^('. implode('|', $act) .')',
+        ));
+    }
+
 });
+
+// last line
+Route::any('{notfound?}', function () {
+    return redirect()->to('/');
+})->where('notfound', '.*');

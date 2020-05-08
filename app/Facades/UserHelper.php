@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Auth;
 
 use Request; // use facade alias, or use Illuminate\Support\Facades\Request;
 
-/* ONLY for logged in users */
+/* 
+* ONLY for logged in users
+*/
 class UserHelper
 {
 
