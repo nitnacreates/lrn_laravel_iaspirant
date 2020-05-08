@@ -8,6 +8,11 @@
             {{ $note->note_title }}
         @endforeach
     </div>
+    @if(Gate::allows('full-user') && $is_user_same)
+    <div class="col-12 text-right">
+        <a class="btn btn-primary" href="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create']) }}" role="button">New Note</a>
+    </div>
+    @endif
 </div>
 
 @stop

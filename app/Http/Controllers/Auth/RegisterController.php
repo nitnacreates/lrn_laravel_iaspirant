@@ -72,12 +72,12 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'subscription' => 0
         ]);
 
         $user_keep = new UserKeep;
         $user_keep->user_id = $user->id;
         $user_keep->phone_validated = 0;
-        $user_keep->subscription = 0;
         $user_keep->save();
 
         $account = new Account;

@@ -47,6 +47,26 @@ class NotesController extends Controller
         return view('front.notes.show'); 
     }
 
+    public function create($user_name)
+    {
+        $view_arr = array();
+        $note_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
+        if ($this->request->isMethod('post')) {
+
+        }
+
+        // view
+        if($note_id) {
+            $note = Note::where('id', $note_id)->where('user_id', \UserHelper::getUserId());
+            if(empty($note)){
+                $this->request->session()->flash('msgs', array('Invalid note'));
+                return redirect()->route('user::notes', ['action' => 'create']);  
+            }
+            $view_arr['note'] = $note;
+        }
+        return view('front.notes.create')->with($view_arr);
+    }
+
     protected function getNoteUser($user_name)
     {
         $user_exists = User::where('name',$user_name)->first();

@@ -79,8 +79,7 @@ Route::group([
         'profile' => ['show', 'mutate-profile', 'mutate-password'],
         'subscription' => ['show'],
         'media' => ['show', 'store', 'picker', 'summon'],
-        'essays' => ['show', 'stash'],
-        'notes' => ['create'],
+        'essays' => ['show', 'stash']
     );
     foreach($allowed_paths as $controller => $act) {
         Route::match(['get', 'post'], $controller.'/{action}', ['as' => $controller, function (Request $request, $action) use($controller) {
@@ -110,7 +109,7 @@ Route::group([
     \View::share ( 'namespace', 'front');
 
     $at_allowed_paths = array(
-        'notes' => ['show', 'list']
+        'notes' => ['show', 'list', 'create']
     );
 
     foreach($at_allowed_paths as $current_controller => $act) {
