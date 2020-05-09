@@ -143,6 +143,7 @@
             </div>
         </footer>
         <!-- Footer -->
+        <div id="frame_modal" class="modal fade"><div class="modal-dialog"></div></div>
         <script type="text/javascript" src="{!! asset('assets/js/front_libs.js') !!}"></script>
         @stack('scripts_foot')
         <script type="text/javascript" src="{!! asset('assets/js/front_main.js') !!}"></script>

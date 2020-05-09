@@ -99,7 +99,6 @@ Route::group([
 });
 
 // ////////// public section //////////
-Route::get('/', '\App\Http\Controllers\Front\IndexController@index');
 Route::group([
     'as' => 'front::',
     'namespace' => 'Front',
@@ -108,6 +107,7 @@ Route::group([
 
     \View::share ( 'namespace', 'front');
 
+    // @ paths
     $at_allowed_paths = array(
         'notes' => ['show', 'list', 'create']
     );
@@ -130,7 +130,33 @@ Route::group([
         ));
     }
 
+    // public paths
+    $front_allowed_paths = array(
+        'syllabus' => ['show', 'picker'],
+        'index' => ['index'],
+    );
+
+    foreach($front_allowed_paths as $current_controller => $act) {
+        Route::match(['get', 'post'], $current_controller.'/{action}', ['as' => $current_controller, function(Request $request, $action_name) use ($current_controller) {
+
+            $app = app();
+            $laidall = array_map("ucfirst", explode('-', $current_controller));
+            $laid_controller = implode('', $laidall);
+            $controller_path = '\App\Http\Controllers\Front\\'. $laid_controller .'Controller';
+            $createdController = $app->make($controller_path);
+
+            $action_name = implode("_", explode('-', $action_name));
+            return $createdController->callAction($action_name, array());
+
+        }])->where(array(
+            'controller' => $current_controller,
+            'action' => '^('. implode('|', $act) .')',
+        ));
+    }
+
 });
+
+Route::get('/', '\App\Http\Controllers\Front\IndexController@index');
 
 // last line
 Route::any('{notfound?}', function () {

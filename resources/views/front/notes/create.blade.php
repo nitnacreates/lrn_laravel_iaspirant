@@ -6,51 +6,77 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">{{ __('New Note') }}</div>
-            <form method="POST" action="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create']) }}">
+            <form method="post" id="create-note-form" class="wyswyg-form sub-picker" action="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create']) }}">
             <div class="card-body">
                 @csrf
+                <input type="hidden" name="id" value="{{ $note->id ?: 0 }}">
                 <div class="form-group row">
-                    <label for="sub" class="col-md-2 col-form-label text-md-right">{{ __('Subject') }}</label>
+                    <label for="sub" class="col-md-2 col-form-label">{{ __('Subject') }}</label>
                     <div class="col-md-10">
-                        <input id="sub" type="text" class="form-control @error('sub') is-invalid @enderror" name="sub" value="{{ old('sub') }}" required autocomplete="sub" autofocus>
+                        <select name="sub" id="sub" class="form-control  @error('sub') is-invalid @enderror" autocomplete="sub">
+                            @foreach(config('aspirant.subject_map') as $key => $val)
+                                <option value="{{ $key }}" @if(old('sub', $note->sub) == $key) selected="selected" @endif>{{$val}}</option>
+                            @endforeach
+                        </select>
                         @error('sub')
-                            <span class="invalid-feedback" role="alert">
+                            <div class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row" id="subject-heading">
+                    <label for="topic" class="col-md-2 col-form-label">{{ __('Topic') }}</label>
+                    <div class="col-md-10 input-group">
+                        <input type="hidden" name="topic_id" value="{{ old('topic_id',$note->topic_id ?: 0) }}"/>
+                        <div class="input-group-prepend">
+                          <button type="button" class="btn btn-primary" id="select_heading">Select Topic</button>
+                        </div>
+                        <input type="text" class="form-control sublabel" autocomplete="topic" disabled placeholder="Pick..." value="{{ $sel_topic }}" />
+                        @error('topic')
+                            <div class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </div>
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="topic_id" class="col-md-2 col-form-label text-md-right">{{ __('Topic') }}</label>
+                    <label for="locked" class="col-md-2 col-form-label">{{ __('Locked') }}</label>
                     <div class="col-md-10">
-                        <input id="topic_id" type="text" class="form-control @error('topic_id') is-invalid @enderror" name="topic_id" value="{{ old('topic_id') }}" required autocomplete="topic_id" autofocus>
-                        @error('topic_id')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div class="custom-control custom-checkbox mt-2">
+                            <input type="hidden" name="locked" value="0">
+                            <input type="checkbox" id="locked" class="custom-control-input" name="locked" value="1" @if(old('locked',$note->locked)) checked="checked" @endif autocomplete="locked">
+                            <label class="custom-control-label" for="locked">Locked</label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="locked" class="col-md-2 col-form-label text-md-right">{{ __('Locked') }}</label>
+                    <label for="note_title" class="col-md-2 col-form-label">{{ __('Note Title') }}</label>
                     <div class="col-md-10">
-                        <input id="locked" type="text" class="form-control @error('locked') is-invalid @enderror" name="locked" value="{{ old('locked') }}" required autocomplete="locked" autofocus>
-                        @error('locked')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="note_title" class="col-md-2 col-form-label text-md-right">{{ __('Note Title') }}</label>
-                    <div class="col-md-10">
-                        <input id="note_title" type="text" class="form-control @error('note_title') is-invalid @enderror" name="note_title" value="{{ old('note_title') }}" required autocomplete="note_title" autofocus>
+                        <input id="note_title" type="text" class="form-control @error('note_title') is-invalid @enderror" name="note_title" value="{{ old('note_title',$note->note_title) }}" required autocomplete="note_title" autofocus>
                         @error('note_title')
-                            <span class="invalid-feedback" role="alert">
+                            <div class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="note_content" class="col-md-2 col-form-label">{{ __('Note Content') }}</label>
+                    <div class="col-md-12">
+                        <textarea name="note_content" class="form-control wyswyg-bg @error('note_content') is-invalid @enderror" rows="3" autocomplete="note_content">{{ old('note_content', $note->note_content) }}</textarea>
+                        @error('note_content')
+                            <div class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="self_note" class="col-md-2 col-form-label">{{ __('Self Note') }}</label>
+                    <div class="col-md-12">
+                        <textarea name="self_note" aria-describedby="self-note-help" class="form-control wyswyg-sm" rows="3" autocomplete="self_note">{{ old('self_note', $note->self_note) }}</textarea>
+                        <small id="self-note-help" class="form-text text-muted">Only you can see this.</small>
                     </div>
                 </div>
             </div>
@@ -68,3 +94,8 @@
 </div>
 
 @stop
+
+@push('scripts_foot')
+<script type="text/javascript" src="{!! asset('assets/plugins/tinymce/tinymce.min.js') !!}"></script>
+<script type="text/javascript" src="{!! asset('assets/js/front_user.js') !!}"></script>
+@endpush

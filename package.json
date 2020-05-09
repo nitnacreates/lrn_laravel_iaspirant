@@ -33,6 +33,7 @@
         "font-awesome": "^4.7.0",
         "jbox": "^1.0.9",
         "jquery": "^3.4.1",
+        "jquery-validation": "^1.19.1",
         "less": "^3.11.1",
         "moment": "^2.24.0",
         "select2": "^4.1.0-beta.0",

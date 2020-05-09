@@ -18,6 +18,11 @@ class UserHelper
         return Auth::id(); 
     }
 
+    public function getUserName()
+    {
+        return Auth::user()->name; 
+    }
+
     public function getAccountId()
     {
         return Request::session()->get('account_id'); 
