@@ -24,32 +24,61 @@ class NotesController extends Controller
     public function list($user_name)
     {
         $note_user_id = $this->getNoteUser($user_name);
-        if($note_user_id){
-            $view_arr = array();
-
-            $notes = Note::select(['id', 'sub', 'topic_id', 'locked', 'note_title'])
-                ->where('user_id', $note_user_id);
-
-            $is_user_same = \FrontHelper::checkAuthId($note_user_id);
-            if(!$is_user_same){
-                $notes->where('locked',0);
-            }
-
-            $view_arr['notes'] = $notes;
-            $view_arr['is_user_same'] = $is_user_same;
-            return view('front.notes.list')->with($view_arr);   
+        if(!$note_user_id){
+            $this->request->session()->flash('msgs', array('User does not exist'));
+            return redirect()->to('/');
         }
-        
-        $this->request->session()->flash('msgs', array('User does not exist'));
-        return redirect()->to('/');
+
+        $view_arr = array();
+
+        $note_obj = Note::select(['id', 'sub', 'topic_id', 'locked', 'note_title'])
+            ->where('user_id', $note_user_id);
+
+        $is_user_same = \FrontHelper::checkAuthId($note_user_id);
+        if(!$is_user_same){
+            $note_obj->where('locked',0);
+        }
+        $note_obj->orderBy('sub', 'ASC')->orderBy('created_at', 'DESC');
+
+        $notes = $note_obj->get();
+
+        $view_arr['notes'] = $notes;
+        $view_arr['user_name'] = $user_name;
+        $view_arr['is_user_same'] = $is_user_same;
+        return view('front.notes.list')->with($view_arr); 
     }
 
     public function show($user_name)
     {
         $note_user_id = $this->getNoteUser($user_name);
-        return view('front.notes.show'); 
+        if(!$note_user_id){
+            $this->request->session()->flash('msgs', array('User does not exist'));
+            return redirect()->to('/');
+        }
+
+        $is_user_same = \FrontHelper::checkAuthId($note_user_id);
+
+        $view_arr = array();
+        $note_id = $this->request->input('id',0);
+
+        $note = Note::findOrFail($note_id);
+
+        if($note->locked && !$is_user_same){
+            $this->request->session()->flash('msgs', array('Insufficient privileges'));
+            return redirect()->to('/');
+        }
+
+        $view_arr['user_name'] = $user_name;
+        $view_arr['note'] = $note;
+        $view_arr['is_user_same'] = $is_user_same;
+        return view('front.notes.show')->with($view_arr); 
     }
 
+    /*
+    * TODO
+    * select subject any
+    * auto save feature
+    */
     public function create($user_name)
     {
         $params = $this->request->all();
@@ -95,7 +124,7 @@ class NotesController extends Controller
             $msg = 'There was an error';
             $msg_type = 'updated';
 
-            if(!$note_obj->exists){
+            if(!isset($note_obj)){
                 $msg_type = 'added';
                 $note_obj = new Note;
                 $note_obj->user_id = \UserHelper::getUserId();

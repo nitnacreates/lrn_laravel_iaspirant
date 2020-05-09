@@ -11,4 +11,10 @@ class FrontHelper
     {
         return Auth::id() == $user_id;
     }
+
+    public function transformDate($from_format, $to_format, $date_input)
+    {
+        $dt = \DateTime::createFromFormat($from_format, $date_input);
+        return $dt->format($to_format);
+    }
 }

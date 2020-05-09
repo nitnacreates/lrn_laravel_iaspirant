@@ -5,11 +5,11 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">{{ __('New Note') }}</div>
+            <div class="card-header">{{ $note->id ? 'Edit Note' : 'Add Note' }}</div>
             <form method="post" id="create-note-form" class="wyswyg-form sub-picker" action="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create']) }}">
             <div class="card-body">
                 @csrf
-                <input type="hidden" name="id" value="{{ $note->id ?: 0 }}">
+                <input type="hidden" name="id" value="{{ $note->id ?? 0 }}">
                 <div class="form-group row">
                     <label for="sub" class="col-md-2 col-form-label">{{ __('Subject') }}</label>
                     <div class="col-md-10">

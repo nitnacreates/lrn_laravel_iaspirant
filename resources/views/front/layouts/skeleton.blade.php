@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light">
                 <button type="button" class="btn sidebar-toggler d-lg-none d-xl-none left-bar-toggle" data-sidebar="left"><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
                 <button class="navbar-toggler btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
