@@ -29,7 +29,7 @@
                         <a class="nav-link active" href="#">Essays</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">News Concise</a>
+                        <a class="nav-link" href="{{ route('front::news', ['action' => 'list']) }}">News Concise</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="#">Prelims 2021</a>

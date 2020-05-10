@@ -16,14 +16,18 @@ class CreateNewsTable extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('news_title',300);
+            $table->boolean('locked')->default(1);
+            $table->string('news_link',300)->unique();
+            $table->string('meta_key',300)->nullable();
+            $table->string('meta_descr',500)->nullable();
             $table->text('news_content');
+            $table->text('self_note', 2000)->nullable();
             $table->string('sub',70);
             $table->unsignedInteger('topic_id')->unsigned();
             $table->enum('category',['p', 'm', 'b'])->default('b');
             $table->enum('type',['dn', 'ed'])->default('dn');
             $table->tinyInteger('weightage');
-            $table->date('visible_from');
-            $table->boolean('locked')->default(1);
+            $table->date('show_on')->nullable();
 
             $table->timestamps();
 

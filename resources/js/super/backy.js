@@ -204,7 +204,7 @@ $(document).ready(function() {
                 ignoreInactiveDaysInSelection: true,
                 constraints: {
                     startDate: '2020-03-10',
-                    endDate: '2020-05-09'
+                    endDate: '2021-06-01'
                 },
                 ready: function(){
                     getMonthNews(moment().format());
@@ -232,6 +232,32 @@ $(document).ready(function() {
                 height: 500,
             }, tiny_gl_configs);
             tinymce.init(tiny_lc_configs);
+
+            $('#stash_form #check_link').click(function(){
+                let ln = $('#stash_form input[name="news_link"]').val();
+                let id = $('#stash_form input[name="id"]').val();
+                if(ln.length){
+                    $.ajax({
+                        url:"/super/news/summon",
+                        type:"POST",
+                        dataType: "json",
+                        data:{
+                            type: 'news_link',
+                            link: ln,
+                            id: id
+                        },
+                        success: function(data){
+                            $('#stash_form input[name="news_link"]').removeClass('is-invalid').addClass('is-valid');
+                        },
+                        error: function(data){
+                            $('#stash_form input[name="news_link"]').removeClass('is-valid').addClass('is-invalid');
+                        }
+                    });
+                } else{
+                    $('#stash_form input[name="news_link"]').removeClass('is-valid').addClass('is-invalid');
+                }
+                return true;
+            });
         }
 
     } else if($('body').hasClass('media-lib')){
@@ -383,7 +409,7 @@ $(document).ready(function() {
                 ignoreInactiveDaysInSelection: true,
                 constraints: {
                     startDate: '2020-03-10',
-                    endDate: '2020-05-09'
+                    endDate: '2021-06-01'
                 },
                 ready: function(){
                     getMonthEssays(moment().format());

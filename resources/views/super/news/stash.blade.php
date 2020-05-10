@@ -16,6 +16,30 @@
                     <input type="text" name="news_title" @if($mode == 'edit') value="{{ $news->news_title }}" @endif class="form-control" placeholder="Title ...">
                 </div>
                 <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-on-danger custom-switch-off-success">
+                        <input type="hidden" name="locked" value="0" />
+                        <input type="checkbox" name="locked" value="1" @if($mode != 'edit' || $news->locked) checked="checked" @endif class="custom-control-input" id="newslocked">
+                        <label class="custom-control-label" for="newslocked">Locked ?</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>News Link</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-primary" id="check_link">Check Link</button>
+                        </div>
+                        <input type="text" name="news_link" @if($mode == 'edit') value="{{ $news->news_link }}" @endif class="form-control" placeholder="Link ...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Meta Keys</label>
+                    <input type="text" name="meta_key" @if($mode == 'edit') value="{{ $news->meta_key }}" @endif class="form-control" placeholder="Meta Keys ...">
+                </div>
+                <div class="form-group">
+                    <label>Meta Description</label>
+                    <textarea class="form-control" name="meta_descr" rows="3" placeholder="Meta Description ...">@if($mode == 'edit'){{ $news->meta_descr }}@endif</textarea>
+                </div>
+                <div class="form-group">
                     <label>Subject</label>
                     <select class="form-control" name="sub" autocomplete="off">
                         @foreach(config('aspirant.subject_map') as $key => $val)
@@ -63,19 +87,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Visible From</label>
-                    <input type="text" name="visible_from" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $news->visible_from }}" @endif />
-                    <div class="form-group">
-                        <div class="custom-control custom-switch custom-switch-on-danger custom-switch-off-success">
-                            <input type="hidden" name="locked" value="0" />
-                            <input type="checkbox" name="locked" value="1" @if($mode != 'edit' || $news->locked) checked="checked" @endif class="custom-control-input" id="newslocked">
-                            <label class="custom-control-label" for="newslocked">Locked ?</label>
-                        </div>
-                    </div>
+                    <label>Show On</label>
+                    <input type="text" name="show_on" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $news->show_on }}" @endif />
                 </div>
                 <div class="form-group">
                     <label>News Content</label>
                     <textarea class="form-control wyswyg_block" name="news_content" rows="3" placeholder="News Content ...">@if($mode == 'edit'){{ $news->news_content }}@endif</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Self Note</label>
+                    <textarea class="form-control" name="self_note" rows="3" placeholder="Self Note ...">@if($mode == 'edit'){{ $news->self_note }}@endif</textarea>
                 </div>
             </div>
             <div class="card-footer text-right">

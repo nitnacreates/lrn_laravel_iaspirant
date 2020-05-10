@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Super;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\Rule;
 use App\Model\News\News;
 
 class NewsController extends Controller
@@ -21,9 +22,7 @@ class NewsController extends Controller
         $view_arr = array();
         if($this->request->ajax()){
             $date = $this->request->input('date');
-            $view_arr['news'] = News::select(['id', 'news_title', 'sub', 'topic_id', 'category', 'type', 'weightage', 'visible_from', 'locked', \DB::raw("CAST(`created_at` AS DATE) AS created_date")])
-                ->where('created_at', 'like', $date.'%')
-                ->get();
+            $view_arr['news'] = News::where('show_on', $date)->get();
 
             return view('super.news.limited')->with($view_arr);
         }
@@ -38,44 +37,47 @@ class NewsController extends Controller
         $news_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
 
         if ($this->request->isMethod('post')) {
+            $subject_maps = array_keys(config('aspirant.subject_map'));
             $this->validate($this->request, [
                 'news_title' => 'required',
                 'locked' => 'boolean',
-                'sub' => 'required|string',
+                'news_link' => ['required', 'regex:/^[a-z0-9-]*$/', Rule::unique('news', 'news_link')->ignore($news_id)],
+                'meta_key' => 'nullable',
+                'meta_descr' => 'nullable',
+                'sub' => ['required',Rule::in($subject_maps)],
                 'topic_id' => 'required|integer|min:1',
                 'category' => 'required|in:p,m,b',
                 'type' => 'required|in:dn,ed',
-                'visible_from' => 'required|date_format:Y-m-d',
                 'weightage' => 'required|integer',
-                // 'news_content' => 'required|min:500',
+                'show_on' => 'required|date_format:Y-m-d',
+                'news_content' => 'required',
+                'self_note' => 'nullable'
             ],[
                 'topic_id.min' => 'Topic is missing'
             ]);
 
-            // TODO: check title against subject
-            $sub = $params['sub'];
-            if(!($sub_title = \SubjectHelper::checkSubTitle($sub))){
-                $this->request->session()->flash('msgs', array('Subject does not exist'));
-                return redirect()->route('super::news', ['action' => 'show']);
-            }
-
             $msg = 'There was an error';
 
             $news_obj = News::firstOrNew(['id' => $news_id]);
+            $msg_type = $news_obj->exists ? 'updated' : 'added';
+
             $news_obj->news_title = $params['news_title'];
             $news_obj->locked = $params['locked'];
+            $news_obj->news_link = $params['news_link'];
+            $news_obj->meta_key = $params['meta_key'];
+            $news_obj->meta_descr = $params['meta_descr'];
             $news_obj->sub = $params['sub'];
             $news_obj->topic_id = $params['topic_id'];
             $news_obj->category = $params['category'];
             $news_obj->type = $params['type'];
-            $news_obj->visible_from = $params['visible_from'];
             $news_obj->weightage = $params['weightage'];
+            $news_obj->show_on = $params['show_on'];
             $news_obj->news_content = $params['news_content'];
+            $news_obj->self_note = $params['self_note'];
             $news_obj->save();
 
-            $front_date = \SuperHelper::transformDate('Y-m-d H:i:s','Y-m-d',$news_obj->created_at);
-            $this->request->session()->flash('msgs', array('News successfully ' . ($news_obj->exists ? 'updated' : 'added')));
-            return redirect()->route('super::news', ['action' => 'show', 'date' => $front_date]);  
+            $this->request->session()->flash('msgs', array('News successfully ' . $msg_type));
+            return redirect()->route('super::news', ['action' => 'show', 'date' => $news_obj->show_on]);  
         }
 
         // show
@@ -101,20 +103,29 @@ class NewsController extends Controller
             switch ($type) {
                 case 'month_news':
                     $start_date = $this->request->input('sdt');
-                    $start_date =\SuperHelper::transformDate('Y-m-d','Y-m-d H:i:s', $start_date);
-
                     $end_date = $this->request->input('edt');
-                    $end_date =\SuperHelper::transformDate('Y-m-d','Y-m-d H:i:s', $end_date);
 
-                    $dates = News::select([\DB::raw("DATE(`created_at`) AS dater")])
-                                    ->whereBetween('created_at', [$start_date, $end_date])
-                                    ->groupBy(\DB::raw("DATE(`created_at`)"))
+                    $dates = News::select(['show_on as dater'])
+                                    ->whereBetween('show_on', [$start_date, $end_date])
+                                    ->groupBy('show_on')
                                     ->get();
                     $dt_arr = [];
                     foreach ($dates as $dt) {
                         $dt_arr[] = ['date' => $dt->dater];
                     }          
                     return response()->json($dt_arr);
+                    break;
+                case 'news_link':
+                    $id = $this->request->input('id');
+                    $link = $this->request->input('link');
+                    $resp = preg_match('/^[a-z0-9-]*$/', $link);
+
+                    if($resp){
+                        $check = News::where('news_link', $link)->where('id', ['neq' => $id])->first();
+                        return empty($check) ? response()->json(['message' => 'Link not found']) : response()->json(['message' => 'An error occurred'], 404);
+                    }
+                    
+                    return response()->json(['message' => 'An error occurred'], 404);
                     break;
                 default:
                     # code...
