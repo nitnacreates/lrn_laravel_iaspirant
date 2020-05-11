@@ -4,10 +4,11 @@
 @red: #ff5a45;
 @blue: #71bbd2;
 @dark-blue: #057dac;
-@light-yellow: #ccc8b2;
+@light-yellow: #d7d2b7;
 @dark-green:  #69a776;
 @light-green: #97ce7f;
 @dark-gray: #414141;
+@light-maroon: #caa4a4;
 @light-gray: #ebebeb;
 @yellow: #ddca9a;
 
@@ -18,11 +19,11 @@
   font-weight: 700;
   -moz-box-shadow: 0px 4px 0 darken(@dark-gray, 5%);
   -webkit-box-shadow: 0px 4px 0 darken(@dark-gray, 5%);
-  box-shadow: 0px 4px 0 darken(@dark-gray, 5%);
+  box-shadow: 0px 4px 0 darken(@light-maroon, 5%);
   .clndr-controls
   {
     padding: 14px;
-    background-color: @dark-gray;
+    background-color: @light-maroon;
     color: white;
     text-align: center;
     .clndr-previous-button
@@ -80,12 +81,17 @@
         background-position: center;
         &.event{
           color: @dark-blue;
-          background-color: #d7e2e6;
+          background-color: #bfcdd3;
           cursor: pointer;
           .day-number
           {
             padding-bottom: 4px;
             border-bottom: 2px solid @dark-blue;
+          }
+          a{
+            &:hover{
+              color: #262609;
+            }
           }
         }
         &.inactive{
@@ -98,6 +104,12 @@
           .day-number
           {
             opacity: 0.3;
+          }
+        }
+        a{
+          color: #7e7c26;
+          &:hover{
+            text-decoration: none;
           }
         }
       }

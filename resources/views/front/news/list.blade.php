@@ -12,7 +12,7 @@
         <h3>Latest News</h3>
     </div>
     <div class="col-6">
-        <h4><a href="{{ route('front::news', ['action' => 'show', 'date' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('M d,Y') }}</a></h4>
+        <h4><a href="{{ route('front::news-date', ['param' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('M d,Y') }}</a></h4>
     </div>
 </div>
 
@@ -34,7 +34,13 @@
             </div>
             <div class="days">
               <% _.each(days, function(day) { %>
-                <div class="<%= day.classes %>" id="<%= day.id %>"><a href="{{ route('front::news', ['action' => 'show']) }}?date=<% print(moment(day.date).format("YYYY-MM-DD")) %>"><span class="day-number"><%= day.day %></span></a></div>
+                <div class="<%= day.classes %>" id="<%= day.id %>">
+                    <% if (day.classes.indexOf("event") >= 0) { %>
+                        <a href="{{ url('/') }}/news/date/<% print(moment(day.date).format("YYYY-MM-DD")) %>"><span class="day-number"><%= day.day %></span></a>
+                    <% } else{ %>
+                        <span class="day-number"><%= day.day %></span>
+                    <% } %>
+                </div>
               <% }); %>
             </div>
           </div>
@@ -43,12 +49,12 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row mt-5">
     <div class="col-12">
-        <h3>Month Listing</h3>
+        <h3>{{ date('M') }} Listing</h3>
         <ul>
             @foreach($month_dates as $dt)
-                <li><a href="{{ route('front::news', ['action' => 'show', 'date' => $dt->format('Y-m-d')]) }}">{{ $dt->format('M d, Y') }}</a></li>
+                <li><a href="{{ route('front::news-date', ['param' => $dt->format('Y-m-d')]) }}">{{ $dt->format('M d, Y') }}</a></li>
             @endforeach
         </ul>
     </div>

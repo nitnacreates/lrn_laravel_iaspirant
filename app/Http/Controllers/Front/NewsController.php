@@ -43,9 +43,23 @@ class NewsController extends Controller
         return view('front.news.list')->with($view_arr);
     }
 
-    public function show()
+    public function date($dt)
     {
         $view_arr = array();
+        $d = \DateTime::createFromFormat('Y-m-d', $dt);
+        if(!$d || ($d->format('Y-m-d') != $dt)){
+            abort(403, 'Date not found');
+        }
+        $view_arr['news'] = News::where('show_on', $dt)->where('locked',0)->get();
+        return view('front.news.date')->with($view_arr);
+    }
+
+    public function show($link)
+    {
+        $view_arr['news'] = News::where('news_link', $link)->where('locked',0)->first();
+        if(empty($view_arr['news'])){
+            abort(404, 'News not found');
+        }
         return view('front.news.show')->with($view_arr);
     }
 

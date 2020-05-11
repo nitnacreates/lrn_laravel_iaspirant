@@ -130,10 +130,29 @@ Route::group([
         ));
     }
 
+    // three paths
+    $front_three_paths = array(
+        ['news','date', 'date'],
+        ['news','show', 'link'],
+    );
+    foreach($front_three_paths as $path) {
+        Route::match(['get', 'post'], $path[0] .'/'. $path[1] .'/{param}', ['as' => $path[0] .'-'.$path[1], function(Request $request, $pass_param) use ($path) {
+
+            $app = app();
+            $laidall = array_map("ucfirst", explode('-', $path[0]));
+            $laid_controller = implode('', $laidall);
+            $controller_path = '\App\Http\Controllers\Front\\'. $laid_controller .'Controller';
+            $createdController = $app->make($controller_path);
+
+            $action_name = implode("_", explode('-', $path[1]));
+            return $createdController->callAction($action_name, array($pass_param));
+        }]);
+    }
+
     // public paths
     $front_allowed_paths = array(
         'syllabus' => ['show', 'picker'],
-        'news' => ['list', 'show', 'date', 'summon'],
+        'news' => ['list', 'summon'],
         'index' => ['index'],
     );
 
