@@ -22,24 +22,86 @@ function window_resized() {
 }
 
 $(document).ready(function() {
-  // resize
-  window_resized();
-  var resizeTimer;
-  $(window).on('resize', function(e) {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
-      window_resized();
-    }, 500);
-  });
+// global
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-  // ------ click outside ------
-  // header
-  $('.navbar .search-toggler, .navbar .profile').on('show.bs.dropdown', function() {
-      $('#navbarSupportedContent').collapse('hide');
-  });
-  $(document).click(function(e) {
-      if (!$(".navbar-toggler").is(e.target) && $(".navbar-toggler").has(e.target).length === 0 && !$(e.target).closest('#navbarSupportedContent').length) {
-          $('#navbarSupportedContent').collapse('hide');
-      }
-  });
+    // resize
+    window_resized();
+    var resizeTimer;
+    $(window).on('resize', function(e) {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            window_resized();
+        }, 500);
+    });
+
+    // ------ click outside ------
+    // header
+    $('.navbar .search-toggler, .navbar .profile').on('show.bs.dropdown', function() {
+        $('#navbarSupportedContent').collapse('hide');
+    });
+    $(document).click(function(e) {
+        if (!$(".navbar-toggler").is(e.target) && $(".navbar-toggler").has(e.target).length === 0 && !$(e.target).closest('#navbarSupportedContent').length) {
+            $('#navbarSupportedContent').collapse('hide');
+        }
+    });
+
+    if($('#full-clndr').length){
+        let popN = {};
+
+        function getMonthNews(month){
+            let m = moment(month).startOf('month').format("YYYY_MM")
+            if(_.has(popN, m)){
+                myCalendar.setEvents(popN[m]);
+            } else{
+                let s = moment(month).startOf('month').format("YYYY-MM-DD"); 
+                let e = moment(month).endOf('month').format("YYYY-MM-DD"); 
+                $.ajax({
+                    url:"/news/summon",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+                        type: 'month_news',
+                        sdt: s,
+                        edt: e
+                    },
+                    success: function(data){
+                        popN[m] = data;
+                        myCalendar.setEvents(popN[m]);
+                    }
+                });
+            }
+        }
+
+        var myCalendar = $('#full-clndr').clndr({
+            template: $('#full-clndr-template').html(),
+            forceSixRows: true,
+            ignoreInactiveDaysInSelection: true,
+            constraints: {
+                startDate: '2020-03-10',
+                endDate: '2021-06-01'
+            },
+            ready: function(){
+                getMonthNews(moment().format());
+            },
+            clickEvents: {
+                click: function(target) {
+                    if($(target.element).hasClass('event')){
+                        let dtck = moment(target.date).format("YYYY-MM-DD");    
+                    }
+                },
+                onMonthChange: function (month) {
+                    getMonthNews(month);
+                }
+            }
+        });
+
+        $('#full-clndr').on('click', '.clndr-grid .day a', function(){
+            return $(this).closest('.day').hasClass('event');
+        });
+    }
 });

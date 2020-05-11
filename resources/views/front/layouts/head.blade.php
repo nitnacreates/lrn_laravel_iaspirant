@@ -5,4 +5,5 @@
 
 <title>@if(!empty($pagetitle)){{ $pagetitle }} -@endif IASpirant</title>
 <link href="{!! asset('assets/css/front_libs.css') !!}" media="all" rel="stylesheet" type="text/css" />
+@stack('styles_header')
 <link href="{!! asset('assets/css/front_main.css') !!}" media="all" rel="stylesheet" type="text/css" />
