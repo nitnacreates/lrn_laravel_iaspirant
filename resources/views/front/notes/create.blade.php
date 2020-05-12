@@ -97,5 +97,4 @@
 
 @push('scripts_foot')
 <script type="text/javascript" src="{!! asset('assets/plugins/tinymce/tinymce.min.js') !!}"></script>
-<script type="text/javascript" src="{!! asset('assets/js/front_user.js') !!}"></script>
 @endpush

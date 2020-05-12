@@ -26,15 +26,15 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('account-holder', function ($user) {
-            return $user->subscription == 1;
+            return $user->subscription >= 1;
         });
 
         Gate::define('prelim-user', function ($user) {
-            return $user->subscription == 2;
+            return $user->subscription >= 2;
         });
 
         Gate::define('full-user', function ($user) {
-            return $user->subscription == 3;
+            return $user->subscription >= 3;
         });
     }
 }

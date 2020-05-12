@@ -19,13 +19,18 @@ const mix = require('laravel-mix');
 *  temperory small ones
 */
 
-mix.scripts(['resources/js/main/front.js'], 'public/assets/js/front_main.js');
+mix.scripts([
+    'resources/js/main/front.js',
+    'resources/js/main/prelim.js',
+    'resources/js/main/user.js'
+], 'public/assets/js/front_user.js');
 mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
 
 /* ******** FULL ******** */
 
-/*
+
 // ////////////////// PLUGINS ////////////////// 
+/*
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/plugins/tinymce/plugins')
     .copyDirectory('node_modules/tinymce/skins', 'public/assets/plugins/tinymce/skins')
     .copyDirectory('node_modules/tinymce/themes', 'public/assets/plugins/tinymce/themes')
@@ -62,9 +67,20 @@ mix.copyDirectory([
     'node_modules/font-awesome/fonts'
 ], 'public/assets/fonts');
 
-mix.scripts(['resources/js/main/front.js'], 'public/assets/js/front_main.js');
-mix.scripts(['resources/js/main/user.js'], 'public/assets/js/front_user.js');
-mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
+mix.scripts([
+    'resources/js/main/front.js',
+    'resources/js/main/prelim.js',
+    'resources/js/main/user.js'
+], 'public/assets/js/front_user.js');
+mix.scripts([
+    'resources/js/main/front.js',
+    'resources/js/main/prelim.js',
+], 'public/assets/js/front_median.js');
+mix.scripts([
+    'resources/js/main/front.js'
+], 'public/assets/js/front_main.js');
+
+mix.less('resources/less/front/entry.less', 'public/assets/css/front_user.css');
 
 
 // ////////////////// Super //////////////////

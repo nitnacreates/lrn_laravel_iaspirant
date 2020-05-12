@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Carbon;
+
 use App\Model\News\News;
+use App\Model\Comment\Comment;
 
 class NewsController extends Controller
 {
@@ -46,11 +47,17 @@ class NewsController extends Controller
     public function date($dt)
     {
         $view_arr = array();
+
+        $comments = new Comment;
+        $path = $this->request->path();
+        $view_arr['page_comments'] = $comments->pageComments($path);
+
         $d = \DateTime::createFromFormat('Y-m-d', $dt);
         if(!$d || ($d->format('Y-m-d') != $dt)){
             abort(403, 'Date not found');
         }
         $view_arr['news'] = News::where('show_on', $dt)->where('locked',0)->get();
+
         return view('front.news.date')->with($view_arr);
     }
 

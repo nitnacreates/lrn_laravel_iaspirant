@@ -43,5 +43,5 @@
 
 <h2>Questions</h2>
 
-<h2>Comments</h2>
+@include('front.partials.comments', $page_comments)
 @stop
