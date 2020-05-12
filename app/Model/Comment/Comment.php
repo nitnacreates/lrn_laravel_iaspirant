@@ -32,7 +32,7 @@ class Comment extends Model
         foreach ($comments as $cmt) {
             if($cmt->thread_id == 0){
                 $crr[$cmt->id] = [
-                    'account' => $cmt->account_id,
+                    'account_id' => $cmt->account_id,
                     'comment' => $cmt->comment,
                     'user_type' => $cmt->user_type,
                     'user_name' => $cmt->user_name,
@@ -40,7 +40,7 @@ class Comment extends Model
             } else{
                 if(array_key_exists($cmt->thread_id, $crr)){
                     $crr[$cmt->thread_id]['child'][] = [
-                        'account' => $cmt->account_id,
+                        'account_id' => $cmt->account_id,
                         'comment' => $cmt->comment,
                         'user_type' => $cmt->user_type,
                         'user_name' => $cmt->user_name,

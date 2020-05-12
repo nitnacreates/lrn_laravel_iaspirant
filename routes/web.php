@@ -153,6 +153,7 @@ Route::group([
     $front_allowed_paths = array(
         'syllabus' => ['show', 'picker'],
         'news' => ['list', 'summon'],
+        'comment' => ['populate'],
         'index' => ['index'],
     );
 

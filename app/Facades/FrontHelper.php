@@ -17,4 +17,19 @@ class FrontHelper
         $dt = \DateTime::createFromFormat($from_format, $date_input);
         return $dt->format($to_format);
     }
+
+    public function checkRoute($path)
+    {
+        $path_request = Request::create($path);
+        $routes = collect(\Route::getRoutes())->map(function ($route) use($path_request, $path){
+            return $route->matches($path_request);
+        })->all();
+
+        $counter_exist = 0;
+        foreach ($routes as $route_bool) {
+            if($route_bool) $counter_exist++;
+        }
+
+        return $counter_exist > 1;
+    }
 }

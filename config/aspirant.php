@@ -128,5 +128,11 @@ return [
             '3' => 'Interview',
             '4' => 'Cleared'
         ]
+    ],
+
+    'notification' => [
+        'type' => [
+            'comment' => 1
+        ]
     ]
 ];
