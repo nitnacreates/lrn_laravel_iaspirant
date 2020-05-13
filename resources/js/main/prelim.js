@@ -53,7 +53,6 @@ $(document).ready(function() {
             let toid = $(this).closest('li').find('.user-to-name').attr('data-user');
             let tonm = $(this).closest('li').find('.user-to-name').html();
 
-
             $('.comment-box input[name="comment_thread"]').val(thread);
             $('.comment-box input[name="to_account"]').val(toid);
             $('.comment-box .reply-for-message').html(tocm);

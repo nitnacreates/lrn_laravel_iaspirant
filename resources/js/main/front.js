@@ -53,7 +53,7 @@ $(document).ready(function() {
     if($('#full-clndr').length){
         let popN = {};
 
-        function getMonthNews(month){
+        function getMonthEvents(month){
             let m = moment(month).startOf('month').format("YYYY_MM")
             if(_.has(popN, m)){
                 myCalendar.setEvents(popN[m]);
@@ -61,11 +61,11 @@ $(document).ready(function() {
                 let s = moment(month).startOf('month').format("YYYY-MM-DD"); 
                 let e = moment(month).endOf('month').format("YYYY-MM-DD"); 
                 $.ajax({
-                    url:"/news/summon",
+                    url:pub_globes.clndr_summon,
                     type:"POST",
                     dataType: "json",
                     data:{
-                        type: 'month_news',
+                        type: 'month_events',
                         sdt: s,
                         edt: e
                     },
@@ -86,7 +86,7 @@ $(document).ready(function() {
                 endDate: '2021-06-01'
             },
             ready: function(){
-                getMonthNews(moment().format());
+                getMonthEvents(moment().format());
             },
             clickEvents: {
                 click: function(target) {
@@ -95,7 +95,7 @@ $(document).ready(function() {
                     }
                 },
                 onMonthChange: function (month) {
-                    getMonthNews(month);
+                    getMonthEvents(month);
                 }
             }
         });

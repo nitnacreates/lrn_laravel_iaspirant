@@ -8,4 +8,5 @@ class Essay extends Model
 {
     protected $fillable = ['id'];
     public $timestamps = false;
+    protected $dates = ['created_on'];
 }

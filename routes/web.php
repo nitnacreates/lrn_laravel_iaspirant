@@ -134,6 +134,7 @@ Route::group([
     $front_three_paths = array(
         ['news','date', 'date'],
         ['news','show', 'link'],
+        ['essays','date', 'date'],
     );
     foreach($front_three_paths as $path) {
         Route::match(['get', 'post'], $path[0] .'/'. $path[1] .'/{param}', ['as' => $path[0] .'-'.$path[1], function(Request $request, $pass_param) use ($path) {
@@ -154,6 +155,7 @@ Route::group([
         'syllabus' => ['show', 'picker'],
         'news' => ['list', 'summon'],
         'comment' => ['populate'],
+        'essays' => ['list', 'write', 'show', 'summon'],
         'index' => ['index'],
     );
 

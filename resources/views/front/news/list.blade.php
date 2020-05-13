@@ -20,6 +20,9 @@
     <div class="col-12">
         <h3>Select Day</h3>
         <div id="full-clndr" class="clearfix">
+        <script type="text/javascript">
+            pub_globes.clndr_summon = "{{ route('front::news', ['action' => 'summon']) }}";
+        </script>
         <script type="text/template" id="full-clndr-template">
           <div class="clndr-controls">
             <div class="clndr-previous-button"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></div>

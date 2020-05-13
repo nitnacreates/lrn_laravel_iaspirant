@@ -2,10 +2,10 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('front.layouts.head')
+        <script type="text/javascript">
+            var pub_globes = {};
+        </script>
     </head>
-    <script type="text/javascript">
-        var pub_globes = {};
-    </script>
     <body class="{{ empty($page) ? 'orphan' : $page }}">
         <header>
             <div class="container-fluid">
@@ -26,7 +26,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#">Essays</a>
+                        <a class="nav-link active" href="{{ route('front::essays', ['action' => 'list']) }}">Essays</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{{ route('front::news', ['action' => 'list']) }}">News Concise</a>

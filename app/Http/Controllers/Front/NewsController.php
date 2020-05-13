@@ -35,7 +35,7 @@ class NewsController extends Controller
 
         $view_arr['month_dates'] = News::select(['show_on'])
                     ->whereBetween('show_on', [$start_month, $end_month])
-                    // ->where('locked', 0)
+                    ->where('locked', 0)
                     ->groupBy('show_on')
                     ->orderBy('show_on', 'DESC')
                     ->pluck('show_on');
@@ -75,7 +75,7 @@ class NewsController extends Controller
         if($this->request->ajax()){
             $type = $this->request->input('type');
             switch ($type) {
-                case 'month_news':
+                case 'month_events':
                     $start_date = $this->request->input('sdt');
                     $end_date = $this->request->input('edt');
 
