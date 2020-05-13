@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Model\Comment\Comment;
+use App\Model\Comment\CommentReaction;
 use App\Model\Message\Message;
 
 class CommentController extends Controller
@@ -66,6 +67,64 @@ class CommentController extends Controller
                     } else{
                         return response()->json(['message' => 'Forbidden'], 403);
                     }
+                    break;
+                case 'user_reaction':
+                    if(\Gate::allows('prelim-user')){
+                        $comment_id = intval($this->request->input('cid'), 0);
+                        $reaction_type = $this->request->input('rt');
+                        
+                        $page_link = $this->request->input('cmpt');
+                        $resp = \FrontHelper::checkRoute($page_link);
+                        if(!$resp){
+                            return response()->json(['message' => 'An error occurred'], 404);
+                        }
+
+                        if($comment_id && ($reaction_type == 1) || ($reaction_type == 2)){
+                            $comment = Comment::find($comment_id);
+                            if(!empty($comment)){
+                                $create_notification = 1;
+                                $reaction_obj = CommentReaction::firstOrNew(['comment_id' => $comment_id, 'account_id' => \UserHelper::getAccountId()]);
+                                if($reaction_obj->exists) {
+                                    $create_notification = 0;
+                                }
+                                $reaction_obj->comment_id = $comment_id;
+                                $reaction_obj->account_id = \UserHelper::getAccountId();
+                                $reaction_obj->reaction = $reaction_type;
+                                $reaction_obj->save();
+
+                                if($create_notification && ($reaction_type == 1)){
+                                    $message = new Message;
+                                    $msg_data = [
+                                        'from_account_id' => \UserHelper::getAccountId(), 
+                                        'to_account_id' => $comment->account_id,
+                                        'type' => config('aspirant.notification.type')['like-reaction'],
+                                        'message' => 'Your comment got a new like',
+                                        'link' => $page_link
+                                    ];
+                                    $message->createNotification($msg_data);
+                                }
+
+                                $resp = [
+                                    'likes' => 0,
+                                    'dislikes' => 0
+                                ];
+                                $reaction_count = CommentReaction::select('reaction', \DB::raw("count(reaction) as total_reaction"))
+                                                    ->where('comment_id', $comment_id)
+                                                    ->groupBy('reaction')
+                                                    ->get();
+
+                                foreach ($reaction_count as $rct) {
+                                    switch ($rct->reaction) {
+                                        case '1': $resp['likes'] = $rct->total_reaction; break;
+                                        case '2': $resp['dislikes'] = $rct->total_reaction; break;
+                                        default: break;
+                                    }
+                                }
+                                return response()->json($resp);
+                            }
+                        }
+                    }
+                    return response()->json(['message' => 'Forbidden'], 403);
                     break;
                 default:
                     # code...

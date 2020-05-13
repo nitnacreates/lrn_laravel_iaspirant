@@ -132,7 +132,10 @@ return [
 
     'notification' => [
         'type' => [
-            'comment' => 1
+            'comment' => 1,
+            'like-reaction' => 2,
+            'dislike-reaction' => 3,
+            'like-save-reaction' => 4
         ]
     ]
 ];

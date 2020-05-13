@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommentReaction extends Model
 {
-    protected $fillable = ['comment_id', 'account_id'];
+    protected $fillable = ['id'];
     public $timestamps = false;
+
 }

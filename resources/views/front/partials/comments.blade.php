@@ -39,25 +39,25 @@
         <div class="col">
             <ul class="list-unstyled">
             @foreach($page_comments as $c_id => $c_arr)
-                <li data-thread="{{ $c_id }}" class="parent-comment @if($c_arr['user_type'] == 's') highlighted @endif">
+                <li data-id="{{ $c_id }}" class="parent-comment @if($c_arr['user_type'] == 's') highlighted @endif">
                     <div class="row">
                         <div class="col-12 user-to-comment">
                             {{ $c_arr['comment'] }}
                         </div>
                         <div class="w-100"></div>
                         <div class="col-6">
-                            <span class="user-to-name" data-user="{{ $c_arr['account_id'] }}">{{ $c_arr['user_name'] }}</span>
+                            <span class="user-to-name border-bottom" data-user="{{ $c_arr['account_id'] }}">{{ $c_arr['user_name'] }}</span>
                         </div>
                         <div class="col-6 text-right">
                             <div class="btn-group user-response">
                                 <label class="btn btn-light send-reply">
                                     <i class="fa fa-reply" aria-hidden="true"></i>
                                 </label>
-                                <label class="btn btn-light comment-like">
-                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> 13
+                                <label data-resp="1" class="btn btn-light user-reaction">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> <span class="total-likes reaction-counter">{{ $c_arr['likes'] ?: "" }}</span>
                                 </label>
-                                <label class="btn btn-light comment-dislike">
-                                    <i class="fa fa-thumbs-down" aria-hidden="true"></i> 10
+                                <label data-resp="2" class="btn btn-light user-reaction">
+                                    <i class="fa fa-thumbs-down" aria-hidden="true"></i> <span class="total-dislikes reaction-counter">{{ $c_arr['dislikes'] ?: "" }}</span>
                                 </label>
                             </div>
                         </div>
@@ -72,18 +72,18 @@
                                         </div>
                                         <div class="w-100"></div>
                                         <div class="col-6">
-                                            <span class="user-to-name" data-user="{{ $ch_arr['account_id'] }}">{{ $ch_arr['user_name'] }}</span>
+                                            <span class="user-to-name border-bottom" data-user="{{ $ch_arr['account_id'] }}">{{ $ch_arr['user_name'] }}</span>
                                         </div>
                                         <div class="col-6 text-right">
                                             <div class="btn-group user-response">
                                                 <label class="btn btn-light send-reply">
                                                     <i class="fa fa-reply" aria-hidden="true"></i>
                                                 </label>
-                                                <label class="btn btn-light comment-like">
-                                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> 13
+                                                <label data-resp="1" class="btn btn-light user-reaction">
+                                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> <span class="total-likes reaction-counter">{{ $ch_arr['likes'] ?: "" }}</span>
                                                 </label>
-                                                <label class="btn btn-light comment-dislike">
-                                                    <i class="fa fa-thumbs-down" aria-hidden="true"></i> 10
+                                                <label data-resp="2" class="btn btn-light user-reaction">
+                                                    <i class="fa fa-thumbs-down" aria-hidden="true"></i> <span class="total-dislikes reaction-counter">{{ $ch_arr['dislikes'] ?: "" }}</span>
                                                 </label>
                                             </div>
                                         </div>

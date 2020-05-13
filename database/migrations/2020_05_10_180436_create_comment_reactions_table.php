@@ -14,11 +14,12 @@ class CreateCommentReactionsTable extends Migration
     public function up()
     {
         Schema::create('comment_reactions', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('comment_id')->unsigned();
             $table->unsignedBigInteger('account_id')->unsigned();
             $table->enum('reaction',[1, 2]);
 
-            $table->primary(['comment_id','account_id']);
+            $table->unique(['comment_id', 'account_id'], 'comment_account');
             $table->foreign('comment_id')->references('id')->on('comments');
             $table->foreign('account_id')->references('id')->on('accounts');
         });
