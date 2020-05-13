@@ -47,7 +47,11 @@ class EssaysController extends Controller
     {
         $view_arr = array();
 
-        echo $dt;
+        $d = \DateTime::createFromFormat('Y-m-d', $dt);
+        if(!$d || ($d->format('Y-m-d') != $dt)){
+            abort(403, 'Date not found');
+        }
+        $view_arr['essays'] = Essay::where('created_on', $dt)->where('locked',0)->get();
         return view('front.essays.date')->with($view_arr);
     }
 

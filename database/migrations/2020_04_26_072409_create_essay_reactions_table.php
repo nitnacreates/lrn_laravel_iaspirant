@@ -18,6 +18,7 @@ class CreateEssayReactionsTable extends Migration
             $table->unsignedBigInteger('essay_response_id')->unsigned();
             $table->unsignedBigInteger('account_id')->unsigned();
             $table->tinyInteger('type');
+            $table->tinyInteger('score');
             $table->string('comment', 500);
 
             $table->unique(['essay_response_id', 'account_id'], 'essay_reaction_unique');

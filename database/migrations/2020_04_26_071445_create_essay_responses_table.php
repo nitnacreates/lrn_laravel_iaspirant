@@ -17,10 +17,10 @@ class CreateEssayResponsesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('essay_id')->unsigned();
             $table->unsignedBigInteger('account_id')->unsigned();
-            $table->text('response_content');
-            $table->string('response_image');
+            $table->text('response_content')->nullable();
             $table->boolean('highlighted')->default(0);
             $table->boolean('locked')->default(0);
+            $table->timestamp('completed_on', 0)->nullable();
             $table->timestamps();
 
             $table->unique(['essay_id', 'account_id'], 'essay_responses_unique');
