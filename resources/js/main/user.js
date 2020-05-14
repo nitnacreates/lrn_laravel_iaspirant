@@ -264,5 +264,32 @@ $(document).ready(function() {
             e.preventDefault();
             return false;
         });
+    } else if($('body').hasClass('essays')){
+        function checkTimer(essay_box, essay_id)
+        {
+            $.ajax({
+                url:"/user/essays/summon",
+                type:"POST",
+                dataType: "json",
+                data:{
+                    type: 'pick_essay',
+                    eid: essay_id
+                },
+                success: function(data){
+                    $(essay_box).closest('.essay-box').find('.essay-timer').html(data.time_left);
+                    bootbox.alert(data.message);
+                },
+                error: function(error) {
+                    if(error.status == 404){
+                        bootbox.alert(error.responseJSON.message);
+                    }
+                }
+            });
+        }
+        $('.essay-action .btn-pick').click(function(){
+            var essay_box = $(this);
+            let eid = $(essay_box).closest('.essay-box').attr('data-id');
+            checkTimer(essay_box, eid);
+        })
     }
 });

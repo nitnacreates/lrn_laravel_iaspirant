@@ -51,7 +51,19 @@ class EssaysController extends Controller
         if(!$d || ($d->format('Y-m-d') != $dt)){
             abort(403, 'Date not found');
         }
-        $view_arr['essays'] = Essay::where('created_on', $dt)->where('locked',0)->get();
+
+        $view_arr['essays'] = Essay::where('created_on', $dt)
+                                ->where('locked',0)
+                                ->with(['essay_response' => function($query) {
+                                    $query->select('essay_responses.id', 'essay_responses.essay_id', 'essay_responses.account_id', 'essay_responses.completed_on', 'essay_responses.created_at', 'users.name')
+                                        ->join('accounts', 'accounts.id', 'essay_responses.account_id')
+                                        ->join('users', function ($join) {
+                                            $join->on('users.id', '=', 'accounts.all_id')
+                                                ->where('accounts.user_type','=', 'n');
+                                        });
+                                }])
+                                ->get();
+                                
         return view('front.essays.date')->with($view_arr);
     }
 

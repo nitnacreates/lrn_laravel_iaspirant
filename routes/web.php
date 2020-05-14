@@ -79,7 +79,7 @@ Route::group([
         'profile' => ['show', 'mutate-profile', 'mutate-password'],
         'subscription' => ['show'],
         'media' => ['show', 'store', 'picker', 'summon'],
-        'essays' => ['show', 'stash']
+        'essays' => ['list', 'write', 'show', 'summon']
     );
     foreach($allowed_paths as $controller => $act) {
         Route::match(['get', 'post'], $controller.'/{action}', ['as' => $controller, function (Request $request, $action) use($controller) {
