@@ -28,7 +28,6 @@ mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
 
 /* ******** FULL ******** */
 
-
 // ////////////////// PLUGINS ////////////////// 
 /*
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/plugins/tinymce/plugins')
@@ -49,6 +48,7 @@ mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/underscore/underscore-min.js',
     'node_modules/moment/min/moment.min.js',
+    'node_modules/countdown/countdown.js',
     'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
     'node_modules/bootbox/dist/bootbox.all.min.js',
 ], 'public/assets/js/front_libs.js');

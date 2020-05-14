@@ -63,7 +63,7 @@ class EssaysController extends Controller
                                         });
                                 }])
                                 ->get();
-                                
+        $view_arr['account_id'] = \UserHelper::getAccountId();
         return view('front.essays.date')->with($view_arr);
     }
 

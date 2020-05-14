@@ -265,7 +265,25 @@ $(document).ready(function() {
             return false;
         });
     } else if($('body').hasClass('essays')){
-        function checkTimer(essay_box, essay_id)
+        var timerId;
+        function startTimer(timer_dom, time_left)
+        {
+            console.log(time_left);
+            var secleft = moment.duration(time_left).asSeconds();
+            var end_date = moment().add(secleft, 's');
+
+            timerId = countdown(function(ts) {
+                console.log(ts);
+                if(ts.value > 0){
+                    let cd = moment.utc(ts.value).format('HH:mm:ss');
+                    $(timer_dom).html(cd);
+                } else{
+                    window.clearInterval(timerId);
+                }
+            }, end_date, countdown.SECONDS);
+        }
+
+        function checkTimer(essay_pick, essay_id)
         {
             $.ajax({
                 url:"/user/essays/summon",
@@ -276,7 +294,8 @@ $(document).ready(function() {
                     eid: essay_id
                 },
                 success: function(data){
-                    $(essay_box).closest('.essay-box').find('.essay-timer').html(data.time_left);
+                    window.clearInterval(timerId);
+                    startTimer($(essay_pick).closest('.essay-box').find('.essay-timer'), data.time_left);
                     bootbox.alert(data.message);
                 },
                 error: function(error) {
@@ -287,9 +306,11 @@ $(document).ready(function() {
             });
         }
         $('.essay-action .btn-pick').click(function(){
-            var essay_box = $(this);
-            let eid = $(essay_box).closest('.essay-box').attr('data-id');
-            checkTimer(essay_box, eid);
+            var essay_pick = $(this);
+            if(!$(essay_pick).hasClass('disabled')){
+                let eid = $(essay_pick).closest('.essay-box').attr('data-id');
+                checkTimer(essay_pick, eid);
+            }
         })
     }
 });

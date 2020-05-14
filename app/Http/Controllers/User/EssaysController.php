@@ -77,7 +77,7 @@ class EssaysController extends Controller
                             $response_created = Carbon::createFromFormat('Y-m-d H:i:s', $essay_response->created_at);
                             $completed_on = Carbon::createFromFormat('Y-m-d H:i:s', $essay_response->completed_on);
 
-                            $comp_in = $completed_on->diff($response_created)->format('%H:%i:%s');
+                            $comp_in = $completed_on->diff($response_created)->format('%H:%I:%S');
 
                             $response_arr = [
                                 'time_left' => '00:00:00',
