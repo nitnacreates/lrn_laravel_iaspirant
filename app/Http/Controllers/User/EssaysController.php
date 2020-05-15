@@ -51,26 +51,20 @@ class EssaysController extends Controller
                         }
 
                         if(is_null($essay_response->completed_on)){
-                            $response_created = $essay_response->created_at;
-                            $response_carb = Carbon::createFromFormat('Y-m-d H:i:s', $response_created);
-                            
-                            $now = Carbon::now();
-                            $more_than_day = $now->diffInDays($response_carb->copy()); 
-                            if($more_than_day){
-                                // delete record if completed on is null and more than a day has passed
+                            $response_countdown = \FrontHelper::countdownto24($essay_response->created_at);
+                            if(!$response_countdown){
+                                // delete record if completed_on is null and more than a day has passed
                                 EssayResponse::destroy($essay_response->id);
                                 $response_arr = [
                                     'time_left' => '00:00:00',
                                     'status' => 'expired',
-                                    'message' => 'Timer has expired'
+                                    'message' => 'Timer has expired. Pick again to reattempt'
                                 ];
                             } else{
-                                $time_left = $response_carb->add('1 day')->diff($now)->format('%H:%I:%S');
-                                $time_left = ($time_left == "00:00:00") ? "23:59:59" : $time_left;
                                 $response_arr = [
-                                    'time_left' => $time_left,
+                                    'time_left' => $response_countdown,
                                     'status' => 'progress',
-                                    'message' => 'You have ' . $time_left . ' to complete essay'
+                                    'message' => 'You have ' . $response_countdown . ' to complete essay'
                                 ];
                             }
                         } else{

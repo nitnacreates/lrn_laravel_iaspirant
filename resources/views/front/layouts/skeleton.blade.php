@@ -3,7 +3,14 @@
     <head>
         @include('front.layouts.head')
         <script type="text/javascript">
-            var pub_globes = {};
+                    @auth
+                      var pub_globes = {
+                        'user' : '{{ auth()->user()->name }}',
+                        'account' : '{{  Session::get('account_id') }}',
+                      };
+                    @else
+                      var pub_globes = {};
+                    @endauth
         </script>
     </head>
     <body class="{{ empty($page) ? 'orphan' : $page }}">

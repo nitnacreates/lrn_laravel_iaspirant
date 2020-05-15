@@ -265,22 +265,24 @@ $(document).ready(function() {
             return false;
         });
     } else if($('body').hasClass('essays')){
-        var timerId;
-        function startTimer(timer_dom, time_left)
+    // essays page
+        var timers = {};
+        function startTimer(ptr, timer_dom, time_left)
         {
-            console.log(time_left);
-            var secleft = moment.duration(time_left).asSeconds();
-            var end_date = moment().add(secleft, 's');
+            if(time_left !== "00:00:00"){
+                window.clearInterval(timers[ptr]);
+                var secleft = moment.duration(time_left).asSeconds();
+                var end_date = moment().add(secleft, 's');
 
-            timerId = countdown(function(ts) {
-                console.log(ts);
-                if(ts.value > 0){
-                    let cd = moment.utc(ts.value).format('HH:mm:ss');
-                    $(timer_dom).html(cd);
-                } else{
-                    window.clearInterval(timerId);
-                }
-            }, end_date, countdown.SECONDS);
+                timers[ptr] = countdown(function(ts) {
+                    if(ts.value > 0){
+                        let cd = moment.utc(ts.value).format('HH:mm:ss');
+                        $(timer_dom).html(cd);
+                    } else{
+                        window.clearInterval(timers[ptr]);
+                    }
+                }, end_date, countdown.SECONDS);
+            }
         }
 
         function checkTimer(essay_pick, essay_id)
@@ -294,8 +296,14 @@ $(document).ready(function() {
                     eid: essay_id
                 },
                 success: function(data){
-                    window.clearInterval(timerId);
-                    startTimer($(essay_pick).closest('.essay-box').find('.essay-timer'), data.time_left);
+                    startTimer(essay_id, $(essay_pick).closest('.essay-box').find('.essay-timer'), data.time_left);
+                    if(data.status == "progress"){
+                        let pick_box = $(essay_pick).closest('.essay-box').find('.essay-pickers');
+                        if($.trim($(pick_box).html())){
+                            $(pick_box).append(', ');
+                        }
+                        $(pick_box).append('<span class="active">' + pub_globes.user +'</span>');
+                    }
                     bootbox.alert(data.message);
                 },
                 error: function(error) {
@@ -307,9 +315,16 @@ $(document).ready(function() {
         }
         $('.essay-action .btn-pick').click(function(){
             var essay_pick = $(this);
-            if(!$(essay_pick).hasClass('disabled')){
-                let eid = $(essay_pick).closest('.essay-box').attr('data-id');
-                checkTimer(essay_pick, eid);
+            let eid = $(essay_pick).closest('.essay-box').attr('data-id');
+            checkTimer(essay_pick, eid);
+        });
+
+        $('.essay-box').each(function(){
+            let essay_id = $(this).attr('data-id');
+            let iscd = $(this).attr('data-countdown');
+            if(iscd == 1){
+                let time_left = $(this).find('.essay-timer').html();
+                startTimer(essay_id, $(this).find('.essay-timer'), time_left);
             }
         })
     }

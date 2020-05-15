@@ -2,6 +2,7 @@
 
 namespace App\Facades;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 use Request; // use facade alias, or use Illuminate\Support\Facades\Request;
 
@@ -31,5 +32,18 @@ class FrontHelper
         }
 
         return $counter_exist > 1;
+    }
+
+    public function countdownto24($created_at)
+    {
+        $response_carb = Carbon::createFromFormat('Y-m-d H:i:s', $created_at);
+        $now = Carbon::now();
+        $more_than_day = $now->diffInDays($response_carb->copy()); 
+        if($more_than_day){
+            return false;
+        } else{
+            $time_left = $response_carb->add('1 day')->diff($now)->format('%H:%I:%S');
+            return ($time_left == "00:00:00") ? "23:59:59" : $time_left;
+        }
     }
 }

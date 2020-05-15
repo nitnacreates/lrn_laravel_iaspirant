@@ -27,5 +27,4 @@ class UserHelper
     {
         return Request::session()->get('account_id'); 
     }
-
 }

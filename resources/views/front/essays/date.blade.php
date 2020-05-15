@@ -6,6 +6,7 @@
 @foreach ($essays as $essay)
     <?php 
         $response_status = 0;
+        $countdown_timer = "23:59:59";
         $essay_pc = [
             'picked' => [],
             'completed' => []
@@ -20,6 +21,10 @@
                 ];
                 if($response->account_id == $account_id){
                     $response_status = 1;
+                    $countdown_timer = FrontHelper::countdownto24($response->created_at);
+                    if(!$countdown_timer){
+                        $countdown_timer = "00:00:00";
+                    }
                 }
             } else{
                 $essay_pc['completed'][] = [
@@ -28,30 +33,31 @@
                 ];
                 if($response->account_id == $account_id){
                     $response_status = 2;
+                    $countdown_timer = "00:00:00";
                 }
             }
         }
     ?>
-<div class="row pb-4 border-bottom essay-box" data-id="{{ $essay->id }}">
+<div class="row pb-4 border-bottom essay-box" data-id="{{ $essay->id }}" data-countdown="{{ $response_status == 1 ? "1" : "0" }}">
     <div class="col">
         <p class="lead"><i class="fa fa-caret-right" aria-hidden="true"></i><i class="fa fa-caret-right" aria-hidden="true"></i> {{ $essay->title }}</p>
         
         <div class="essay-stats">
             <dl class="row">
                 <dt class="col-sm-3">Picked By: </dt>
-                <dd class="col-sm-9" id="essay-pickers">
+                <dd class="col-sm-9 essay-pickers">
                     <?php $pick_counter = 0; ?>
                     @foreach($essay_pc['picked'] as $picked)
                         @if($pick_counter++), @endif
                         @if($picked['account_id'] == $account_id)
                             <span class="active">{{ $picked['name'] }}</span>
                         @else
-                            {{ $picked['name'] }}
+                            {{$picked['name']}}
                         @endif
                     @endforeach
                 </dd>
                 <dt class="col-sm-3">Completed By: </dt>
-                <dd class="col-sm-9" id="essay-finishers">
+                <dd class="col-sm-9 essay-finishers">
                     <?php $complete_counter = 0; ?>
                     @foreach($essay_pc['completed'] as $completed)
                         @if($complete_counter++), @endif
@@ -72,11 +78,11 @@
     <div class="col">
         <div class="row essay-action">
             <div class="col-6">
-                <button type="button" class="btn btn-primary btn-sm btn-pick @if($response_status) disabled @endif">Pick</button>
+                <button type="button" class="btn btn-primary btn-sm btn-pick">Pick</button>
                 <a href="{{ route('user::essays', ['action' => 'write', 'id' => $essay->id]) }}" class="btn btn-primary btn-sm">Write</a>
-                <a @if($response_status == 2) href="{{ route('user::essays', ['action' => 'show', 'id' => $essay->id]) }}" title="Essay completed" @else href="javascript:void(0)" title="Essay not completed" @endif class="btn btn-primary btn-sm @if($response_status == 1) disabled @endif ">See</a>
+                <a @if($response_status == 2) href="{{ route('user::essays', ['action' => 'show', 'id' => $essay->id]) }}" title="Essay completed" @else href="javascript:void(0)" title="Essay not completed" @endif class="btn btn-primary btn-sm">See</a>
             </div>
-            <div class="col-6 text-center essay-timer">23:59:59</div>
+            <div class="col-6 text-center essay-timer">{{ $countdown_timer }}</div>
         </div>
     </div>
     @endif
