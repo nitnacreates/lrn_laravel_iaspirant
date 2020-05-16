@@ -6,7 +6,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">{{ $note->id ? 'Edit Note' : 'Add Note' }}</div>
-            <form method="post" id="create-note-form" class="wyswyg-form sub-picker" action="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create']) }}">
+            <form method="post" id="create-note-form" class="wyswyg-form sub-picker" action="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'create']) }}">
             <div class="card-body">
                 @csrf
                 <input type="hidden" name="id" value="{{ $note->id ?? 0 }}">

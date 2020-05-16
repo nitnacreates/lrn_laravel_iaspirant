@@ -85,12 +85,17 @@ class NotesController extends Controller
         $note_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
         $view_arr = array();
 
+        if($user_name != \UserHelper::getUserName()){
+            $this->request->session()->flash('msgs', array('Invalid user'));
+            return redirect()->route('front::notes', ['user_name' => \UserHelper::getUserName(), 'controller' => 'notes', 'action' => 'list']);              
+        }
+
         // check if note id is accessed by authorised person
         if($note_id){
             $note_obj = Note::where('id', $note_id)->where('user_id', \UserHelper::getUserId())->first();
             if(empty($note_obj)){
                 $this->request->session()->flash('msgs', array('Invalid note'));
-                return redirect()->route('front::notes', ['user_name' => \UserHelper::getUserName(), 'controller' => 'notes', 'action' => 'list']);  
+                return redirect()->route('front::three-notes', ['user_name' => \UserHelper::getUserName(), 'action' => 'list']);  
             } else{
                 $sel_topic = Topic::find($note_obj->topic_id);
                 if(!empty($sel_topic)){
@@ -138,7 +143,7 @@ class NotesController extends Controller
             $note_obj->save();
             
             $this->request->session()->flash('msgs', array('Note successfully ' . $msg_type));
-            return redirect()->route('front::notes', ['user_name' => \UserHelper::getUserName(), 'controller' => 'notes', 'action' => 'list']); 
+            return redirect()->route('front::three-notes', ['user_name' => \UserHelper::getUserName(), 'action' => 'list']); 
         }
 
         // view

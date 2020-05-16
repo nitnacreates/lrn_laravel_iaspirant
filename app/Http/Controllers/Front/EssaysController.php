@@ -94,5 +94,5 @@ class EssaysController extends Controller
         }
         return response('Invalid request', 404)->header('Content-Type', 'text/plain');
     }
-
+    
 }

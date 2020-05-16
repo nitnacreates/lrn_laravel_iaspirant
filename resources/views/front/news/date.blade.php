@@ -30,7 +30,7 @@
             </div>
             <div class="col-2">
                 @if(Gate::allows('full-user'))
-                    <a class="btn btn-primary" href="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create']) }}" role="button">Create Note</a>
+                    <a class="btn btn-primary" href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'create']) }}" role="button">Create Note</a>
                 @else
                     <button type="button" class="btn btn-default">Create Note</button>
                 @endif

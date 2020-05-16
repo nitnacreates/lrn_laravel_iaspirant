@@ -79,8 +79,8 @@
         <div class="row essay-action">
             <div class="col-6">
                 <button type="button" class="btn btn-primary btn-sm btn-pick">Pick</button>
-                <a href="{{ route('user::essays', ['action' => 'write', 'id' => $essay->id]) }}" class="btn btn-primary btn-sm">Write</a>
-                <a @if($response_status == 2) href="{{ route('user::essays', ['action' => 'show', 'id' => $essay->id]) }}" title="Essay completed" @else href="javascript:void(0)" title="Essay not completed" @endif class="btn btn-primary btn-sm">See</a>
+                <a href="{{ route('front::three-essay-response', ['user_name' => auth()->user()->name, 'action' => 'create', 'id' => $essay->id]) }}" class="btn btn-primary btn-sm">Write</a>
+                <a @if($response_status == 2) href="{{ route('front::three-essay-response', ['user_name' => auth()->user()->name, 'action' => 'show', 'id' => $essay->id]) }}" title="Essay completed" @else href="javascript:void(0)" title="Essay not completed" @endif class="btn btn-primary btn-sm">See</a>
             </div>
             <div class="col-6 text-center essay-timer">{{ $countdown_timer }}</div>
         </div>

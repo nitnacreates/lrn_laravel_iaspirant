@@ -30,7 +30,7 @@
         Note Status: {{  $note->locked ? 'Hidden' : 'Public' }} <br />
     </div>
     <div class="col-6 text-right">
-        <a class="btn btn-primary" href="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create', 'id' => $note->id ]) }}" role="button">Edit</a>
+        <a class="btn btn-primary" href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'create', 'id' => $note->id ]) }}" role="button">Edit</a>
     </div>
 </div>
 @endif

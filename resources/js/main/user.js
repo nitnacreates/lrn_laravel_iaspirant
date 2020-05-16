@@ -297,7 +297,7 @@ $(document).ready(function() {
                 },
                 success: function(data){
                     startTimer(essay_id, $(essay_pick).closest('.essay-box').find('.essay-timer'), data.time_left);
-                    if(data.status == "progress"){
+                    if((data.status == "progress") && !$(essay_pick).closest('.essay-box').find('.essay-pickers .active').length){
                         let pick_box = $(essay_pick).closest('.essay-box').find('.essay-pickers');
                         if($.trim($(pick_box).html())){
                             $(pick_box).append(', ');

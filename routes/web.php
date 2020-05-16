@@ -109,14 +109,15 @@ Route::group([
 
     // @ paths
     $at_allowed_paths = array(
-        'notes' => ['show', 'list', 'create']
+        'notes' => ['show', 'list', 'create'],
+        'essay-response' => ['show', 'list', 'create']
     );
 
     foreach($at_allowed_paths as $current_controller => $act) {
-        Route::match(['get', 'post'], '@{user_name}/{controller}/{action}', ['as' => $current_controller, function(Request $request, $user_name, $controller_name, $action_name) {
+        Route::match(['get', 'post'], '@{user_name}/'.$current_controller.'/{action}', ['as' => 'three-'.$current_controller, function(Request $request, $user_name, $action_name) use($current_controller) {
 
             $app = app();
-            $laidall = array_map("ucfirst", explode('-', $controller_name));
+            $laidall = array_map("ucfirst", explode('-', $current_controller));
             $laid_controller = implode('', $laidall);
             $controller_path = '\App\Http\Controllers\Front\\'. $laid_controller .'Controller';
             $createdController = $app->make($controller_path);

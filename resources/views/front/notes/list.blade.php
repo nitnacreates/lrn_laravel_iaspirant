@@ -16,10 +16,10 @@
                 <ul>
             @endif
             <li>
-                <a href="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'show', 'id' => $current_note->id]) }}">{{ $current_note->note_title }}</a>
+                <a href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'show', 'id' => $current_note->id]) }}">{{ $current_note->note_title }}</a>
                 @if(Gate::allows('full-user') && $is_user_same)
                     @if($current_note->locked == 1) <i class="fa fa-user-secret" aria-hidden="true"></i> @endif
-                    <a href="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create', 'id' => $current_note->id]) }}"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
+                    <a href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create', 'id' => $current_note->id]) }}"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
                 @endif
             </li>
         @endforeach
@@ -28,7 +28,7 @@
 @if(Gate::allows('full-user') && $is_user_same)
 <div class="row">
     <div class="col-12 text-right">
-        <a class="btn btn-primary" href="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'create']) }}" role="button">New Note</a>
+        <a class="btn btn-primary" href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'create']) }}" role="button">New Note</a>
     </div>
 </div>
 @endif

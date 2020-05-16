@@ -72,7 +72,7 @@
                     @endguest
                     @auth
                       <a class="dropdown-item" href="{{ route('user::profile', ['action' => 'show']) }}">My Account</a>
-                      <a class="dropdown-item" href="{{ route('front::notes', ['user_name' => auth()->user()->name, 'controller' => 'notes', 'action' => 'list']) }}">My Notes</a>
+                      <a class="dropdown-item" href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'list']) }}">My Notes</a>
                       <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
                     @endauth
