@@ -156,6 +156,7 @@ Route::group([
         'news' => ['list', 'summon'],
         'comment' => ['populate'],
         'essays' => ['list', 'write', 'show', 'summon'],
+        'essay-response' => ['summon'],
         'index' => ['index'],
     );
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 
 use App\Model\Essay\Essay;
 use App\Model\Essay\EssayResponse;
+use App\Model\Essay\EssayReaction;
 
 class EssayResponseController extends Controller
 {
@@ -42,8 +43,8 @@ class EssayResponseController extends Controller
         $essay_response = EssayResponse::with('essay_reactions')
                             ->with(['grouped_essay_reactions' => function($query) {
                                 $query->select('essay_response_id', 'type', \DB::raw("count(type) as type_counter"))
-                                                    ->groupBy('type')
-                                                    ->groupBy('essay_response_id');
+                                                    ->groupBy('essay_response_id')
+                                                    ->groupBy('type');
                             }])
                             ->where('essay_id', $essay_id)
                             ->where('account_id', $account_id)
@@ -122,6 +123,80 @@ class EssayResponseController extends Controller
             $view_arr['response'] = $essay_response;
         }
         return view('front.essay_response.create')->with($view_arr);
+    }
+
+    /*
+    * TODO - Insert notifications for user
+    */
+    public function summon()
+    {
+        if($this->request->ajax()){
+            if(\Gate::denies('full-user')){
+                return response()->json(['message' => 'Unauthorised access'], 404);
+            }
+            $response_id = intval($this->request->input('response',0));
+            $essay_response = EssayResponse::find($response_id);
+            if(empty($essay_response)){
+                return response()->json(['message' => 'Incorrect response'], 404);   
+            }
+
+            $account_id = \UserHelper::getAccountId();
+            $essay_reaction = EssayReaction::firstOrNew([
+                'essay_response_id' => $response_id,
+                'account_id' => $account_id
+            ]);
+
+            $type = $this->request->input('type');
+            switch ($type) {
+                case 'user_emotion':
+                    $motion = $this->request->input('motion');
+                    if(in_array($motion, [1,2,3])){
+                        $essay_reaction->type = $motion;
+                        $essay_reaction->save();
+
+                        $response_reaction = EssayReaction::select('essay_response_id', 'type', \DB::raw("count(type) as type_counter"))
+                                                ->where('essay_response_id', $response_id)
+                                                ->groupBy('essay_response_id')
+                                                ->groupBy('type')
+                                                ->get();
+                        $reaction_type = [
+                            '1' => 0,
+                            '2' => 0,
+                            '3' => 0
+                        ];
+                        foreach ($response_reaction as $grouped_reaction) {
+                            $reaction_type[$grouped_reaction->type] = $grouped_reaction->type_counter;
+                        }
+                        return response()->json([
+                            'reaction' => $reaction_type
+                        ]);
+                    } else{
+                        return response()->json(['message' => 'Incorrect response provided'], 404); 
+                    }
+                    break;
+                case 'user_score':
+                    $user_score = intval($this->request->input('user_score'));
+                    if(($user_score > 0) && ($user_score < 11)){
+                        $essay_reaction->score = $user_score;
+                        $essay_reaction->save();
+                        return response()->json(['message' => 'Thank you for reviewing']);
+                    } else{
+                        return response()->json(['message' => 'Incorrect rating provided'], 404); 
+                    }
+                    break;
+                case 'user_comment':
+                    $user_comment = $this->request->input('user_comment');
+                    $user_comment = preg_replace('/[^a-zA-Z0-9 \.\-_]/i', "", $user_comment);
+                    $essay_reaction->comment = $user_comment;
+                    $essay_reaction->save();
+                    return response()->json(['message' => 'Thank you for commenting']);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+        return response('Invalid request', 404)->header('Content-Type', 'text/plain');
     }
 
 }

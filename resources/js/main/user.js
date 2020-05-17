@@ -334,8 +334,6 @@ $(document).ready(function() {
     } else if($('body').hasClass('essay-response')){
         let essay_id = $('#create-essay-response-form input[name="id"]').val();
         let time_left = $('#create-essay-response-form .essay-timer').html();
-        console.log(essay_id);
-        console.log(time_left);
         startTimer(essay_id, $('.essay-timer'), time_left);
         if($('.wyswyg-form textarea.wyswyg-bg').length){
             let tiny_lc_configs = $.extend({
@@ -344,5 +342,108 @@ $(document).ready(function() {
             }, tiny_gl_configs);
             tinymce.init(tiny_lc_configs);
         }
+
+        var erct_fr = 1;
+        $('.reaction-section .reaction-motion button').click(function(){
+            if(erct_fr){
+                erct_fr = 0;
+
+                let response = $(this).closest('.reaction-section').attr('data-response');
+                let motion = $(this).val();
+                let motion_dom = $(this).closest('.reaction-motion');
+                $.ajax({
+                    url:"/essay-response/summon",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+                        type: 'user_emotion',
+                        response: response,
+                        motion: motion
+                    },
+                    success: function(data){
+                        $(motion_dom).find('button.btn-outline-success').removeClass('btn-outline-success').addClass('btn-outline-secondary');
+                        $(motion_dom).find('button[value="'+ motion +'"]').addClass('btn-outline-success');
+                        _.each(data.reaction, function(value, key){
+                            $(motion_dom).find('button[value="'+ key +'"] .reaction-counter').html(value);
+                        });
+                    },
+                    error: function(error) {
+                        if(error.status == 404){
+                            bootbox.alert(error.responseJSON.message);
+                        }
+                    },
+                    complete: function() {
+                        erct_fr = 1;
+                    }
+                });
+            }
+        });
+
+        $('.reaction-section .your-score').on('change', function(){
+            if(erct_fr){
+                erct_fr = 0;
+                let response = $(this).closest('.reaction-section').attr('data-response');
+                let user_score = $(this).find('option:selected').val();
+                let motion_dom = $(this).closest('.reaction-section').find('.user-comments');
+
+                $.ajax({
+                    url:"/essay-response/summon",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+                        type: 'user_score',
+                        response: response,
+                        user_score: user_score
+                    },
+                    success: function(data){
+                        bootbox.alert(data.message);
+                    },
+                    error: function(error) {
+                        if(error.status == 404){
+                            bootbox.alert(error.responseJSON.message);
+                        }
+                    },
+                    complete: function() {
+                        erct_fr = 1;
+                    }
+                });
+            }
+        });
+
+        $('.reaction-section .your-comment button').click(function(){
+            if(erct_fr){
+                erct_fr = 0;
+                let response = $(this).closest('.reaction-section').attr('data-response');
+                let comment = $(this).closest('.your-comment').find('textarea').val();
+                let user_comment_dom = $(this).closest('.reaction-section').find('.user-comments');
+
+                $.ajax({
+                    url:"/essay-response/summon",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+                        type: 'user_comment',
+                        response: response,
+                        user_comment: comment
+                    },
+                    success: function(data){
+                        if($(user_comment_dom).find('.active').length){
+                            $(user_comment_dom).find('.active').html(comment);
+                        } else{
+                            let commentml = '<li class="list-group-item bg-transparent active">'+ comment +'</li>';
+                            $(user_comment_dom).append(commentml);
+                        }
+                    },
+                    error: function(error) {
+                        if(error.status == 404){
+                            bootbox.alert(error.responseJSON.message);
+                        }
+                    },
+                    complete: function() {
+                        erct_fr = 1;
+                    }
+                });
+            }
+        });
     }
 });
