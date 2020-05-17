@@ -29,7 +29,7 @@ class MediaController extends Controller
     public function picker()
     {
         $view_arr['files_arr'] = $this->getMediaFiles();
-        return view('super.media.picker')->with($view_arr);
+        return view('user.media.picker')->with($view_arr);
     }
 
     public function store()

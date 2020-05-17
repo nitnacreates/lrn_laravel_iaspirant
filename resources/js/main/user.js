@@ -76,6 +76,27 @@ var tiny_gl_small_configs = {
     }
 };
 
+function startTimer(ptr, timer_dom, time_left)
+{
+    if (typeof pub_globes.timer === 'undefined') {
+        pub_globes.timer = {};
+    }
+    if(time_left !== "00:00:00"){
+        window.clearInterval(pub_globes.timer[ptr]);
+        var secleft = moment.duration(time_left).asSeconds();
+        var end_date = moment().add(secleft, 's');
+
+        pub_globes.timer[ptr] = countdown(function(ts) {
+            if(ts.value > 0){
+                let cd = moment.utc(ts.value).format('HH:mm:ss');
+                $(timer_dom).html(cd);
+            } else{
+                window.clearInterval(pub_globes.timer[ptr]);
+            }
+        }, end_date, countdown.SECONDS);
+    }
+}
+
 $(document).ready(function() {
 
 /*** Global ***/
@@ -266,29 +287,12 @@ $(document).ready(function() {
         });
     } else if($('body').hasClass('essays')){
     // essays page
-        var timers = {};
-        function startTimer(ptr, timer_dom, time_left)
-        {
-            if(time_left !== "00:00:00"){
-                window.clearInterval(timers[ptr]);
-                var secleft = moment.duration(time_left).asSeconds();
-                var end_date = moment().add(secleft, 's');
 
-                timers[ptr] = countdown(function(ts) {
-                    if(ts.value > 0){
-                        let cd = moment.utc(ts.value).format('HH:mm:ss');
-                        $(timer_dom).html(cd);
-                    } else{
-                        window.clearInterval(timers[ptr]);
-                    }
-                }, end_date, countdown.SECONDS);
-            }
-        }
 
         function checkTimer(essay_pick, essay_id)
         {
             $.ajax({
-                url:"/user/essays/summon",
+                url:"/essays/summon",
                 type:"POST",
                 dataType: "json",
                 data:{
@@ -327,5 +331,18 @@ $(document).ready(function() {
                 startTimer(essay_id, $(this).find('.essay-timer'), time_left);
             }
         })
+    } else if($('body').hasClass('essay-response')){
+        let essay_id = $('#create-essay-response-form input[name="id"]').val();
+        let time_left = $('#create-essay-response-form .essay-timer').html();
+        console.log(essay_id);
+        console.log(time_left);
+        startTimer(essay_id, $('.essay-timer'), time_left);
+        if($('.wyswyg-form textarea.wyswyg-bg').length){
+            let tiny_lc_configs = $.extend({
+                selector: '.wyswyg-form textarea.wyswyg-bg',
+                height: 500,
+            }, tiny_gl_configs);
+            tinymce.init(tiny_lc_configs);
+        }
     }
 });

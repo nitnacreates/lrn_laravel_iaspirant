@@ -92,7 +92,9 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    var myglobes = {"picker_url" : "{{ route('user::media', ['action' => 'picker']) }}"};
+</script>
 @stop
 
 @push('scripts_foot')
