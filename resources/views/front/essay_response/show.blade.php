@@ -12,7 +12,7 @@
 </div>
 <div class="row">
     <div class="col-6">
-        Date: {{ $essay->created_on->format('M d,Y') }} <br />
+        Date: {{ $essay->created_on->format('M d, Y') }} <br />
         Word Limit: {{ $essay->word_limit }} <br />
         Weightage: {{ $essay->weightage }}
     </div>
@@ -37,6 +37,8 @@
     </div>
 </div>
 @endif
+
+@include('front.essay_response.user_reactions')
 @stop
 
 

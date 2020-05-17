@@ -98,7 +98,7 @@
                     </div>
                     <div class="main-wrapper col-lg-8 col-xl-8 col-12">
                       <div class="main-wrapper-radial">
-                        <div class="main-content">
+                        <div class="main-content container">
                           @include('front.partials.messages')
                           @yield('content')
                         </div>
