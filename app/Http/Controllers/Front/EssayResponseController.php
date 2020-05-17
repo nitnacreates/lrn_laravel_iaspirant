@@ -25,7 +25,7 @@ class EssayResponseController extends Controller
         $essay_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
         $view_arr = array();
 
-        if(\Gate::denies('full-user') || ($user_name != \UserHelper::getUserName())){
+        if(\Gate::denies('full-user')){
             $this->request->session()->flash('msgs', array('Unauthorized access'));
             return redirect()->route('front::three-essay-response', ['user_name' => \UserHelper::getUserName(), 'action' => 'show']);              
         }
@@ -33,13 +33,21 @@ class EssayResponseController extends Controller
         $essay = Essay::where('id', $essay_id)->where('locked', 0)->first();
         if(empty($essay)){
             $this->request->session()->flash('msgs', 'Essay does not exist');
-            return redirect()->route('front::three-essay-response', ['user_name' => \UserHelper::getUserName(), 'action' => 'show']);
+            return redirect()->route('front::essays', ['action' => 'list']);
         }
 
         $view_arr['essay'] = $essay;
-        $account_id = \UserHelper::getAccountId();
-        $essay_response = EssayResponse::where('essay_id', $essay_id)->where('account_id', $account_id)->first();
+        $account_id = \UserHelper::getUserAccount($user_name);
 
+        $essay_response = EssayResponse::with('essay_reactions')
+                            ->with(['grouped_essay_reactions' => function($query) {
+                                $query->select('essay_response_id', 'type', \DB::raw("count(type) as type_counter"))
+                                                    ->groupBy('type')
+                                                    ->groupBy('essay_response_id');
+                            }])
+                            ->where('essay_id', $essay_id)
+                            ->where('account_id', $account_id)
+                            ->first();
         if(!empty($essay_response)){
             if($essay_response->locked && ($user_name != \UserHelper::getUserName())){
                 $this->request->session()->flash('msgs', array('Unauthorized access'));

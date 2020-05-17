@@ -36,9 +36,13 @@
         @endif
     </div>
 </div>
-@endif
 
-@include('front.essay_response.user_reactions')
+@include('front.essay_response.user_reactions', [
+    'response_id' => $response->id,
+    'essay_reactions' => $response->essay_reactions,
+    'grouped_essay_reactions' => $response->grouped_essay_reactions
+])
+@endif
 @stop
 
 

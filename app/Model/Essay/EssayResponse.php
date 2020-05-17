@@ -10,6 +10,16 @@ class EssayResponse extends Model
 
     public function essays()
     {
-        return $this->hasMany('App\Model\Essay\Essay');
+        return $this->belongsTo('App\Model\Essay\Essay');
+    }
+
+    public function essay_reactions()
+    {
+        return $this->hasMany('App\Model\Essay\EssayReaction');
+    }
+
+    public function grouped_essay_reactions()
+    {
+        return $this->hasMany('App\Model\Essay\EssayReaction');
     }
 }
