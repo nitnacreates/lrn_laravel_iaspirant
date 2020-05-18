@@ -65,7 +65,7 @@
         </div>
         <div class="form-group row your-comment">
             <div class="col">
-                <label>Comment</label>
+                <label>Your Comment</label>
                 <textarea autocomplete="off" class="form-control" maxlength="150" rows="2">@if(!empty($user_reaction->comment)) {{ $user_reaction->comment }} @endif</textarea>
             </div>
             <div class="w-100"></div>

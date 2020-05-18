@@ -65,6 +65,26 @@ class EssaysController extends Controller
                                         });
                                 }])
                                 ->get();
+        $essay_responses = EssayResponse::select('essay_responses.*', 'users.name')
+                            ->join('accounts', 'accounts.id', 'essay_responses.account_id')
+                            ->join('users', function ($join) {
+                                $join->on('users.id', '=', 'accounts.all_id')
+                                    ->where('accounts.user_type','=', 'n');
+                            })
+                            ->whereIn('essay_responses.essay_id', function($query) use($dt) {
+                                $query->select('id')->from('essays')->where('locked',0)->where('created_on', $dt);
+                            })
+                            ->whereNotNull('essay_responses.completed_on')
+                            ->with('essay_reactions')
+                            ->with(['grouped_essay_reactions' => function($query) {
+                                $query->select('essay_response_id', 'type', \DB::raw("count(type) as type_counter"))
+                                                    ->groupBy('essay_response_id')
+                                                    ->groupBy('type');
+                            }])
+                            ->get();
+
+        $view_arr['essay_responses'] = $essay_responses;
+
         $view_arr['account_id'] = \Gate::allows('full-user') ? \UserHelper::getAccountId() : 0;
         return view('front.essays.date')->with($view_arr);
     }

@@ -33,7 +33,7 @@ class EssayResponseController extends Controller
 
         $essay = Essay::where('id', $essay_id)->where('locked', 0)->first();
         if(empty($essay)){
-            $this->request->session()->flash('msgs', 'Essay does not exist');
+            $this->request->session()->flash('msgs', array('Essay does not exist'));
             return redirect()->route('front::essays', ['action' => 'list']);
         }
 
@@ -49,10 +49,11 @@ class EssayResponseController extends Controller
                             ->where('essay_id', $essay_id)
                             ->where('account_id', $account_id)
                             ->first();
+                            
         if(!empty($essay_response)){
             if($essay_response->locked && ($user_name != \UserHelper::getUserName())){
-                $this->request->session()->flash('msgs', array('Unauthorized access'));
-                return redirect()->route('front::three-essay-response', ['user_name' => \UserHelper::getUserName(), 'action' => 'show']);              
+                $this->request->session()->flash('msgs', array('Access locked'));
+                return redirect()->route('front::essays', ['action' => 'list']);            
             }
 
             if(!empty($essay_response->completed_on)){

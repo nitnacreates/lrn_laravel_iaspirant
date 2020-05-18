@@ -3,8 +3,12 @@
 @section('content')
 <h2>Essays</h2>
 
+<?php
+    $essay_titles = [];
+?>
 @foreach ($essays as $essay)
     <?php 
+        $essay_titles[$essay->id] = $essay->title;
         $response_status = 0;
         $countdown_timer = "23:59:59";
         $essay_pc = [
@@ -44,6 +48,8 @@
         
         <div class="essay-stats">
             <dl class="row">
+                <dt class="col-sm-3">Word Limit: </dt>
+                <dd class="col-sm-9">{{ $essay->word_limit }}</dd>
                 <dt class="col-sm-3">Picked By: </dt>
                 <dd class="col-sm-9 essay-pickers">
                     <?php $pick_counter = 0; ?>
@@ -61,7 +67,7 @@
                     <?php $complete_counter = 0; ?>
                     @foreach($essay_pc['completed'] as $completed)
                         @if($complete_counter++), @endif
-                        <a href="{{ route('front::essays', ['action' => 'show', 'essay' => $essay->id, 'user' => $completed['name']]) }}">
+                        <a href="{{ route('front::three-essay-response', ['user_name' => $completed['name'], 'action' => 'show', 'id' => $essay->id]) }}">
                             @if($completed['account_id'] == $account_id)
                                 <span class="active">{{ $completed['name'] }}</span>
                             @else
@@ -88,4 +94,33 @@
     @endif
 </div>
 @endforeach
+
+<section>
+    <h1>Completed Essays</h1>
+    @if(Gate::allows('full-user'))
+        @foreach($essay_responses as $response)
+        <div class="row user-essays border-bottom py-4">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <strong>Essay:</strong> {{ $essay_titles[$response->essay_id] }} <br/>
+                        <strong>By:</strong> <a href="{{ route('front::three-essay-response', ['user_name' => $response->name, 'action' => 'show', 'id' => $response->essay_id]) }}"> {{ $response->name }} </a><br/>
+                        <div class="essay_content">
+                            {!! $response->response_content !!}
+                        </div> 
+                    </div>
+                </div>
+                @include('front.essay_response.user_reactions', [
+                    'response_id' => $response->id,
+                    'essay_reactions' => $response->essay_reactions,
+                    'grouped_essay_reactions' => $response->grouped_essay_reactions
+                ])
+            </div>
+        </div>
+        @endforeach
+    @else
+        <p>You should see essays here if you are subscribed</p>
+    @endif
+</section>
+
 @stop
