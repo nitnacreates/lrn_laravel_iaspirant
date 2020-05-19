@@ -39,7 +39,7 @@
                         <a class="nav-link" href="{{ route('front::news', ['action' => 'list']) }}">News Concise</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Prelims 2021</a>
+                        <a class="nav-link" href="{{ route('prelim', ['action' => 'schedule']) }}">Prelims 2021</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="#">Syllabus Foci</a>

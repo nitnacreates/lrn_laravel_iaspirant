@@ -97,6 +97,30 @@ Route::group([
 
 });
 
+// ////////// prelim section //////////
+
+Route::group([
+    'namespace' => 'Prelim',
+    'middleware' => ['auth', 'prelimcheck']
+    ], function () {
+
+    \View::share ( 'namespace', 'prelim');
+
+    Route::match(['get', 'post'], '/prelim/{action}', [
+        'as' => 'prelim',
+        function (Request $request, $action) {
+            $app = app();
+            $controller_path = '\App\Http\Controllers\Prelim\PrelimController';
+            $createdController = $app->make($controller_path);
+            $action = implode("_", explode('-', $action));
+            return $createdController->callAction($action, array());
+        }
+    ])->where(array(
+        'action' => '^(schedule|show|stat|mock|prelude)'
+    ));
+
+});
+
 // ////////// public section //////////
 Route::group([
     'as' => 'front::',
