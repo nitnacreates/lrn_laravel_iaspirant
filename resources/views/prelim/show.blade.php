@@ -1,7 +1,7 @@
 @extends('front.layouts.skeleton')
 
 @section('content')
-<h2>Prelim</h2>
+<h1 class="page-title">Prelim Show</h1>
 
 
 @stop

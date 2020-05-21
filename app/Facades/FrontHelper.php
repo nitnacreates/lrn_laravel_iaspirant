@@ -38,12 +38,21 @@ class FrontHelper
     {
         $response_carb = Carbon::createFromFormat('Y-m-d H:i:s', $created_at);
         $now = Carbon::now();
-        $more_than_day = $now->diffInDays($response_carb->copy()); 
+        $more_than_day = $now->diffInDays($response_carb->copy(), false); 
         if($more_than_day){
             return false;
         } else{
             $time_left = $response_carb->add('1 day')->diff($now)->format('%H:%I:%S');
             return ($time_left == "00:00:00") ? "23:59:59" : $time_left;
         }
+    }
+
+    public function daysFromToday($date_to)
+    {
+        $days_to_date = Carbon::createFromFormat('Y-m-d H:i:s', $date_to);
+        $now = Carbon::now();
+        $more_than_day = $now->diffInDays($days_to_date, false); 
+        
+        return $more_than_day > 0 ? $more_than_day : 0;
     }
 }

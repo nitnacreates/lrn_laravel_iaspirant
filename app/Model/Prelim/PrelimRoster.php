@@ -8,4 +8,5 @@ class PrelimRoster extends Model
 {
     protected $fillable = ['id'];
     public $timestamps = false;
+    protected $dates = ['available_from'];
 }
