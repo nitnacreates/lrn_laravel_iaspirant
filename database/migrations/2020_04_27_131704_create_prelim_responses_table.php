@@ -23,8 +23,8 @@ class CreatePrelimResponsesTable extends Migration
             $table->tinyInteger('correct_ans')->nullable();
             $table->tinyInteger('wrong_ans')->nullable();
             $table->float('marks', 3, 2)->nullable();
-            $table->timestamp('started_at');
-            $table->timestamp('completed_at')->nullable();
+            $table->dateTime('started_at');
+            $table->dateTime('completed_at')->nullable();
             $table->text('report')->nullable();
 
             $table->unique(['prelim_roster_id', 'user_id', 'attempt'], 'attempt_unique');

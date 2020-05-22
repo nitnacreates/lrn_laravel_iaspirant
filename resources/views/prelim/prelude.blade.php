@@ -15,7 +15,7 @@
 </ul>
 <h3>App Instructions</h3>
 <ul class="pl-3">
-    <li>Only 1<sup>st</sup> attempt will be considered for rankings</li>
+    <li>Only 1<sup>st</sup> attempts will be considered for rankings</li>
     <li>There will be a countdown timer to show remaining time. Test will auto submit when countdown completes </li>
     <li>Test can be completed sooner by clicking on 'Complete Test' on last question tab</li>
     <li>Upon marking an answer, you can either click 'Review and Continue' or 'Save and Continue' to proceed further.</li>
@@ -30,7 +30,7 @@
 @if($future_attempt == 1)
     <p>This is your 1<sup>st</sup> attempt. Be fair and practice self-restraint. Jai Hind and best of luck.</p>
 @else
-    <p>This is your attempt number {{ $future_attempt }}. Only first attempts are considered for rankings. Use these attempts for practicing and evaluation</p>
+    <p><span class="text-danger">Note: </span>This is your attempt number {{ $future_attempt }}. Only first attempts are considered for rankings. Use these attempts for practicing and evaluation</p>
 @endif
     
 <form role="form" id="prelude_form" method="post" action="{{ route('prelim', ['action' => 'prelude']) }}">

@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 
 use App\Model\Prelim\PrelimRoster;
 use App\Model\Prelim\PrelimResponse;
+use App\Model\Prelim\PrelimQuestion;
 
 class PrelimController extends Controller
 {
@@ -67,8 +68,9 @@ class PrelimController extends Controller
                 $hours_passed = $started_at->diffInHours($now, false);
 
                 if($hours_passed > 1){
-                    $completed_at = $started_at->add(CarbonInterval::make('2h'));
-                    PrelimResponse::where('id', $response->id)->update(['completed_at', $completed_at]);
+        // calculate marks and other fields
+                    $completed_at = $started_at->addHours(2)->format('Y-m-d H:i:s');
+                    PrelimResponse::where('id', $response->id)->update(['completed_at' => $completed_at]);
                 } else{
                     return redirect()->route('prelim', ['action' => 'exam', 'roll' => $response->id]); 
                 }
@@ -104,7 +106,52 @@ class PrelimController extends Controller
     public function exam()
     {
         $view_arr = [];
-        return view('prelim.show')->with($view_arr);
+        $user_id = \UserHelper::getUserId();
+        $roll_id = intval($this->request->input('roll',0));
+        $now = Carbon::now();
+
+        $proceed = 0;
+        if($roll_id){
+            $response = PrelimResponse::find($roll_id);
+            if(!empty($response)){
+                if($response->user_id == $user_id){
+                    $started_at = Carbon::createFromFormat('Y-m-d H:i:s', $response->started_at);
+                    if(is_null($response->completed_at)){
+                        $completed_at = $started_at->copy()->addHours(2);
+                        
+                        $hours_passed = $started_at->diffInHours($now, true);
+                        if($hours_passed < 2){
+                            $proceed = 1;       
+                        } else{
+            // calculate marks and other fields
+                            $response->completed_at = $completed_at->copy()->format('Y-m-d H:i:s');
+                            $response->save();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(!$proceed){
+            $this->request->session()->flash('msgs', array('This exam is no longer in session'));
+            return redirect()->route('prelim', ['action' => 'schedule']); 
+        }
+
+        $exam_id = $response->prelim_roster_id;
+        $questions = PrelimQuestion::select('id', 'display_id', 'question', 'option_a', 'option_b', 'option_c', 'option_d', 'weightage')
+                        ->where('prelim_roster_id', $exam_id)->orderBy('display_id', 'asc');
+
+        $total_ques = $questions->count();
+        if(!$total_ques){
+            $this->request->session()->flash('msgs', array('Invalid exam session'));
+            return redirect()->route('prelim', ['action' => 'schedule']);    
+        }
+
+        $view_arr['questions'] = $total_ques;
+        $view_arr['response'] = $response;
+        $view_arr['time_remaining'] = $completed_at->diff($now)->format('%H:%I:%S');
+
+        return view('prelim.exam')->with($view_arr);
     }
 
     public function show()
