@@ -139,7 +139,9 @@ class PrelimController extends Controller
 
         $exam_id = $response->prelim_roster_id;
         $questions = PrelimQuestion::select('id', 'display_id', 'question', 'option_a', 'option_b', 'option_c', 'option_d', 'weightage')
-                        ->where('prelim_roster_id', $exam_id)->orderBy('display_id', 'asc');
+                        ->where('prelim_roster_id', $exam_id)
+                        ->orderBy('display_id', 'asc')
+                        ->get();
 
         $total_ques = $questions->count();
         if(!$total_ques){
@@ -147,7 +149,8 @@ class PrelimController extends Controller
             return redirect()->route('prelim', ['action' => 'schedule']);    
         }
 
-        $view_arr['questions'] = $total_ques;
+        $view_arr['questions'] = $questions;
+        $view_arr['questions_count'] = $total_ques;
         $view_arr['response'] = $response;
         $view_arr['time_remaining'] = $completed_at->diff($now)->format('%H:%I:%S');
 

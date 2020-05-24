@@ -7,7 +7,7 @@ $(document).ready(function() {
         }
     });
 
-/*** Pages ***/
+/*** Comments ***/
     if($('section#comments').length){
         $('.comment-box .clear-content').click(function(){
             $('.comment-box .replying-to').addClass('d-none').removeClass('d-block');
@@ -108,5 +108,52 @@ $(document).ready(function() {
             }
         });
 
+    }
+/*** Pages ***/
+    if($('body').hasClass('prelim')){
+        // prelims
+        if($('#question_track').length){
+
+            var tqs = parseInt($('#question-number').attr('data-total_ques'));
+            function load_ques(qid)
+            {
+                var qid = parseInt(qid);
+
+                if(qid && (qid <= tqs)){
+                    $('#question-number').html(qid + " / " + tqs);
+                    
+                    $('#prev_question').val((qid-1));
+                    qid == 1 ? $('#prev_question').addClass('disabled') : $('#prev_question').removeClass('disabled');
+
+                    $('#next_question').val((qid+1));
+                    qid == 100 ? $('#next_question').addClass('disabled') : $('#next_question').removeClass('disabled');
+
+                    let qc = $('#question_block #pre-ques-' + qid)[0].outerHTML;
+                    $('#current_question').empty().html(qc);
+
+                    $('#question_track button').removeClass('active');
+                    $('#question_track :button[value="'+qid+'"]').addClass('active');
+                }
+            }
+
+            load_ques(1);
+            $('#question_track button').click(function(){
+                load_ques($(this).val());
+            });
+
+            $('#prev_question').click(function(){
+                let prev = parseInt($(this).val());
+                if(prev){
+                    load_ques(prev);
+                }
+            });
+
+            $('#next_question').click(function(){
+                let nxt = parseInt($(this).val());
+                if(nxt <= tqs){
+                    load_ques(nxt);
+                }
+            });
+        }
     }
 });
