@@ -41,12 +41,32 @@
         <p><strong>Question {{$ques->display_id}}:</strong></p>
         <div class="question d-block">{!! $ques->question !!}</div>
         <p class="lead">Options:</p>
-        <ul class="pl-3">
-            <li>{!! $ques->option_a !!}</li>
-            <li>{!! $ques->option_b !!}</li>
-            <li>{!! $ques->option_c !!}</li>
-            <li>{!! $ques->option_d !!}</li>
-        </ul>
+        <ol type="A" class="question-options pl-3">
+            <li>
+                <div class="form-check option-container">
+                  <input class="form-check-input" type="radio" name="q_option" id="option-a" value="a" />
+                  <label class="form-check-label" for="option-a"><span class="option-content">{!! $ques->option_a !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check option-container">
+                  <input class="form-check-input" type="radio" name="q_option" id="option-b" value="b" />
+                  <label class="form-check-label" for="option-b"><span class="option-content">{!! $ques->option_b !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check option-container">
+                  <input class="form-check-input" type="radio" name="q_option" id="option-c" value="c" />
+                  <label class="form-check-label" for="option-c"><span class="option-content">{!! $ques->option_c !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check option-container">
+                  <input class="form-check-input" type="radio" name="q_option" id="option-d" value="d" />
+                  <label class="form-check-label" for="option-d"><span class="option-content">{!! $ques->option_d !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                </div>
+            </li>
+        </ol>
     </div>
     <div class="w-100"></div>
     @endforeach

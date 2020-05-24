@@ -136,6 +136,11 @@ $(document).ready(function() {
                 }
             }
 
+            // options
+            $('#current_question').on('click', '.question-options button', function(){
+                $(this).closest('.form-check-label').find('.option-content').toggleClass('eliminate');
+            });
+            // track
             load_ques(1);
             $('#question_track button').click(function(){
                 load_ques($(this).val());

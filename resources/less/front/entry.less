@@ -244,6 +244,30 @@ body{
         }
     }
     &.prelim{
+        #current_question{
+            ol.question-options{
+                list-style: upper-alpha;
+                li{
+                    padding: 0.35rem 0 0.35rem 0.5rem;
+                    .option-container{
+                        display: inline-block;
+                        vertical-align: text-top;
+                        .form-check-label{
+                            display: inline-block;
+                            .eliminate{
+                                color: #dc3545;
+                                opacity: 0.4;
+                            }
+                        }
+                        button{
+                            padding: 0 0.4rem;
+                            line-height: 1.2;
+                            vertical-align: text-bottom;
+                        }
+                    }
+                }
+            }
+        }
         #question_track{
             button{
                 border-radius: 50%;
@@ -251,7 +275,7 @@ body{
                 width: 40px;
                 text-align: center;
                 padding: 0;
-                line-height: 2.2em;
+                line-height: 2.4em;
             }
         }
     }
