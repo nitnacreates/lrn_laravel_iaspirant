@@ -18,9 +18,9 @@
     <li>Only 1<sup>st</sup> attempts will be considered for rankings</li>
     <li>There will be a countdown timer to show remaining time. Test will auto submit when countdown completes </li>
     <li>Test can be completed sooner by clicking on 'Complete Test' on last question tab</li>
-    <li>Upon marking an answer, you can either click 'Review and Continue' or 'Save and Continue' to proceed further.</li>
-    <li>'Save and Continue' will turn your question tab green. Only these questions will be considered for marking</li>
-    <li>'Review and Continue' will turn your question tab orange. It can be revisited later before final submission</li>
+    <li>Upon marking an answer, you can either click 'Review and Next' or 'Save and Next' to proceed further.</li>
+    <li>'Save and Next' will turn your question tab green. Only these questions will be considered for marking</li>
+    <li>'Review and Next' will turn your question tab orange. It can be revisited later before final submission</li>
     <li>To help with elimination method, every option will have a cross (X) sign to its left to lowlight it</li>
     <li>Make sure javascript and cookies are enabled for entire duration of test</li>
     <li>Do not click on site's/phone's back/refresh buttons. To navigate only use tabs on page</li>

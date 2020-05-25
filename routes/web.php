@@ -116,7 +116,7 @@ Route::group([
             return $createdController->callAction($action, array());
         }
     ])->where(array(
-        'action' => '^(schedule|show|stat|exam|prelude)'
+        'action' => '^(schedule|show|stat|exam|prelude|summon)'
     ));
 
 });

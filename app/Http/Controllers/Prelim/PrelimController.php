@@ -150,6 +150,7 @@ class PrelimController extends Controller
         }
 
         $view_arr['questions'] = $questions;
+        $view_arr['roll_id'] = $roll_id;
         $view_arr['questions_count'] = $total_ques;
         $view_arr['response'] = $response;
         $view_arr['time_remaining'] = $completed_at->diff($now)->format('%H:%I:%S');
@@ -163,4 +164,52 @@ class PrelimController extends Controller
         return view('prelim.show')->with($view_arr);
     }
 
+    public function summon()
+    {
+        if($this->request->ajax()){
+            $type = $this->request->input('type');
+            $user_id = \UserHelper::getUserId();
+
+            switch ($type) {
+                case 'check_point':
+                    $answers = $this->request->input('answers');
+                    $roll_id = intval($this->request->input('roll_id',0));
+                    $now = Carbon::now();
+
+                    if($roll_id){
+                        $response = PrelimResponse::find($roll_id);
+                        if(!empty($response)){
+                            if(
+                                ($response->user_id == $user_id) &&
+                                !empty($response->started_at) &&
+                                is_null($response->completed_at)
+                            ){
+                                $started_at = Carbon::createFromFormat('Y-m-d H:i:s', $response->started_at);
+                                $hours_passed = $started_at->diffInHours($now, true);
+                                if($hours_passed < 2){
+                                    $response->live_response = $answers;  
+                                    $response->save();
+                                    return response()->json(['pl' => 0]);
+                                } else{
+                                    // reload page
+                                    return response()->json(['message' => 'Test has expired', 'pl' => 1], 404);
+                                }
+                            } else{
+                                return response()->json(['message' => 'Test not in session', 'pl' => 1], 404);
+                            }
+                        } else {
+                            return response()->json(['message' => 'Test not found', 'pl' => 1], 404);    
+                        }
+                    } else {
+                        return response()->json(['message' => 'Invalid test provided', 'pl' => 1], 404);
+                    }
+
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+        return response('Invalid request', 404)->header('Content-Type', 'text/plain');
+    }
 }

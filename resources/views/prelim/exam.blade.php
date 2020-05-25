@@ -4,7 +4,7 @@
 <h1 class="page-title">Prelim Exam</h1>
 <div class="row">
     <div class="col-6">
-        <p><strong>Time Left: </strong><span class="countdown">{{ $time_remaining }}</span></p>
+        <p><strong>Time Left: </strong><span id="countdown">{{ $time_remaining }}</span></p>
     </div>
     <div class="col-6 text-right">
         <p>Question: <span id="question-number" data-qid="1" data-total_ques={{ $questions_count }}> 1 / {{ $questions_count }}</span></p>
@@ -16,14 +16,14 @@
 <div class="row py-3 border-top border-bottom" id="question_action">
     <div class="col-4">
         <button type="button" value="0" id="prev_question" class="btn btn-secondary">Previous</button>
-        <button type="button" value="2" id="next_question" class="btn btn-secondary">Clear and Skip</button>
+        <button type="button" value="2" id="next_question" class="btn btn-secondary">Clear and Next</button>
     </div>
     <div class="col-4 text-center">
         <button type="button" value="end_test" id="end_test" class="btn btn-danger">End Test</button>
     </div>
     <div class="col-4 text-right">
-        <button type="button" value="2" id="review_question" class="btn btn-warning">Review and Continue</button>
-        <button type="button" value="2" id="save_question" class="btn btn-success">Save and Continue</button>
+        <button type="button" value="2" id="review_question" class="btn btn-warning">Review and Next</button>
+        <button type="button" value="2" id="save_question" class="btn btn-success">Save and Next</button>
     </div>
 </div>
 <div class="row text-center pt-3" id="question_track">
@@ -75,4 +75,8 @@
     <div class="w-100"></div>
     @endforeach
 </div>
+    <script type="text/javascript">
+        pub_globes.answers = @if(is_null($response->live_response)) {}; @else JSON.parse('{!! $response->live_response !!}'); @endif
+        pub_globes.roll_id = "{{ $roll_id }}";
+    </script>
 @stop

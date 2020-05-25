@@ -18,8 +18,8 @@ class CreatePrelimResponsesTable extends Migration
             $table->unsignedSmallInteger('prelim_roster_id')->unsigned();
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->tinyInteger('attempt')->nullable(false);
-            $table->string('final_response', 5000)->nullable()->comment('serialize display answer');
-            $table->string('live_response', 5000)->nullable()->comment('serialize display answer');
+            $table->text('final_response')->nullable()->comment('json answer');
+            $table->text('live_response')->nullable()->comment('json answer');
             $table->tinyInteger('correct_ans')->nullable();
             $table->tinyInteger('wrong_ans')->nullable();
             $table->float('marks', 3, 2)->nullable();
