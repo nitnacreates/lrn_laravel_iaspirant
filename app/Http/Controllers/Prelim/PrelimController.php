@@ -129,7 +129,11 @@ class PrelimController extends Controller
         }
 
         if(!$proceed){
-            $this->request->session()->flash('msgs', array('This exam is no longer in session'));
+            if($this->request->session()->has('msgs')){
+                $this->request->session()->flash('msgs', $this->request->session()->get('msgs'));
+            } else{
+                $this->request->session()->flash('msgs', array('This exam is no longer in session'));
+            }
             return redirect()->route('prelim', ['action' => 'schedule']); 
         }
 
@@ -219,6 +223,7 @@ class PrelimController extends Controller
                                 $response->save();
 
                                 $this->endTest($response->id, 0);
+                                $this->request->session()->flash('msgs', array('Your test has ended'));
                                 return response()->json(['message' => 'Your test has ended, loading results...', 'pl' => 1]);
 
                             } else{
@@ -246,7 +251,60 @@ class PrelimController extends Controller
     */
     protected function endTest($roll_id, int $add_two = 0)
     {
-                    // $completed_at = $started_at->addHours(2)->format('Y-m-d H:i:s');
-                    // PrelimResponse::where('id', $response->id)->update(['completed_at' => $completed_at]);
+        $response = PrelimResponse::find($roll_id);
+        if(!empty($response)){
+            $questions = PrelimQuestion::select('id', 'display_id', 'answer')
+                            ->where('prelim_roster_id', $response->prelim_roster_id)
+                            ->orderBy('display_id', 'asc')
+                            ->get();
+
+            $total_qs = $questions->count();
+
+            $right_arr = [];
+            foreach($questions as $ques){
+                $right_arr[$ques->display_id] = $ques->answer;
+            }
+
+            $correct_ans = $wrong_ans = $wrong_marks = 0;
+
+            $shots = (string) trim($response->live_response);
+            $shot_arr = json_decode($shots, true);
+            if (JSON_ERROR_NONE === json_last_error()) {
+                foreach($shot_arr as $did => $user_resp){
+                    if (array_key_exists('c', $user_resp) && !empty($user_resp['c'])) {
+                        if(strcasecmp($right_arr[$did], $user_resp['c']) == 0){
+                            $correct_ans++;
+                        } else{
+                            $wrong_ans++;                            
+                        }
+                    }
+                }
+
+                if($wrong_ans){
+                    $wrong_marks = round((float) $wrong_ans/3,2, PHP_ROUND_HALF_UP);
+                }
+
+                $marks = round((float) (($correct_ans - $wrong_marks)*2),2, PHP_ROUND_HALF_UP);
+
+                if($add_two){
+                    $started_at = Carbon::createFromFormat('Y-m-d H:i:s', $response->started_at);
+                    $completed_at = $started_at->addHours(2)->format('Y-m-d H:i:s');
+                } else{
+                    $completed_at = Carbon::now()->format('Y-m-d H:i:s');
+                }
+
+                $response->final_response = $response->live_response;
+                $response->correct_ans = $correct_ans;
+                $response->wrong_ans = $wrong_ans;
+                $response->marks = $marks;
+                $response->completed_at = $completed_at;
+            } else{
+                // mail me for corrupt data
+                $response->report = 1;
+            }
+
+            $response->save();
+        }
+        return true;
     }
 }

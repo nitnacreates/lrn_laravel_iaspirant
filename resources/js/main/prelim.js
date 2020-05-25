@@ -114,74 +114,77 @@ $(document).ready(function() {
         // prelims
         if($('#question_track').length){
 
-            var tqs = parseInt($('#question-number').attr('data-total_ques'));
-            
-            function qcheck(q){
-                pub_globes.answers[q] = pub_globes.answers[q] || {'c':'','r':'','e':[]}; 
-            }
+            var prelim_ob = function () {
+                this.tqs = parseInt($('#question-number').attr('data-total_ques'));
 
-            function check_point()
-            {
-                $.ajax({
-                    url:"/prelim/summon",
-                    type:"POST",
-                    dataType: "json",
-                    data:{
-                        type: 'check_point',
-                        roll_id: pub_globes.roll_id,
-                        answers: JSON.stringify(pub_globes.answers)
-                    },
-                    success: function(data){
+                this.check_point = function(){
+                    $.ajax({
+                        url:"/prelim/summon",
+                        type:"POST",
+                        dataType: "json",
+                        data:{
+                            type: 'check_point',
+                            roll_id: pub_globes.roll_id,
+                            answers: JSON.stringify(pub_globes.answers)
+                        },
+                        success: function(data){
 
-                    },
-                    error: function(data) {
-                        if(data.hasOwnProperty("pl") && (data.pl == "1")){
-                            bootbox.alert(data.message);
-                            window.location.reload();
+                        },
+                        error: function(data) {
+                            if(data.hasOwnProperty("pl") && (data.pl == "1")){
+                                bootbox.alert(data.message);
+                                window.location.reload();
+                            }
                         }
-                    }
-                });
-            }
-
-            function load_ques(qid)
-            {
-                qcheck(qid);
-                var qid = parseInt(qid);
-
-                if(qid && (qid <= tqs)){
-                    $('#question-number').html(qid + " / " + tqs);
-                    
-                    if(qid == 1){
-                        $('#prev_question').val(qid);
-                    } else{
-                        $('#prev_question').val((qid-1));
-                    }
-
-                    if(qid == 100){
-                        $('#next_question, #review_question, #save_question').val(qid);
-                    } else{
-                        $('#next_question, #review_question, #save_question').val((qid+1));
-                    }
-                    
-                    let qc = $('#question_block #pre-ques-' + qid)[0].outerHTML;
-                    $('#current_question').empty().html(qc);
-
-                    if(pub_globes.answers[qid]['r']){
-                        $('#current_question').find('input[name="q_option"][value="'+ pub_globes.answers[qid]['r'] +'"]').prop('checked', true);    
-                    }
-
-                    if(pub_globes.answers[qid]['c']){
-                        $('#current_question').find('input[name="q_option"][value="'+ pub_globes.answers[qid]['c'] +'"]').prop('checked', true);    
-                    }
-                    
-                    _.each(pub_globes.answers[qid]['e'], function(num){
-                        $('#current_question').find('.question-options label.option-label-'+num+ ' span').addClass('eliminate');
                     });
+                };
 
-                    $('#question_track button').removeClass('active');
-                    $('#question_track :button[value="'+qid+'"]').addClass('active');
+                this.qcheck = function(q) {
+                    pub_globes.answers[q] = pub_globes.answers[q] || {'c':'','r':'','e':[]}; 
                 }
-            }
+
+                this.load_ques = function(qid) {
+                    this.qcheck(qid);
+                    var qid = parseInt(qid);
+
+                    if(qid && (qid <= preob.tqs)){
+                        $('#question-number').html(qid + " / " + preob.tqs);
+                        
+                        if(qid == 1){
+                            $('#prev_question').val(qid);
+                        } else{
+                            $('#prev_question').val((qid-1));
+                        }
+
+                        if(qid == 100){
+                            $('#next_question, #review_question, #save_question').val(qid);
+                        } else{
+                            $('#next_question, #review_question, #save_question').val((qid+1));
+                        }
+                        
+                        let qc = $('#question_block #pre-ques-' + qid)[0].outerHTML;
+                        $('#current_question').empty().html(qc);
+
+                        if(pub_globes.answers[qid]['r']){
+                            $('#current_question').find('input[name="q_option"][value="'+ pub_globes.answers[qid]['r'] +'"]').prop('checked', true);    
+                        }
+
+                        if(pub_globes.answers[qid]['c']){
+                            $('#current_question').find('input[name="q_option"][value="'+ pub_globes.answers[qid]['c'] +'"]').prop('checked', true);    
+                        }
+                        
+                        _.each(pub_globes.answers[qid]['e'], function(num){
+                            $('#current_question').find('.question-options label.option-label-'+num+ ' span').addClass('eliminate');
+                        });
+
+                        $('#question_track button').removeClass('active');
+                        $('#question_track :button[value="'+qid+'"]').addClass('active');
+                    }
+                };
+
+            };
+            var preob = new prelim_ob();
+
 
             // options
             $('#current_question').on('click', '.question-options button', function(){
@@ -195,7 +198,7 @@ $(document).ready(function() {
                     pub_globes.answers[qs]['e'] = _.union(pub_globes.answers[qs]['e'], [co]);
                     $(this).closest('.form-check-label').find('.option-content').addClass('eliminate');
                 }
-                check_point();
+                preob.check_point();
             });
 
             // page load inits
@@ -224,16 +227,16 @@ $(document).ready(function() {
                     }
                 }, end_secs, countdown.SECONDS);
             })();
-            load_ques(1);
+            preob.load_ques(1);
 
             $('#question_track button').click(function(){
-                load_ques($(this).val());
+                preob.load_ques($(this).val());
             });
 
             $('#prev_question').click(function(){
                 let prev = parseInt($(this).val());
                 if(prev){
-                    load_ques(prev);
+                    preob.load_ques(prev);
                 }
             });
 
@@ -245,10 +248,10 @@ $(document).ready(function() {
                 $('#question_track :button[value="'+qid+'"]').removeClass('btn-warning btn-success').addClass('btn-outline-secondary');
                 pub_globes.answers[qid]['c'] = '';
                 pub_globes.answers[qid]['r'] = '';
-                check_point();
+                preob.check_point();
 
-                if(nxt <= tqs){
-                    load_ques(nxt);
+                if(nxt <= preob.tqs){
+                    preob.load_ques(nxt);
                 } else{
                     bootbox.alert('You are on last question');
                 }
@@ -262,11 +265,11 @@ $(document).ready(function() {
                 if(rv){
                     pub_globes.answers[qid]['r'] = rv;
                     pub_globes.answers[qid]['c'] = '';
-                    check_point();
+                    preob.check_point();
 
                     $('#question_track :button[value="'+qid+'"]').removeClass('btn-outline-secondary btn-success').addClass('btn-warning');
-                    if(nxt <= tqs){
-                        load_ques(nxt);
+                    if(nxt <= preob.tqs){
+                        preob.load_ques(nxt);
                     } else{
                         bootbox.alert('You are on last question');
                     }
@@ -283,11 +286,11 @@ $(document).ready(function() {
                 if(cv){
                     pub_globes.answers[qid]['c'] = cv;
                     pub_globes.answers[qid]['r'] = '';
-                    check_point();
+                    preob.check_point();
 
                     $('#question_track :button[value="'+qid+'"]').removeClass('btn-outline-secondary btn-warning').addClass('btn-success');
-                    if(nxt <= tqs){
-                        load_ques(nxt);
+                    if(nxt <= preob.tqs){
+                        preob.load_ques(nxt);
                     } else{
                         bootbox.alert('You are on last question');
                     }
