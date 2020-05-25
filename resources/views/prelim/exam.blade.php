@@ -15,8 +15,8 @@
 </div>
 <div class="row py-3 border-top border-bottom" id="question_action">
     <div class="col-4">
-        <button type="button" value="0" id="prev_question" class="btn btn-secondary disabled">Previous</button>
-        <button type="button" value="2" id="next_question" class="btn btn-secondary">Skip</button>
+        <button type="button" value="0" id="prev_question" class="btn btn-secondary">Previous</button>
+        <button type="button" value="2" id="next_question" class="btn btn-secondary">Clear and Skip</button>
     </div>
     <div class="col-4 text-center">
         <button type="button" value="end_test" id="end_test" class="btn btn-danger">End Test</button>
@@ -37,33 +37,37 @@
 </div>
 <div class="row d-none" id="question_block">
     @foreach($questions as $ques)
-    <div class="col" id="pre-ques-{{$ques->display_id}}" data-ques={{$ques->display_id}}>
+    <div class="col ques-wrapper" id="pre-ques-{{$ques->display_id}}" data-ques={{$ques->display_id}}>
         <p><strong>Question {{$ques->display_id}}:</strong></p>
         <div class="question d-block">{!! $ques->question !!}</div>
         <p class="lead">Options:</p>
         <ol type="A" class="question-options pl-3">
             <li>
                 <div class="form-check option-container">
-                  <input class="form-check-input" type="radio" name="q_option" id="option-a" value="a" />
-                  <label class="form-check-label" for="option-a"><span class="option-content">{!! $ques->option_a !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                    <input class="form-check-input" type="radio" name="q_option" id="option-a" value="a" />
+                    <label class="form-check-label option-label-a" for="option-a"><span class="option-content">{!! $ques->option_a !!}</span>
+                    <button type="button" title="Eliminate" class="btn btn-outline-danger" value="a"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
                 </div>
             </li>
             <li>
                 <div class="form-check option-container">
-                  <input class="form-check-input" type="radio" name="q_option" id="option-b" value="b" />
-                  <label class="form-check-label" for="option-b"><span class="option-content">{!! $ques->option_b !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                    <input class="form-check-input" type="radio" name="q_option" id="option-b" value="b" />
+                    <label class="form-check-label option-label-b" for="option-b"><span class="option-content">{!! $ques->option_b !!}</span>
+                    <button type="button" title="Eliminate" class="btn btn-outline-danger" value="b"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
                 </div>
             </li>
             <li>
                 <div class="form-check option-container">
-                  <input class="form-check-input" type="radio" name="q_option" id="option-c" value="c" />
-                  <label class="form-check-label" for="option-c"><span class="option-content">{!! $ques->option_c !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                    <input class="form-check-input" type="radio" name="q_option" id="option-c" value="c" />
+                    <label class="form-check-label option-label-c" for="option-c"><span class="option-content">{!! $ques->option_c !!}</span>
+                    <button type="button" title="Eliminate" class="btn btn-outline-danger" value="c"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
                 </div>
             </li>
             <li>
                 <div class="form-check option-container">
-                  <input class="form-check-input" type="radio" name="q_option" id="option-d" value="d" />
-                  <label class="form-check-label" for="option-d"><span class="option-content">{!! $ques->option_d !!}</span> <button type="button" title="Eliminate" class="btn btn-outline-danger"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
+                    <input class="form-check-input" type="radio" name="q_option" id="option-d" value="d" />
+                    <label class="form-check-label option-label-d" for="option-d"><span class="option-content">{!! $ques->option_d !!}</span>
+                    <button type="button" title="Eliminate" class="btn btn-outline-danger" value="d"><i class="fa fa-ban danger" aria-hidden="true"></i></button></label>
                 </div>
             </li>
         </ol>

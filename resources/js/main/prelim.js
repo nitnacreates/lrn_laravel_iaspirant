@@ -111,25 +111,51 @@ $(document).ready(function() {
     }
 /*** Pages ***/
     if($('body').hasClass('prelim')){
+        var answers = {};
         // prelims
         if($('#question_track').length){
 
             var tqs = parseInt($('#question-number').attr('data-total_ques'));
+            
+            function qcheck(q){
+                answers[q] = answers[q] || {'c':'','r':'','e':[]}; 
+            }
+
             function load_ques(qid)
             {
+                qcheck(qid);
                 var qid = parseInt(qid);
 
                 if(qid && (qid <= tqs)){
                     $('#question-number').html(qid + " / " + tqs);
                     
-                    $('#prev_question').val((qid-1));
-                    qid == 1 ? $('#prev_question').addClass('disabled') : $('#prev_question').removeClass('disabled');
+                    
+                    if(qid == 1){
+                        $('#prev_question').val(qid);
+                    } else{
+                        $('#prev_question').val((qid-1));
+                    }
 
-                    $('#next_question').val((qid+1));
-                    qid == 100 ? $('#next_question').addClass('disabled') : $('#next_question').removeClass('disabled');
-
+                    if(qid == 100){
+                        $('#next_question, #review_question, #save_question').val(qid);
+                    } else{
+                        $('#next_question, #review_question, #save_question').val((qid+1));
+                    }
+                    
                     let qc = $('#question_block #pre-ques-' + qid)[0].outerHTML;
                     $('#current_question').empty().html(qc);
+
+                    if(answers[qid]['r']){
+                        $('#current_question').find('input[name="q_option"][value="'+ answers[qid]['r'] +'"]').prop('checked', true);    
+                    }
+
+                    if(answers[qid]['c']){
+                        $('#current_question').find('input[name="q_option"][value="'+ answers[qid]['c'] +'"]').prop('checked', true);    
+                    }
+                    
+                    _.each(answers[qid]['e'], function(num){
+                        $('#current_question').find('.question-options label.option-label-'+num+ ' span').addClass('eliminate');
+                    });
 
                     $('#question_track button').removeClass('active');
                     $('#question_track :button[value="'+qid+'"]').addClass('active');
@@ -138,7 +164,17 @@ $(document).ready(function() {
 
             // options
             $('#current_question').on('click', '.question-options button', function(){
-                $(this).closest('.form-check-label').find('.option-content').toggleClass('eliminate');
+                let qs =parseInt($(this).closest('.ques-wrapper').attr('data-ques'));
+
+                let co = $(this).val();
+                if(_.contains(answers[qs]['e'], co)){
+                    answers[qs]['e'] = _.reject(answers[qs]['e'], function(eo){ return eo == co});
+                    $(this).closest('.form-check-label').find('.option-content').removeClass('eliminate');
+                } else {
+                    answers[qs]['e'] = _.union(answers[qs]['e'], [co]);
+                    $(this).closest('.form-check-label').find('.option-content').addClass('eliminate');
+                }
+
             });
             // track
             load_ques(1);
@@ -155,10 +191,61 @@ $(document).ready(function() {
 
             $('#next_question').click(function(){
                 let nxt = parseInt($(this).val());
-                if(nxt <= tqs){
+                let qid = parseInt($('#current_question').find('.ques-wrapper').attr('data-ques'));
+                
+                $('#current_question').find('input[name="q_option"]').prop('checked', false);
+                $('#question_track :button[value="'+qid+'"]').removeClass('btn-warning btn-success').addClass('btn-outline-secondary');
+                answers[qid]['c'] = '';
+                answers[qid]['r'] = '';
+
+                if(nxt < tqs){
                     load_ques(nxt);
+                } else if(nxt == tqs){
+                    load_ques(qid);
+                    bootbox.alert('You are on last question');
                 }
             });
+
+            $('#review_question').click(function(){
+                let nxt = parseInt($(this).val());
+                let qid = parseInt($('#current_question').find('.ques-wrapper').attr('data-ques'));
+                
+                let rv = $('#current_question').find('input[name="q_option"]:checked').val();
+                if(rv){
+                    answers[qid]['r'] = rv;
+                    answers[qid]['c'] = '';
+
+                    $('#question_track :button[value="'+qid+'"]').removeClass('btn-outline-secondary btn-success').addClass('btn-warning');
+                    if(nxt <= tqs){
+                        load_ques(nxt);
+                    } else{
+                        bootbox.alert('You are on last question');
+                    }
+                } else{
+                    bootbox.alert('No option selected');
+                }
+            });
+
+            $('#save_question').click(function(){
+                let nxt = parseInt($(this).val());
+                let qid = parseInt($('#current_question').find('.ques-wrapper').attr('data-ques'));
+                
+                let cv = $('#current_question').find('input[name="q_option"]:checked').val();
+                if(cv){
+                    answers[qid]['c'] = cv;
+                    answers[qid]['r'] = '';
+
+                    $('#question_track :button[value="'+qid+'"]').removeClass('btn-outline-secondary btn-warning').addClass('btn-success');
+                    if(nxt <= tqs){
+                        load_ques(nxt);
+                    } else{
+                        bootbox.alert('You are on last question');
+                    }
+                } else{
+                    bootbox.alert('No option selected');
+                }
+            });
+
         }
     }
 });
