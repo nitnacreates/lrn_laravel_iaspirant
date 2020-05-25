@@ -122,7 +122,6 @@ $(document).ready(function() {
 
             function check_point()
             {
-                console.log(pub_globes.answers);
                 $.ajax({
                     url:"/prelim/summon",
                     type:"POST",
@@ -295,6 +294,35 @@ $(document).ready(function() {
                 } else{
                     bootbox.alert('No option selected');
                 }
+            });
+
+            $('#end_test').click(function(){
+                bootbox.confirm("This is your final submission. Are you sure?", function(result){
+                    if(result){
+                        $.ajax({
+                            url:"/prelim/summon",
+                            type:"POST",
+                            dataType: "json",
+                            data:{
+                                type: 'end_roll',
+                                roll_id: pub_globes.roll_id,
+                                answers: JSON.stringify(pub_globes.answers)
+                            },
+                            success: function(data){
+                                if(data.hasOwnProperty("pl") && (data.pl == "1")){
+                                    bootbox.alert(data.message);
+                                    window.location.reload();
+                                }
+                            },
+                            error: function(data) {
+                                if(data.hasOwnProperty("pl") && (data.pl == "1")){
+                                    bootbox.alert(data.message);
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
             });
 
         }

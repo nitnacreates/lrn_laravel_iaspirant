@@ -68,9 +68,7 @@ class PrelimController extends Controller
                 $hours_passed = $started_at->diffInHours($now, false);
 
                 if($hours_passed > 1){
-        // calculate marks and other fields
-                    $completed_at = $started_at->addHours(2)->format('Y-m-d H:i:s');
-                    PrelimResponse::where('id', $response->id)->update(['completed_at' => $completed_at]);
+                    $this->endTest($response->id, 1);
                 } else{
                     return redirect()->route('prelim', ['action' => 'exam', 'roll' => $response->id]); 
                 }
@@ -123,9 +121,7 @@ class PrelimController extends Controller
                         if($hours_passed < 2){
                             $proceed = 1;       
                         } else{
-            // calculate marks and other fields
-                            $response->completed_at = $completed_at->copy()->format('Y-m-d H:i:s');
-                            $response->save();
+                            $this->endTest($response->id, 1);
                         }
                     }
                 }
@@ -192,8 +188,39 @@ class PrelimController extends Controller
                                     return response()->json(['pl' => 0]);
                                 } else{
                                     // reload page
+                                    $this->endTest($response->id, 1);
                                     return response()->json(['message' => 'Test has expired', 'pl' => 1], 404);
                                 }
+                            } else{
+                                return response()->json(['message' => 'Test not in session', 'pl' => 1], 404);
+                            }
+                        } else {
+                            return response()->json(['message' => 'Test not found', 'pl' => 1], 404);    
+                        }
+                    } else {
+                        return response()->json(['message' => 'Invalid test provided', 'pl' => 1], 404);
+                    }
+
+                    break;
+                case 'end_roll':
+                    $answers = $this->request->input('answers');
+                    $roll_id = intval($this->request->input('roll_id',0));
+                    $now = Carbon::now();
+
+                    if($roll_id){
+                        $response = PrelimResponse::find($roll_id);
+                        if(!empty($response)){
+                            if(
+                                ($response->user_id == $user_id) &&
+                                !empty($response->started_at) &&
+                                is_null($response->completed_at)
+                            ){
+                                $response->live_response = $answers;  
+                                $response->save();
+
+                                $this->endTest($response->id, 0);
+                                return response()->json(['message' => 'Your test has ended, loading results...', 'pl' => 1]);
+
                             } else{
                                 return response()->json(['message' => 'Test not in session', 'pl' => 1], 404);
                             }
@@ -211,5 +238,15 @@ class PrelimController extends Controller
             }
         }
         return response('Invalid request', 404)->header('Content-Type', 'text/plain');
+    }
+
+    /*
+    * Ends test for current roll id
+    * Does not do any validaton, so make sure roll id is pre validated
+    */
+    protected function endTest($roll_id, int $add_two = 0)
+    {
+                    // $completed_at = $started_at->addHours(2)->format('Y-m-d H:i:s');
+                    // PrelimResponse::where('id', $response->id)->update(['completed_at' => $completed_at]);
     }
 }
