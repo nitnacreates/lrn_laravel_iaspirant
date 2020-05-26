@@ -27,7 +27,6 @@ class PrelimController extends Controller
 
         $view_arr = array();
         $view_arr['rosters'] = PrelimRoster::all();
-        $view_arr['user_test_history'] = PrelimResponse::distinct()->get(['prelim_roster_id'])->where('user_id', $user_id)->pluck('prelim_roster_id');
         return view('prelim.schedule')->with($view_arr);
     }
     
@@ -158,10 +157,37 @@ class PrelimController extends Controller
         return view('prelim.exam')->with($view_arr);
     }
 
-    public function show()
+    public function report()
     {
         $view_arr = [];
-        return view('prelim.show')->with($view_arr);
+        $prelim_id = intval($this->request->input('id',0));
+        if($prelim_id){
+            $prelim = PrelimRoster::where('id', $prelim_id)->where('locked', 0)->first();
+        }
+
+        if(!$prelim_id || empty($prelim)){
+            $this->request->session()->flash('msgs', array('This exam is not yet active'));
+            return redirect()->route('prelim', ['action' => 'schedule']); 
+        }
+
+        $view_arr['toppers'] = PrelimResponse::with(['user_grab' => function($query){
+                                     $query->select('id', 'name');
+                                }])
+                                ->select('id','user_id', 'marks')
+                                ->where('attempt', 1)
+                                ->where('marks', '>',0)
+                                ->whereNotNull('completed_at')
+                                ->orderBy('marks', 'DESC')
+                                ->orderBy('correct_ans', 'DESC')
+                                ->orderBy('wrong_ans', 'ASC')
+                                ->limit(10)
+                                ->get();               
+
+        $user_id = \UserHelper::getUserId();
+        $responses = PrelimResponse::where('user_id', $user_id)->whereNotNull('completed_at');
+
+        $view_arr['responses'] = $responses;
+        return view('prelim.report')->with($view_arr);
     }
 
     public function summon()

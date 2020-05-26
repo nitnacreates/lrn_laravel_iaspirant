@@ -15,11 +15,8 @@
             <p><strong>Status: </strong> @if($roster->locked) <span class="text-danger">Locked</span> @else <span class="text-danger">Open</span> @endif</p>
             <p><strong>Available From: </strong> <span class="text-danger">{{ $roster->available_from->format('M d, Y') }}</span> [{{ FrontHelper::daysFromToday($roster->available_from) }} days left]</p>
             @if(!$roster->locked)
-                @if(array_key_exists($roster->id, $user_test_history))
-                    <a href="{{ route('prelim', ['action' => 'stat', 'id' => $roster->id]) }}" class="btn btn-light">Show History</a>
-                @else
-                    <a href="{{ route('prelim', ['action' => 'prelude', 'id' => $roster->id]) }}" class="btn btn-success">Take Test</a>
-                @endif
+                <a href="{{ route('prelim', ['action' => 'prelude', 'id' => $roster->id]) }}" class="btn btn-success">Take Test</a>
+                <a href="{{ route('prelim', ['action' => 'report', 'id' => $roster->id]) }}" class="btn btn-warning">Report</a>
             @endif
         </div>
     </div>

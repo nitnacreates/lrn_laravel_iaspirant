@@ -28,8 +28,9 @@ mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
 
 /* ******** FULL ******** */
 
-// ////////////////// PLUGINS ////////////////// 
 /*
+// ////////////////// PLUGINS ////////////////// 
+
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/plugins/tinymce/plugins')
     .copyDirectory('node_modules/tinymce/skins', 'public/assets/plugins/tinymce/skins')
     .copyDirectory('node_modules/tinymce/themes', 'public/assets/plugins/tinymce/themes')
@@ -38,6 +39,8 @@ mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/plugins/tinymce
     .copy('node_modules/select2/dist/js/select2.min.js', 'public/assets/plugins/select2/')
     .copy('node_modules/select2/dist/css/select2.min.css', 'public/assets/plugins/select2/')
     .copy('node_modules/clndr/clndr.min.js', 'public/assets/plugins/clndr/')
+    .copy('node_modules/chart.js/dist/Chart.min.css', 'public/assets/plugins/chart/')
+    .copy('node_modules/chart.js/dist/Chart.min.js', 'public/assets/plugins/chart/')
     .copy('resources/less/front/plugins/triangle.svg', 'public/assets/plugins/clndr/');
 
 mix.less('resources/less/front/plugins/clndr.less', 'public/assets/plugins/clndr/clndr.css');
@@ -80,8 +83,7 @@ mix.scripts([
     'resources/js/main/front.js'
 ], 'public/assets/js/front_main.js');
 
-mix.less('resources/less/front/entry.less', 'public/assets/css/front_user.css');
-
+mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
 
 // ////////////////// Super //////////////////
 
