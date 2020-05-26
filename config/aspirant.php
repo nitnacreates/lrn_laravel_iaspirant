@@ -77,6 +77,17 @@ return [
         'o-litr-urdu' => 'Language - Urdu'
     ],
 
+    'subject_map_prelim' => [
+        'csat' => 'CSAT',
+        'economics' => 'ECO',
+        'polity' => 'POLY',
+        'geography' => 'GEO',
+        'history' => 'HIS',
+        'ir' => 'IR',
+        'science-tech' => 'SCI',
+        'society' => 'SOC'
+    ],
+
     'user_types' => [
         's' => 'Super',
         'n' => 'Normal'

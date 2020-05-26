@@ -184,9 +184,50 @@ class PrelimController extends Controller
                                 ->get();               
 
         $user_id = \UserHelper::getUserId();
-        $responses = PrelimResponse::where('user_id', $user_id)->whereNotNull('completed_at');
+        $responses = PrelimResponse::with(['response_questions' => function($query){
+                        $query->select('id', 'prelim_roster_id', 'display_id', 'sub', 'answer');
+                    }])->where('user_id', $user_id)
+                    ->whereNotNull('completed_at')
+                    ->get();
+
+        $bar_arr = array();
+        foreach($responses as $rsp){
+            $correct_arr = [];
+            foreach ($rsp->response_questions as $ques) {
+                $correct_arr[$ques->display_id] = [
+                    'sub' => $ques->sub,
+                    'cr' => $ques->answer,
+                    'um' => 0
+                ];
+            }
+
+            $user_resp = json_decode($rsp->final_response, true);
+            foreach ($user_resp as $disp_id => $resp) {
+                if(isset($resp['c']) && !empty($resp['c']) && (strcasecmp($correct_arr[$disp_id]['cr'], $resp['c']) == 0)){
+                    $correct_arr[$disp_id]['um'] = 1;
+                }
+            }
+
+            $sub_arr = [];
+            foreach($correct_arr as $cr){
+                $conf_sub = config('aspirant.subject_map_prelim')[$cr['sub']];
+
+                if(isset($sub_arr[$conf_sub]['t'])){
+                    $sub_arr[$conf_sub]['t'] = ++$sub_arr[$conf_sub]['t'];    
+                } else{
+                    $sub_arr[$conf_sub]['t'] = 1;
+                    $sub_arr[$conf_sub]['u'] = 0;
+                }
+                if($cr['um']){
+                    $sub_arr[$conf_sub]['u'] = ++$sub_arr[$conf_sub]['u'];
+                }
+            }
+            ksort($sub_arr);
+            $bar_arr[$rsp->id] = $sub_arr;
+        }
 
         $view_arr['responses'] = $responses;
+        $view_arr['bar_arr'] = json_encode($bar_arr);
         return view('prelim.report')->with($view_arr);
     }
 

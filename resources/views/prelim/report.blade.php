@@ -35,13 +35,20 @@
 
 <div class="row border-bottom py-3" id="attempt-area">
     @foreach($responses as $rsp)
-        
-    @endforeach
-    <canvas id="bar-chart" width="10%" height="10%"></canvas>
-    <canvas id="pie-chart" width="10%" height="10%"></canvas>
+        <div class="col-6">
+            <canvas class="bar-chart" data-roll="{{ $rsp->id }}"></canvas>        
+        </div>
+        <div class="col-6">
+            <canvas class="pie-chart" pie-correct="{{ $rsp->correct_ans }}" pie-wrong="{{ $rsp->correct_ans }}" pie-skipped="{{ 100 - (intval($rsp->correct_ans) + intval($rsp->wrong_ans)) }}"></canvas>
+        </div>
+        <div class="w-100"></div>
+    @endforeach    
 </div>
 @stop
 
 @push('scripts_foot')
 <script type="text/javascript" src="{!! asset('assets/plugins/chart/Chart.min.js') !!}"></script>
+<script type="text/javascript">
+    pub_globes.bar_bag = JSON.parse('{!! $bar_arr !!}');
+</script>
 @endpush

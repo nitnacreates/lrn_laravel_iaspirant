@@ -14,4 +14,9 @@ class PrelimResponse extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
+
+    public function response_questions()
+    {
+        return $this->hasMany('App\Model\Prelim\PrelimQuestion', 'prelim_roster_id', 'prelim_roster_id');
+    }
 }
