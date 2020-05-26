@@ -330,15 +330,16 @@ $(document).ready(function() {
 
         }
 
+        // charts
         if($('#attempt-area').length){
-            var ctx = $('#myChart');
+            var ctx = $('#bar-chart');
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: ['Polity', 'IR', 'Society', 'Green', 'Purple', 'Orange'],
                     datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
+                        label: 'Total marks',
+                        data: [10, 20, 12, 15, 22, 18],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -356,16 +357,62 @@ $(document).ready(function() {
                             'rgba(255, 159, 64, 1)'
                         ],
                         borderWidth: 1
+                    },{
+                        label: 'Your marks',
+                        data: [5, 10, 6, 10, 11, 9],
+                        backgroundColor: [
+                            'rgba(25, 99, 132, 0.2)',
+                            'rgba(14, 206, 23, 0.2)',
+                            'rgba(155, 106, 286, 0.2)',
+                            'rgba(175, 92, 12, 0.2)',
+                            'rgba(53, 202, 25, 0.2)',
+                            'rgba(25, 19, 164, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
                     }]
                 },
                 options: {
                     scales: {
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            stacked: true
+                        }],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true
                             }
                         }]
                     }
+                }
+            });
+
+            var ptx = $('#pie-chart');
+            var myChart = new Chart(ptx, {
+                type: 'pie',
+                data: {
+                    labels: ['Correct', 'Wrong', 'Skipped'],
+                    datasets: [{
+                        label: 'Total marks',
+                        data: [20,30,50],
+                        backgroundColor: [
+                            'rgba(25, 99, 132, 0.8)',
+                            'rgba(14, 206, 23, 0.8)',
+                            'rgba(155, 106, 286, 0.8)',
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true
                 }
             });
         }

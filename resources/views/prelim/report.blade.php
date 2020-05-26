@@ -37,7 +37,8 @@
     @foreach($responses as $rsp)
         
     @endforeach
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="bar-chart" width="10%" height="10%"></canvas>
+    <canvas id="pie-chart" width="10%" height="10%"></canvas>
 </div>
 @stop
 
