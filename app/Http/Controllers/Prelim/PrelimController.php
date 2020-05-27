@@ -188,6 +188,7 @@ class PrelimController extends Controller
                         $query->select('id', 'prelim_roster_id', 'display_id', 'sub', 'answer');
                     }])->where('user_id', $user_id)
                     ->whereNotNull('completed_at')
+                    ->orderBy('attempt', 'DESC')
                     ->get();
 
         $bar_arr = array();
@@ -229,6 +230,50 @@ class PrelimController extends Controller
         $view_arr['responses'] = $responses;
         $view_arr['bar_arr'] = json_encode($bar_arr);
         return view('prelim.report')->with($view_arr);
+    }
+
+    public function coaster()
+    {
+        $view_arr = [];
+        $user_id = \UserHelper::getUserId();
+        $roll_id = intval($this->request->input('roll',0));
+        $mode = $this->request->input('mode');
+
+        $proceed = 0;
+        if($roll_id){
+            $response = PrelimResponse::find($roll_id);
+            if(!empty($response) && ($response->user_id == $user_id) && !empty($response->completed_at)){
+                $proceed = 1;
+            }
+        }
+
+        if(!$proceed){
+            $this->request->session()->flash('msgs', array('Unauthorised access'));
+            return redirect()->route('prelim', ['action' => 'schedule']); 
+        }
+
+        $exam_id = $response->prelim_roster_id;
+        $questions = PrelimQuestion::select('id', 'display_id', 'sub', 'topic_id', 'question', 'option_a', 'option_b', 'option_c', 'option_d', 'answer', 'explanation', 'weightage')
+                        ->where('prelim_roster_id', $exam_id)
+                        ->orderBy('display_id', 'asc')
+                        ->get();
+
+        $total_ques = $questions->count();
+        if(!$total_ques){
+            $this->request->session()->flash('msgs', array('Invalid exam session'));
+            return redirect()->route('prelim', ['action' => 'schedule']);    
+        }
+
+        $view_arr['questions'] = $questions;
+        $view_arr['roll_id'] = $roll_id;
+        $view_arr['questions_count'] = $total_ques;
+        $view_arr['response'] = $response;
+
+        if($mode == 'pdf'){
+            exit('hola');
+        }
+        
+        return view('prelim.coaster')->with($view_arr);
     }
 
     public function summon()

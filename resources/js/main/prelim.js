@@ -191,6 +191,7 @@ $(document).ready(function() {
                 let qs =parseInt($(this).closest('.ques-wrapper').attr('data-ques'));
 
                 let co = $(this).val();
+                // union is ok as q is unique
                 if(_.contains(pub_globes.answers[qs]['e'], co)){
                     pub_globes.answers[qs]['e'] = _.reject(pub_globes.answers[qs]['e'], function(eo){ return eo == co});
                     $(this).closest('.form-check-label').find('.option-content').removeClass('eliminate');
@@ -340,9 +341,9 @@ $(document).ready(function() {
                 let crda = {'labels' : [], 'user_ans' : [], 'corrects' : []};
 
                 _.each(pub_globes.bar_bag[roll], function(dt, sub){
-                    crda.labels = _.union(crda.labels, [sub]);
-                    crda.user_ans = _.union(crda.user_ans, [dt['u']]);
-                    crda.corrects = _.union(crda.corrects, [(parseInt(dt['t']) - parseInt(dt['u']))]);
+                    crda["labels"].push(sub);
+                    crda["user_ans"].push(parseInt(dt['u']));
+                    crda["corrects"].push(parseInt(dt['t']));
                 });
 
                 new Chart(cbc, {
@@ -350,7 +351,7 @@ $(document).ready(function() {
                     data: {
                         labels: crda.labels,
                         datasets: [{
-                            label: 'Wrong/Skipped',
+                            label: 'Total',
                             data: crda.corrects,
                             backgroundColor: 'rgba(61, 112, 191, 0.2)',
                             borderWidth: 1

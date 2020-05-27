@@ -33,17 +33,26 @@
     </div>
 </div>
 
+<h3>Attempts</h3>
+@foreach($responses as $rsp)
 <div class="row border-bottom py-3" id="attempt-area">
-    @foreach($responses as $rsp)
-        <div class="col-6">
-            <canvas class="bar-chart" data-roll="{{ $rsp->id }}"></canvas>        
-        </div>
-        <div class="col-6">
-            <canvas class="pie-chart" pie-correct="{{ $rsp->correct_ans }}" pie-wrong="{{ $rsp->correct_ans }}" pie-skipped="{{ 100 - (intval($rsp->correct_ans) + intval($rsp->wrong_ans)) }}"></canvas>
-        </div>
-        <div class="w-100"></div>
-    @endforeach    
+    <div class="col">
+        <h4>Attempt: {{ $rsp->attempt }}</h4>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-6">
+        <canvas class="bar-chart" data-roll="{{ $rsp->id }}"></canvas>        
+    </div>
+    <div class="col-6">
+        <canvas class="pie-chart" pie-correct="{{ $rsp->correct_ans }}" pie-wrong="{{ $rsp->wrong_ans }}" pie-skipped="{{ 100 - (intval($rsp->correct_ans) + intval($rsp->wrong_ans)) }}"></canvas>
+    </div>
+    <div class="w-100"></div>
+    <div class="col text-right mt-2">
+            <a href="{{ route('prelim', ['action' => 'coaster', 'mode' => 'view', 'roll' => $rsp->id]) }}" class="btn btn-success">View</a>
+            <a href="{{ route('prelim', ['action' => 'coaster', 'mode' => 'pdf', 'roll' => $rsp->id]) }}" class="btn btn-success">Mail PDF</a>
+    </div>
 </div>
+@endforeach
 @stop
 
 @push('scripts_foot')
