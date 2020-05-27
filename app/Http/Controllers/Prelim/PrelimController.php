@@ -267,14 +267,18 @@ class PrelimController extends Controller
         $exam_id = $response->prelim_roster_id;
         $questions = PrelimQuestion::select('id', 'display_id', 'sub', 'topic_id', 'question', 'option_a', 'option_b', 'option_c', 'option_d', 'answer', 'explanation', 'weightage')
                         ->where('prelim_roster_id', $exam_id)
-                        ->orderBy('display_id', 'asc')
-                        ->paginate(10);
+                        ->orderBy('display_id', 'asc');
 
         $view_arr['questions'] = $questions;
         $view_arr['roll_id'] = $roll_id;
         $view_arr['user_answers'] = $user_answers;
+        
         if($mode == 'pdf'){
-            exit('hola');
+            $pdf = \PDF::loadView('prelim.coaster_pdf', $view_arr);
+            $attempt_pdf = 'attempt_' . $roll_id . '.pdf';
+            return $pdf->download('invoice.pdf');
+        } else{
+            $view_arr['questions'] = $questions->paginate(10);
         }
         
         return view('prelim.coaster')->with($view_arr);

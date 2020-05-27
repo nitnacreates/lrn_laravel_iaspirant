@@ -178,6 +178,7 @@ return [
         /*
          * Local
          */
+        Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\SubjectsServiceProvider::class,
         App\Providers\SuperServiceProvider::class,
         App\Providers\UserServiceProvider::class,
@@ -233,6 +234,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // local
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         'SubjectHelper' => App\Facades\SubjectFacade::class,
         'SuperHelper' => App\Facades\SuperFacade::class,
         'UserHelper' => App\Facades\UserFacade::class,
