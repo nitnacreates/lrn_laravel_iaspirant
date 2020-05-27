@@ -183,6 +183,9 @@ class PrelimController extends Controller
                                 ->limit(10)
                                 ->get();               
 
+        // delete responses where not even one question is attempted
+        PrelimResponse::whereNotNull('completed_at')->whereNull('final_response')->delete();
+
         $user_id = \UserHelper::getUserId();
         $responses = PrelimResponse::with(['response_questions' => function($query){
                         $query->select('id', 'prelim_roster_id', 'display_id', 'sub', 'answer');
@@ -240,10 +243,19 @@ class PrelimController extends Controller
         $mode = $this->request->input('mode');
 
         $proceed = 0;
+        $user_answers = [];
         if($roll_id){
             $response = PrelimResponse::find($roll_id);
             if(!empty($response) && ($response->user_id == $user_id) && !empty($response->completed_at)){
                 $proceed = 1;
+
+                $shots = (string) trim($response->live_response);
+                $shot_arr = json_decode($shots, true);
+                foreach($shot_arr as $did => $user_resp){
+                    if (array_key_exists('c', $user_resp) && !empty($user_resp['c'])) {
+                        $user_answers[$did] = trim($user_resp['c']);
+                    }
+                }
             }
         }
 
@@ -256,19 +268,11 @@ class PrelimController extends Controller
         $questions = PrelimQuestion::select('id', 'display_id', 'sub', 'topic_id', 'question', 'option_a', 'option_b', 'option_c', 'option_d', 'answer', 'explanation', 'weightage')
                         ->where('prelim_roster_id', $exam_id)
                         ->orderBy('display_id', 'asc')
-                        ->get();
-
-        $total_ques = $questions->count();
-        if(!$total_ques){
-            $this->request->session()->flash('msgs', array('Invalid exam session'));
-            return redirect()->route('prelim', ['action' => 'schedule']);    
-        }
+                        ->paginate(10);
 
         $view_arr['questions'] = $questions;
         $view_arr['roll_id'] = $roll_id;
-        $view_arr['questions_count'] = $total_ques;
-        $view_arr['response'] = $response;
-
+        $view_arr['user_answers'] = $user_answers;
         if($mode == 'pdf'){
             exit('hola');
         }
@@ -419,4 +423,5 @@ class PrelimController extends Controller
         }
         return true;
     }
+
 }
