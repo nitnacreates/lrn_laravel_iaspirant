@@ -49,6 +49,7 @@ $(document).ready(function() {
             $('#navbarSupportedContent').collapse('hide');
         }
     });
+    $('[data-toggle="tooltip"]').tooltip();
 
     if($('#full-clndr').length){
         let popN = {};

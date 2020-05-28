@@ -280,6 +280,7 @@ class PrelimController extends Controller
             ob_start();
             $pdf = \PDF::loadView('prelim.coaster_pdf', $view_arr);
             $pdf->setPaper('a4', 'landscape');
+            $pdf->setEncryption(\UserHelper::getUserName());
             ob_end_flush(); 
             $attempt_pdf = 'attempt_' . $roll_id . '.pdf';
             return $pdf->download($attempt_pdf);

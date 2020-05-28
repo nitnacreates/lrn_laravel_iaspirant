@@ -53,7 +53,7 @@
     </div>
     <div class="col text-right mt-2">
             <a href="{{ route('prelim', ['action' => 'coaster', 'mode' => 'view', 'roll' => $rsp->id]) }}" class="btn btn-success">View</a>
-            <a href="{{ route('prelim', ['action' => 'coaster', 'mode' => 'pdf', 'roll' => $rsp->id]) }}" class="btn btn-success">Mail PDF</a>
+            <a href="{{ route('prelim', ['action' => 'coaster', 'mode' => 'pdf', 'roll' => $rsp->id]) }}" class="btn btn-success" data-toggle="tooltip" title="Password is your name">PDF</a>
     </div>
 </div>
 @endforeach
