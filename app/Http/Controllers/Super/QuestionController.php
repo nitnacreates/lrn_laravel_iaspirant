@@ -23,7 +23,7 @@ class QuestionController extends Controller
             'current' => []
         ];
 
-        $questions = Question::select(['id', 'type', 'sub', 'topic_id', 'account_id', 'user_type', 'question', 'locked', 'created_at', 'updated_at']);
+        $questions = Question::select(['id', 'type', 'sub', 'topic_id', 'account_id', 'user_type', 'question', 'locked', 'show_on']);
         if ($this->request->isMethod('get')){
             $question_types = array_keys(config('aspirant.question.types.front') + config('aspirant.question.types.super'));
             
@@ -70,7 +70,7 @@ class QuestionController extends Controller
             $view_arr['current'] = $this->request->all();
         }
 
-        $questions = $questions->orderBy('created_at' ,'DESC')
+        $questions = $questions->orderBy('show_on' ,'DESC')
             ->simplePaginate(config('aspirant.page_limit'));
         
         $view_arr['questions'] = $questions;
@@ -83,6 +83,7 @@ class QuestionController extends Controller
         $view_arr = array();
         $question_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
         
+
         if ($this->request->isMethod('post')) {
             $question_types = array_keys(config('aspirant.question.types.front') + config('aspirant.question.types.super'));
             $this->validate($this->request, [
@@ -96,7 +97,8 @@ class QuestionController extends Controller
                 'option_c' => 'required',
                 'option_d' => 'required',
                 'answer' => 'required|in:a,b,c,d',
-                'explanation' => 'required'
+                'explanation' => 'required',
+                'show_on' => 'required|date_format:Y-m-d'
             ],[
                 'topic_id.min' => 'Topic is missing'
             ]);
@@ -131,6 +133,7 @@ class QuestionController extends Controller
             $ques_obj->explanation = $params['explanation'];
             $ques_obj->secret_text = array_key_exists('secret_text', $params) ? $params['secret_text'] : '';
             $ques_obj->locked = $params['locked'];
+            $ques_obj->show_on = $params['show_on'];
             $ques_obj->save();
 
             $this->request->session()->flash('msgs', array('Question '. $ques_obj->id .' successfully ' . $msg_type));

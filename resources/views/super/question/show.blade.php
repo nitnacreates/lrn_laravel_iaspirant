@@ -82,8 +82,7 @@
                         <th>Topic</th>
                         <th>Account</th>
                         <th>User Type</th>
-                        <th>Created</th>
-                        <th>Updated</th>
+                        <th>Show On</th>
                     </tr>
                 </thead>
                 <tbody id="news_display">
@@ -96,11 +95,10 @@
                         <td>{{ $question->topic_id}}</td>
                         <td>{{ $question->account_id}}</td>
                         <td>{{ config('aspirant.user_types')[$question->user_type]}}</td>
-                        <td>{{ $question->created_at}}</td>
-                        <td>{{ $question->updated_at}}</td>
+                        <td>{{ $question->show_on}}</td>
                     </tr>
                     <tr>
-                        <td colspan="8"><a href="{{ route('super::question', ['action' => 'stash', 'id' => $question->id])  }}">{{ $question->question }}</a></td>
+                        <td colspan="7"><a href="{{ route('super::question', ['action' => 'stash', 'id' => $question->id])  }}">{{ substr($question->question, 0, 90)  }}</a></td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -21,6 +21,10 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Show On</label>
+                    <input type="text" name="show_on" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $question->show_on }}" @endif />
+                </div>
+                <div class="form-group">
                     <div class="custom-control custom-switch custom-switch-on-danger custom-switch-off-success">
                         <input type="hidden" name="locked" value="0" />
                         <input type="checkbox" name="locked" value="1" @if($mode != 'edit' || $question->locked) checked="checked" @endif class="custom-control-input" id="essaylocked">

@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 
 use App\Model\News\News;
 use App\Model\Comment\Comment;
+use App\Model\Question\Question;
 
 class NewsController extends Controller
 {
@@ -57,6 +58,11 @@ class NewsController extends Controller
             abort(403, 'Date not found');
         }
         $view_arr['news'] = News::where('show_on', $dt)->where('locked',0)->get();
+        $view_arr['questions'] = Question::select('id', 'question', 'option_a', 'option_b', 'option_c', 'option_d')
+                                    ->where('show_on', $dt)
+                                    ->where('type', 1)      // config('aspirant.question.types.front')
+                                    ->where('locked',1)
+                                    ->get();
 
         return view('front.news.date')->with($view_arr);
     }

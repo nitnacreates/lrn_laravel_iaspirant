@@ -42,6 +42,22 @@
 @endforeach
 
 <h2>Questions</h2>
-
+<div class="row">
+    <?php $counter = 1; ?>
+    @foreach($questions as $ques)
+        <div class="col ques-wrapper border-top" data-ques="{{ $ques->id }}">
+            <p><strong>Question {{$counter++}}:</strong></p>
+            <div class="question d-block">{!! $ques->question !!}</div>
+            <p class="lead">Options:</p>
+            <ol type="A" class="question-options pl-3">
+                <li><label class="form-check-label option-label-a" for="option-a"><span class="option-content">{!! $ques->option_a !!}</span></label></li>
+                <li><label class="form-check-label option-label-b" for="option-b"><span class="option-content">{!! $ques->option_b !!}</span></label></li>
+                <li><label class="form-check-label option-label-c" for="option-c"><span class="option-content">{!! $ques->option_c !!}</span></label></li>
+                <li><label class="form-check-label option-label-d" for="option-d"><span class="option-content">{!! $ques->option_d !!}</span></label></li>
+            </ol>
+        </div>
+        <div class="w-100"></div>
+    @endforeach
+</div>
 @include('front.partials.comments', $page_comments)
 @stop

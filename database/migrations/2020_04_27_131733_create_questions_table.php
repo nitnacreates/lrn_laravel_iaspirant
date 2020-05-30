@@ -29,7 +29,7 @@ class CreateQuestionsTable extends Migration
             $table->string('explanation', 5000);
             $table->string('secret_text', 5000)->nullable();
             $table->boolean('locked')->default(1);
-            $table->timestamps();
+            $table->date('show_on');
 
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->foreign('topic_id')->references('id')->on('topics');
