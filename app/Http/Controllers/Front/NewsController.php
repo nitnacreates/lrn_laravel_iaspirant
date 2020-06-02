@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use App\Model\News\News;
 use App\Model\Comment\Comment;
 use App\Model\Question\Question;
+use App\Model\News\NewsScore;
 
 class NewsController extends Controller
 {
@@ -62,8 +63,30 @@ class NewsController extends Controller
         $view_arr['questions'] = Question::select('id', 'question', 'option_a', 'option_b', 'option_c', 'option_d')
                                     ->where('show_on', $dt)
                                     ->where('type', 1)      // config('aspirant.question.types.front')
-                                    ->where('locked',1)
+                                    ->where('locked',0)
                                     ->get();
+
+        $news_stat = NewsScore::select(\DB::raw("count(id) as total_users"), \DB::raw("avg(score) as median"))->where('news_show_on', $dt)->first();
+
+        $median = $total_users = $user_score = 0;
+        if(\Gate::allows('prelim-user')){
+            $account_id = \UserHelper::getAccountId();
+            $us = NewsScore::select('score')->where('account_id', $account_id)->where('news_show_on', $dt)->first();
+            if(!empty($us)){
+                $user_score = $us->score;
+            }
+        }
+        
+
+        if(!empty($news_stat)){
+            $median = round((float) $news_stat->median,2, PHP_ROUND_HALF_UP);
+            $total_users = $news_stat->total_users;
+        }
+
+        $view_arr['median'] = $median;
+        $view_arr['total_users'] = $total_users;
+        $view_arr['user_score'] = $user_score;
+        
         $view_arr['date'] = $dt;
 
         return view('front.news.date')->with($view_arr);
@@ -96,6 +119,70 @@ class NewsController extends Controller
                         $dt_arr[] = ['date' => $dt->dater];
                     }          
                     return response()->json($dt_arr);
+                    break;
+                case 'news_questions':
+                    $date = $this->request->input('date');
+                    $d = \DateTime::createFromFormat('Y-m-d', $date);
+                    if(!$d || ($d->format('Y-m-d') != $date)){
+                        return response()->json(['message' => 'Invalid date'], 403);
+                    }
+
+                    $ans = $this->request->input('ans');
+                    $ans_arr = json_decode($ans, true);
+
+                    if(!is_array($ans_arr) || empty($ans_arr)){
+                        return response()->json(['message' => 'Error in answers'], 403);
+                    }
+
+                    $questions = Question::select('id', 'answer', 'explanation')
+                                    ->where('show_on', $date)
+                                    ->where('type', 1)      // config('aspirant.question.types.front')
+                                    ->where('locked',0)
+                                    ->get();
+
+                    $ques_ans = [];
+                    foreach ($questions as $ques) {
+                        $ques_ans[$ques->id] = [
+                            'ans' => $ques->answer,
+                            'exp' => json_encode($ques->explanation)
+                        ];
+                    }
+
+                    $score = 0;
+                    foreach ($ans_arr as $qid => $uans) {
+                        if(array_key_exists($qid, $ques_ans) && in_array($uans, ["a", "b", "c", "d"])){
+                            if(strcasecmp($ques_ans[$qid]['ans'],$uans) == 0){
+                                $score += 2;
+                            } else{
+                                $score -= 0.66;
+                            }
+                        }
+                    }
+                    $score = round((float) $score,2, PHP_ROUND_HALF_UP);
+
+                    if(\Gate::allows('prelim-user')){
+                        $account_id = \UserHelper::getAccountId();
+                        $news_score = NewsScore::where('account_id', $account_id)->where('news_show_on', $date)->first();
+                        if(empty($news_score)){
+                            $ust = 1;
+                            
+                            $ns = new NewsScore;
+                            $ns->account_id = $account_id;
+                            $ns->news_show_on = $date;
+                            $ns->score = $score;
+                            $ns->save();
+                        } else{
+                            $ust = 2;                       
+                        }
+                    } else{
+                        $ust = 3;
+                    }
+
+                    return response()->json([
+                        'ust' => $ust,
+                        'score' => $score,
+                        'ques_ans' => $ques_ans
+                    ]);
                     break;
                 default:
                     # code...

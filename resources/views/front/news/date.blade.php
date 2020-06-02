@@ -45,7 +45,7 @@
 <div class="row" id="daily-questions">
     <?php $counter = 1; ?>
     @foreach($questions as $ques)
-        <div class="col ques-wrapper border-top" data-ques="{{ $ques->id }}">
+        <div class="col ques-wrapper border-top" id="question-block-{{ $ques->id }}" data-ques="{{ $ques->id }}">
             <p><strong>Question {{$counter++}}:</strong></p>
             <div class="question d-block">{!! $ques->question !!}</div>
             <p class="lead">Options:</p>
@@ -83,8 +83,9 @@
                     </div>
                 </li>
             </ol>
-            <div class="question=explanation">
-
+            <div class="explanation-block d-none">
+                <p class="lead">Explanation:</p>
+                <div class="question-explanation"></div>
             </div>
         </div>
         <div class="w-100"></div>
@@ -92,7 +93,7 @@
 </div>
 <div class="row border-top border-bottom py-3">
     <div class="col-6">
-        <p><strong>Median score: </strong><span id="median-score">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Your score: </strong><span id="your-score">0</span></p>
+        <p><strong>Avg: </strong>{{$median}}/10 based on {{$total_users}} users &nbsp;&nbsp;&nbsp;&nbsp;<strong>Your score: </strong><span id="your-score">{{ $user_score }}</span></p>
     </div>
     <div class="col-6 text-right">
         <input type="hidden" id="news_date" value="{{ $date }}" />

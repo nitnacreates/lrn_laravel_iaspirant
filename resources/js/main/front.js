@@ -112,7 +112,41 @@ $(document).ready(function() {
             $.each($('.ques-wrapper'), function() {
                 ans[$(this).attr('data-ques')] = $(this).find(".form-check-input").is(":checked") ? $(this).find(".form-check-input:checked").val() : 0;
             });
-            console.log(ans);
+
+            $.ajax({
+                url:"/news/summon",
+                type:"POST",
+                dataType: "json",
+                data:{
+                    type: 'news_questions',
+                    ans: JSON.stringify(ans),
+                    date: $('#news_date').val()
+                },
+                success: function(data){
+                    $('#your-score').html(data.score);
+                    
+                    if(data.ques_ans){
+                        _.each(data.ques_ans, function(dt, q){
+                            let a = dt.ans;
+                            $('#question-block-'+q).find('.question-options li').has('.form-check-input[value="'+a+'"]').addClass('active');
+
+                            $('#question-block-'+q).find('.explanation-block').removeClass('d-none').find('.question-explanation').empty().html(JSON.parse(dt.exp));
+                        });
+                    }
+
+                    if(data.ust == '2'){
+                        bootbox.alert("Only first attempts are considered for median score");    
+                    }
+
+                    if(data.ust == '3'){
+                        bootbox.alert("Subscribe and track your progress");    
+                    }
+
+                },
+                error: function(data){
+                    bootbox.alert(data);
+                }
+            });
         });
     }
 });

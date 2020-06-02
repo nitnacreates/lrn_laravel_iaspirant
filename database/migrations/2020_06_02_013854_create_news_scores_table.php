@@ -17,7 +17,7 @@ class CreateNewsScoresTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('account_id')->unsigned();
             $table->date('news_show_on');
-            $table->tinyInteger('score');
+            $table->float('score', 3, 2)->nullable();
 
             $table->unique(['news_show_on', 'account_id'], 'news_account_unique');
 

@@ -207,11 +207,6 @@ var userob = new user_ob();
 $(document).ready(function() {
 
 /*** Global ***/
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 
     if($('form.sub-picker').length){
         var prev_cat = 0;

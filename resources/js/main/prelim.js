@@ -1,11 +1,5 @@
 $(document).ready(function() {
 
-/*** Global ***/
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 
 /*** Comments ***/
     if($('section#comments').length){
