@@ -16,6 +16,18 @@ class SyllabusController extends Controller
         $this->request = $request;
     }
 
+    public function show()
+    {
+        $view_arr = array();
+        $sub = $this->request->input('sub','');
+
+        if(!empty($sub) && !($sub_title = \SubjectHelper::checkSubTitle($sub))){
+            return redirect()->route('front::syllabus', ['action' => 'show']);
+        }
+        $view_arr['sub'] = $sub;
+        return view('front.syllabus.show')->with($view_arr);
+    }
+
     public function picker()
     {
         $sub = $this->request->input('sub');

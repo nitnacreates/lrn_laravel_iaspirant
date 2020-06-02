@@ -42,7 +42,7 @@
                         <a class="nav-link" href="{{ route('prelim', ['action' => 'schedule']) }}">Prelims 2021</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Syllabus Foci</a>
+                        <a class="nav-link" href="{{ route('front::syllabus', ['action' => 'show']) }}">Syllabus Foci</a>
                       </li>
                     </ul>
                 </div>

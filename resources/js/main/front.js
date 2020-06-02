@@ -149,4 +149,12 @@ $(document).ready(function() {
             });
         });
     }
+
+    /*** Pages ***/
+    if($('body').hasClass('syllabus')){
+        $('#syllabusSelect').on('change', function(){
+            let subref = $(this).find('option:selected').attr('data-url');
+            window.location.href = subref;
+        });
+    }
 });
