@@ -57,12 +57,14 @@ class NewsController extends Controller
         if(!$d || ($d->format('Y-m-d') != $dt)){
             abort(403, 'Date not found');
         }
+
         $view_arr['news'] = News::where('show_on', $dt)->where('locked',0)->get();
         $view_arr['questions'] = Question::select('id', 'question', 'option_a', 'option_b', 'option_c', 'option_d')
                                     ->where('show_on', $dt)
                                     ->where('type', 1)      // config('aspirant.question.types.front')
                                     ->where('locked',1)
                                     ->get();
+        $view_arr['date'] = $dt;
 
         return view('front.news.date')->with($view_arr);
     }

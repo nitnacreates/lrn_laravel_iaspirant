@@ -27,7 +27,7 @@ class CreateNewsTable extends Migration
             $table->enum('category',['p', 'm', 'b'])->default('b');
             $table->enum('type',['dn', 'ed'])->default('dn');
             $table->tinyInteger('weightage');
-            $table->date('show_on')->nullable();
+            $table->date('show_on')->index();
 
             $table->timestamps();
 

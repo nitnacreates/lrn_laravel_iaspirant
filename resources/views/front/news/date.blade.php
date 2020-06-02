@@ -42,7 +42,7 @@
 @endforeach
 
 <h2>Questions</h2>
-<div class="row">
+<div class="row" id="daily-questions">
     <?php $counter = 1; ?>
     @foreach($questions as $ques)
         <div class="col ques-wrapper border-top" data-ques="{{ $ques->id }}">
@@ -50,14 +50,54 @@
             <div class="question d-block">{!! $ques->question !!}</div>
             <p class="lead">Options:</p>
             <ol type="A" class="question-options pl-3">
-                <li><label class="form-check-label option-label-a" for="option-a"><span class="option-content">{!! $ques->option_a !!}</span></label></li>
-                <li><label class="form-check-label option-label-b" for="option-b"><span class="option-content">{!! $ques->option_b !!}</span></label></li>
-                <li><label class="form-check-label option-label-c" for="option-c"><span class="option-content">{!! $ques->option_c !!}</span></label></li>
-                <li><label class="form-check-label option-label-d" for="option-d"><span class="option-content">{!! $ques->option_d !!}</span></label></li>
+                <li>
+                    <div class="form-check option-container">
+                        <input class="form-check-input" autocomplete="off" type="radio" name="q_option_{{ $ques->id }}" id="option-a-{{ $ques->id }}" value="a" />
+                        <label class="form-check-label" for="option-a-{{ $ques->id }}">
+                            <span class="option-content">{!! $ques->option_a !!}</span>
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-check option-container">
+                        <input class="form-check-input" autocomplete="off" type="radio" name="q_option_{{ $ques->id }}" id="option-b-{{ $ques->id }}" value="b" />
+                        <label class="form-check-label" for="option-b-{{ $ques->id }}">
+                            <span class="option-content">{!! $ques->option_b !!}</span>
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-check option-container">
+                        <input class="form-check-input" autocomplete="off" type="radio" name="q_option_{{ $ques->id }}" id="option-c-{{ $ques->id }}" value="c" />
+                        <label class="form-check-label" for="option-c-{{ $ques->id }}">
+                            <span class="option-content">{!! $ques->option_c !!}</span>
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-check option-container">
+                        <input class="form-check-input" autocomplete="off" type="radio" name="q_option_{{ $ques->id }}" id="option-d-{{ $ques->id }}" value="d" />
+                        <label class="form-check-label" for="option-d-{{ $ques->id }}">
+                            <span class="option-content">{!! $ques->option_d !!}</span>
+                        </label>
+                    </div>
+                </li>
             </ol>
+            <div class="question=explanation">
+
+            </div>
         </div>
         <div class="w-100"></div>
     @endforeach
+</div>
+<div class="row border-top border-bottom py-3">
+    <div class="col-6">
+        <p><strong>Median score: </strong><span id="median-score">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Your score: </strong><span id="your-score">0</span></p>
+    </div>
+    <div class="col-6 text-right">
+        <input type="hidden" id="news_date" value="{{ $date }}" />
+        <button type="button" id="today-answers" class="btn btn-sm btn-success">Submit</button>
+    </div>
 </div>
 @include('front.partials.comments', $page_comments)
 @stop

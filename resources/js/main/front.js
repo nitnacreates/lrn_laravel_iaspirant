@@ -105,4 +105,14 @@ $(document).ready(function() {
             return $(this).closest('.day').hasClass('event');
         });
     }
+
+    if($('#daily-questions').length){
+        $('#today-answers').click(function(){
+            var ans = {};
+            $.each($('.ques-wrapper'), function() {
+                ans[$(this).attr('data-ques')] = $(this).find(".form-check-input").is(":checked") ? $(this).find(".form-check-input:checked").val() : 0;
+            });
+            console.log(ans);
+        });
+    }
 });

@@ -22,6 +22,10 @@ body{
     color: #827966;
 }
 
+li{
+    list-style-position: inside;
+}
+
 h1{
     font-size: 2.8em; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; line-height: 1;
     &.page-title{
@@ -243,6 +247,28 @@ body{
             }
         }
     }
+    &.news{
+        ol.question-options{
+            list-style: upper-alpha;
+            li{
+                padding: 0.35rem 0 0.35rem 0.5rem;
+                .option-container{
+                    display: inline-block;
+                    vertical-align: text-top;
+                    .form-check-input{
+                        margin-top: 0.4em;
+                    }
+                    .form-check-label{
+                        display: inline-block;
+                        .eliminate{
+                            color: #dc3545;
+                            opacity: 0.4;
+                        }
+                    }
+                }
+            }
+        }
+    }
     &.prelim{
         #current_question{
             ol.question-options{
@@ -252,6 +278,9 @@ body{
                     .option-container{
                         display: inline-block;
                         vertical-align: text-top;
+                        .form-check-input{
+                            margin-top: 0.4em;
+                        }
                         .form-check-label{
                             display: inline-block;
                             .eliminate{

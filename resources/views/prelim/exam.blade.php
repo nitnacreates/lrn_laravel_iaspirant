@@ -1,7 +1,7 @@
 @extends('front.layouts.skeleton')
 
 @section('content')
-<h1 class="page-title">Prelim Exam</h1>
+<h1 class="page-title">Preliminary Exam</h1>
 <div class="row">
     <div class="col-6">
         <p><strong>Time Left: </strong><span id="countdown">{{ $time_remaining }}</span></p>
@@ -41,7 +41,7 @@
         <p><strong>Question {{$ques->display_id}}:</strong></p>
         <div class="question d-block">{!! $ques->question !!}</div>
         <p class="lead">Options:</p>
-        <ol type="A" class="question-options pl-3">
+        <ol type="A" class="question-options">
             <li>
                 <div class="form-check option-container">
                     <input class="form-check-input" type="radio" name="q_option" id="option-a" value="a" />
