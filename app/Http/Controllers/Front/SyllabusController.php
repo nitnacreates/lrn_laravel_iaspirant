@@ -25,6 +25,28 @@ class SyllabusController extends Controller
             return redirect()->route('front::syllabus', ['action' => 'show']);
         }
         $view_arr['sub'] = $sub;
+
+        $topics = Topic::where('sub','=',$sub)->orderBy('level','ASC')->orderBy('title','ASC')->get();
+
+        $syll_arr = [];
+        foreach ($topics as $topic) {
+            $syll_arr[$topic->id] = [
+                'title' => $topic->title,
+                'about' => $topic->about,
+                'category' => $topic->category,
+                'level' => $topic->level,
+                'parent' => [],
+                'children' => []
+            ];
+
+            if($topic->parent){
+                $syll_arr[$topic->id]['parent'] = array_merge($syll_arr[$topic->parent]['parent'], [$topic->parent]);
+                array_push($syll_arr[$topic->parent]['children'], $topic->id);
+            }
+        }
+
+        dd($syll_arr);
+
         return view('front.syllabus.show')->with($view_arr);
     }
 

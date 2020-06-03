@@ -29,13 +29,13 @@
             </div>
             <div class="card-footer text-right">
                 <div class="btn-group">
-                    <a href="javascript:history.go(-1)" class="btn btn-block btn-primary">Back</a>
-                </div>
-                <div class="btn-group">
-                    <button type="submit" name="mode" value="delete" class="btn btn-block btn-danger">Delete</button>
-                </div>
-                <div class="btn-group">
                     <button type="submit" name="mode" value="{{$mode == 'display' ? 'edit':'add'}}"class="btn btn-block btn-success">Save</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" name="mode" value="delete" class="btn btn-block btn-danger">Delete Button</button>
+                </div>
+                <div class="btn-group">
+                    <a href="javascript:history.go(-1)" class="btn btn-block btn-primary">Back</a>
                 </div>
             </div>
             </form>
