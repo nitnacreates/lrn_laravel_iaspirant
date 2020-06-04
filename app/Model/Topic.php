@@ -9,36 +9,53 @@ class Topic extends Model
     public $timestamps = false;
     protected $fillable = ['title','about','category'];
 
-    protected function fetchSubjectStructure($topic_arr)
+    protected function fetchSubjectStructure($topic_arr, $only_keys)
     {
+        static $remove_keys = array();
         $structured_arr = array();
 
-        $last_level = 0;
-        foreach($topic_arr as $topic){
-
-            if($last_level < $topic['level']){
-                $last_level = $topic['level'];
+        foreach ($topic_arr as $id => $tarr) {
+            if(in_array($id, $remove_keys) || !in_array($id, $only_keys)){
+                continue;
             }
 
-            $structured_arr[$topic['level']][$topic['id']] = $topic;
-        }
+            $structured_arr[$id] = $tarr;
 
-        for($i = $last_level; $i > 0; $i--){
-            foreach ($structured_arr[$i] as $curr_level) {
-                if(array_key_exists($curr_level['parent'], $structured_arr[$i-1]) ){
-                    $structured_arr[$i-1][$curr_level['parent']]['children'][] = $curr_level;
-                }
+            if(!empty($tarr['children'])){
+                $structured_arr[$id]['tp_child'] = $this->fetchSubjectStructure($topic_arr, $tarr['children']);
+                $remove_keys = array_merge($remove_keys, $tarr['children']);
             }
         }
-        
-        return empty($structured_arr) ? $structured_arr : $structured_arr[0];
 
+        return $structured_arr;
     }
 
     public function structuredSubject($sub)
     {
-        $topic_arr = self::where('sub','=',$sub)->orderBy('level','ASC')->orderBy('id','ASC')->get()->toArray();
-        // return $topic_arr;
-        return $this->fetchSubjectStructure($topic_arr);
+        $topic_arr = $this->linearSubjects($sub);
+        return $this->fetchSubjectStructure($topic_arr, array_keys($topic_arr));
+    }
+
+    public function linearSubjects($sub)
+    {
+        $topics = Topic::where('sub','=',$sub)->orderBy('level','ASC')->orderBy('title','ASC')->get();
+        $syll_arr = [];
+        foreach ($topics as $topic) {
+            $syll_arr[$topic->id] = [
+                'title' => $topic->title,
+                'about' => $topic->about,
+                'category' => $topic->category,
+                'level' => $topic->level,
+                'parent' => [],
+                'children' => []
+            ];
+
+            if($topic->parent){
+                $syll_arr[$topic->id]['parent'] = array_merge($syll_arr[$topic->parent]['parent'], [$topic->parent]);
+                array_push($syll_arr[$topic->parent]['children'], $topic->id);
+            }
+        }
+
+        return $syll_arr;
     }
 }

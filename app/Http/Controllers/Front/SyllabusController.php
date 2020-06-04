@@ -26,26 +26,9 @@ class SyllabusController extends Controller
         }
         $view_arr['sub'] = $sub;
 
-        $topics = Topic::where('sub','=',$sub)->orderBy('level','ASC')->orderBy('title','ASC')->get();
-
-        $syll_arr = [];
-        foreach ($topics as $topic) {
-            $syll_arr[$topic->id] = [
-                'title' => $topic->title,
-                'about' => $topic->about,
-                'category' => $topic->category,
-                'level' => $topic->level,
-                'parent' => [],
-                'children' => []
-            ];
-
-            if($topic->parent){
-                $syll_arr[$topic->id]['parent'] = array_merge($syll_arr[$topic->parent]['parent'], [$topic->parent]);
-                array_push($syll_arr[$topic->parent]['children'], $topic->id);
-            }
-        }
-
-        dd($syll_arr);
+        $topics = new Topic;
+        $topics_arr = $topics->structuredSubject($sub);
+        $view_arr['topics_arr'] = $topics_arr;
 
         return view('front.syllabus.show')->with($view_arr);
     }

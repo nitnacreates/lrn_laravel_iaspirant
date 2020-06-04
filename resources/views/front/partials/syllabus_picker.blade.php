@@ -2,12 +2,12 @@
     <div class="row">
         <div class="col">
             <ol>
-                @foreach($topics_arr as $curr_arr)
+                @foreach($topics_arr as $id => $syl)
                     <li>
-                        <span class="label">{{ $curr_arr['title'] }}</span>
-                        <input type="radio" name="syllabus-pick" value="{{ $curr_arr['id'] }}">
-                        @if(isset($curr_arr['children']))
-                            @include('front.partials.syllabus_picker', array('topics_arr' => $curr_arr['children']))
+                        <span class="label">{{ $syl['title'] }}</span>
+                        <input type="radio" name="syllabus-pick" value="{{ $id }}">
+                        @if(!empty($syl['tp_child']))
+                            @include('front.partials.syllabus_picker', array('topics_arr' => $syl['tp_child']))
                         @endif
                     </li>
                 @endforeach

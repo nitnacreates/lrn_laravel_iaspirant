@@ -20,5 +20,9 @@
         </form>
     </div>
 </div>
-
+<div class="row">
+    <div class="col">
+        @include('front.syllabus.sub_loop', ['topics_arr' => $topics_arr])
+    </div>
+</div>
 @stop
