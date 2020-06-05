@@ -36,13 +36,13 @@
                         <a class="nav-link active" href="{{ route('front::essays', ['action' => 'list']) }}">Essays</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ route('front::news', ['action' => 'list']) }}">News Concise</a>
+                        <a class="nav-link" href="{{ route('front::news', ['action' => 'list']) }}">News</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ route('prelim', ['action' => 'schedule']) }}">Prelims 2021</a>
+                        <a class="nav-link" href="{{ route('prelim', ['action' => 'schedule']) }}">Prelims</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ route('front::syllabus', ['action' => 'show']) }}">Syllabus Foci</a>
+                        <a class="nav-link" href="{{ route('front::syllabus-show', ['param' => 'polity']) }}">Syllabus</a>
                       </li>
                     </ul>
                 </div>

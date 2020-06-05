@@ -19,13 +19,12 @@ class SyllabusController extends Controller
         $this->request = $request;
     }
 
-    public function show()
+    public function show($sub)
     {
         $view_arr = array();
-        $sub = $this->request->input('sub','');
 
         if(!empty($sub) && !($sub_title = \SubjectHelper::checkSubTitle($sub))){
-            return redirect()->route('front::syllabus', ['action' => 'show']);
+            return redirect()->route('front::syllabus-show', ['param' => 'polity']);
         }
         $view_arr['sub'] = $sub;
 
@@ -58,6 +57,30 @@ class SyllabusController extends Controller
         $view_arr['ques_arr'] = $ques_arr;
 
         return view('front.syllabus.show')->with($view_arr);
+    }
+
+    public function news($sub)
+    {
+        $view_arr = array();
+
+        if(!empty($sub) && !($sub_title = \SubjectHelper::checkSubTitle($sub))){
+            return redirect()->route('front::syllabus-show', ['param' => 'polity']);
+        }
+        $view_arr['sub'] = $sub;
+
+        return view('front.syllabus.news')->with($view_arr);
+    }
+
+    public function questions($sub)
+    {
+        $view_arr = array();
+
+        if(!empty($sub) && !($sub_title = \SubjectHelper::checkSubTitle($sub))){
+            return redirect()->route('front::syllabus-show', ['param' => 'polity']);
+        }
+        $view_arr['sub'] = $sub;
+        
+        return view('front.syllabus.questions')->with($view_arr);
     }
 
     public function picker()

@@ -13,7 +13,7 @@
                 <label for="syllabusSelect">Subject</label>
                 <select class="form-control" id="syllabusSelect">
                     @foreach(config('aspirant.subject_map') as $key => $val)
-                        <option value="{{ $key }}" data-url="{{ route('front::syllabus', ['action' => 'show', 'sub' => $key]) }}" @if($key == $sub) selected="selected" @endif>{{$val}}</option>
+                        <option value="{{ $key }}" data-url="{{ route('front::syllabus-show', ['param' => $key]) }}" @if($key == $sub) selected="selected" @endif>{{$val}}</option>
                     @endforeach
                 </select>
             </div>

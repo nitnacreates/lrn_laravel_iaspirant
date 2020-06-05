@@ -4,10 +4,10 @@
             {{ $syl['title'] }}
             <span class="actions">
                 @if(array_key_exists($id, $news_arr))
-                <span class="link"><a href="">News ({{ $news_arr[$id] }})</a></span>
+                <span class="link"><a href="{{ route('front::syllabus-news', ['param' => $sub, 'topic' => $id]) }}">News ({{ $news_arr[$id] }})</a></span>
                 @endif
                 @if(array_key_exists($id, $ques_arr))
-                <span class="link"><a href="">Questions ({{ $ques_arr[$id] }})</a></span>
+                <span class="link"><a href="{{ route('front::syllabus-questions', ['param' => $sub, 'topic' => $id]) }}">Questions ({{ $ques_arr[$id] }})</a></span>
                 @endif
             </span>
             @if(!empty($syl['tp_child']))
