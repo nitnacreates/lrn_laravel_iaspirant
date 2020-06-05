@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+
 use App\Model\News\News;
 use App\Model\Question\Question;
 use App\Model\Topic;
@@ -59,15 +62,36 @@ class SyllabusController extends Controller
         return view('front.syllabus.show')->with($view_arr);
     }
 
+    /*
+    * TODO - Add pagination if list increases
+    */
     public function news($sub)
     {
         $view_arr = array();
-
-        if(!empty($sub) && !($sub_title = \SubjectHelper::checkSubTitle($sub))){
-            return redirect()->route('front::syllabus-show', ['param' => 'polity']);
+        $topic = $this->request->input('topic','');
+        // validation
+        $subject_maps = array_keys(config('aspirant.subject_map'));
+        $data = [
+            'sub' => $sub,
+            'topic' => $topic
+        ];
+        $validator = Validator::make($data, [
+            'sub' => ['required',Rule::in($subject_maps)],
+            'topic' =>  ['required', 'integer', 'min:1', Rule::exists('topics', 'id')->where(function($query) use($sub) {
+                    $query->where('sub',$sub);
+            })]
+        ],[
+            'sub.in' => 'Invalid subject',
+            'topic_id.min' => 'Topic is missing',
+            'topic_id.exists' => 'Subject Topic mismatch',
+        ]);
+        if($validator->fails()){
+            return redirect()->route('front::syllabus-show', ['param' => 'polity'])->withErrors($validator);
         }
+
         $view_arr['sub'] = $sub;
 
+        $view_arr['news'] = News::select('id', 'news_title', 'news_link', 'news_content', 'sub', 'topic_id', 'category', 'type', 'weightage', 'show_on', 'created_at', 'updated_at')->where('sub', $sub)->where('topic_id',$topic)->where('locked',0)->get();
         return view('front.syllabus.news')->with($view_arr);
     }
 
