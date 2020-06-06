@@ -156,5 +156,10 @@ $(document).ready(function() {
             let subref = $(this).find('option:selected').attr('data-url');
             window.location.href = subref;
         });
+
+        $('.toggle-answer').click(function(){
+            $(this).closest('.card').find('.options li[data-right="1"]').toggleClass('text-success');
+            $(this).closest('.card').find('.answer-block').collapse('toggle');
+        })
     }
 });

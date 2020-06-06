@@ -67,6 +67,7 @@ class SyllabusController extends Controller
     */
     public function news($sub)
     {
+        view()->share('pagetitle', 'Topic News');
         $view_arr = array();
         $topic = $this->request->input('topic','');
         // validation
@@ -97,13 +98,35 @@ class SyllabusController extends Controller
 
     public function questions($sub)
     {
+        view()->share('pagetitle', 'Topic Questions');
         $view_arr = array();
-
-        if(!empty($sub) && !($sub_title = \SubjectHelper::checkSubTitle($sub))){
-            return redirect()->route('front::syllabus-show', ['param' => 'polity']);
+        $topic = $this->request->input('topic','');
+        // validation
+        $subject_maps = array_keys(config('aspirant.subject_map'));
+        $data = [
+            'sub' => $sub,
+            'topic' => $topic
+        ];
+        $validator = Validator::make($data, [
+            'sub' => ['required',Rule::in($subject_maps)],
+            'topic' =>  ['required', 'integer', 'min:1', Rule::exists('topics', 'id')->where(function($query) use($sub) {
+                    $query->where('sub',$sub);
+            })]
+        ],[
+            'sub.in' => 'Invalid subject',
+            'topic_id.min' => 'Topic is missing',
+            'topic_id.exists' => 'Subject Topic mismatch',
+        ]);
+        if($validator->fails()){
+            return redirect()->route('front::syllabus-show', ['param' => 'polity'])->withErrors($validator);
         }
-        $view_arr['sub'] = $sub;
-        
+        $view_arr['sub'] = $sub;        
+        $view_arr['questions'] = Question::select('id', 'question', 'option_a', 'option_b', 'option_c', 'option_d', 'answer', 'explanation')
+                                    ->where('type', 1)
+                                    ->where('locked', 0)
+                                    ->where('topic_id',$topic)
+                                    ->get();
+
         return view('front.syllabus.questions')->with($view_arr);
     }
 
