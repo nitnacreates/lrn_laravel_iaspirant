@@ -124,7 +124,7 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Current Subscription</label>
             <div class="col-sm-8">
-                <span>Prelim Plus</span>
+                <span>{{  config('aspirant.user_subscription')[$user->subscription] }}</span>
             </div>
         </div>
     </div>

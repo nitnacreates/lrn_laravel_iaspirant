@@ -148,5 +148,11 @@ return [
             'dislike-reaction' => 3,
             'like-save-reaction' => 4
         ]
+    ],
+
+    'user_subscription' => [
+        '1' => 'Free',
+        '2' => 'Premium',
+        '3' => 'Pro'
     ]
 ];

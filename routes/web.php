@@ -42,6 +42,7 @@ Route::group([
         'theory' => ['show', 'stash'],
         'theory-summaries' => ['show', 'stash'],
         'essays' => ['show', 'stash', 'summon'],
+        'users' => ['show', 'stash'],
     );
     foreach($allowed_paths as $controller => $act) {
         Route::match(['get', 'post'], $controller.'/{action}', ['as' => $controller, function (Request $request, $action = 'show') use($controller) {

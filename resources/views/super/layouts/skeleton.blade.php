@@ -197,6 +197,12 @@
                                     <p>Media</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('super::users', ['action' => 'show']) }}" class="nav-link">
+                                    <i class="fa fa-user nav-icon"></i>
+                                    <p>Users</p>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
