@@ -57,7 +57,7 @@
         <h3>{{ date('M') }} Essays</h3>
         <ul>
             @foreach($month_dates as $dt)
-                <li><a href="{{ route('front::news-date', ['param' => $dt->format('Y-m-d')]) }}">{{ $dt->format('M d, Y') }}</a></li>
+                <li><a href="{{ route('front::essays-date', ['param' => $dt->format('Y-m-d')]) }}">{{ $dt->format('M d, Y') }}</a></li>
             @endforeach
         </ul>
     </div>
