@@ -17,10 +17,10 @@
         <div class="row">
             <div class="col-10">
                 <div class="text-muted">
-                    <p class="text-sm"><b class="d-block">Sub</b>{{ config('aspirant.subject_map')[$cn->sub] }}</p>
-                    <p class="text-sm"><b class="d-block">Topic</b>{{ $cn->topic_id }}</p>
-                    <p class="text-sm"><b class="d-block">Rating</b>{{ $cn->weightage }}</p>
-                    <p class="text-sm"><b class="d-block">Category</b>@switch($cn->category)
+                    <p class="text-sm"><b>Sub: </b>{{ config('aspirant.subject_map')[$cn->sub] }}</p>
+                    <p class="text-sm"><b>Topic: </b>@include('front.partials.topic_hier', ['topic_arr' => $topic_arr, 'topic_id' => $cn->topic_id])</p>
+                    <p class="text-sm"><b>Weightage: </b>@include('front.partials.weightage_star', ['weight' => $cn->weightage, 'total' => 5]) </p>
+                    <p class="text-sm"><b>Category: </b>@switch($cn->category)
                         @case('b') Prelims+Mains @break
                         @case('p') Prelims @break
                         @case('m') Mains @break
@@ -93,7 +93,7 @@
 </div>
 <div class="row border-top border-bottom py-3">
     <div class="col-6">
-        <p><strong>Avg: </strong>{{$median}}/10 based on {{$total_users}} users &nbsp;&nbsp;&nbsp;&nbsp;<strong>Your score: </strong><span id="your-score">{{ $user_score }}</span></p>
+        <p><strong>Avg: </strong>{{$avg}}/10 based on {{$total_users}} users &nbsp;&nbsp;&nbsp;&nbsp;<strong>Your score: </strong><span id="your-score">{{ $user_score }}</span></p>
     </div>
     <div class="col-6 text-right">
         <input type="hidden" id="news_date" value="{{ $date }}" />

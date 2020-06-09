@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,9 +13,9 @@ use App\Model\News\News;
 use App\Model\Question\Question;
 use App\Model\Topic;
 
-
 class SyllabusController extends Controller
 {
+
     public function __construct(Request $request)
     {
         view()->share('page', 'syllabus');

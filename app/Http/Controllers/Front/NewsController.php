@@ -11,6 +11,7 @@ use App\Model\News\News;
 use App\Model\Comment\Comment;
 use App\Model\Question\Question;
 use App\Model\News\NewsScore;
+use App\Model\Topic;
 
 class NewsController extends Controller
 {
@@ -50,40 +51,50 @@ class NewsController extends Controller
     {
         $view_arr = array();
 
-        $comments = new Comment;
-        $path = $this->request->path();
-        $view_arr['page_comments'] = $comments->pageComments($path);
-
         $d = \DateTime::createFromFormat('Y-m-d', $dt);
         if(!$d || ($d->format('Y-m-d') != $dt)){
             abort(403, 'Date not found');
         }
 
-        $view_arr['news'] = News::where('show_on', $dt)->where('locked',0)->get();
-        $view_arr['questions'] = Question::select('id', 'question', 'option_a', 'option_b', 'option_c', 'option_d')
+        $news = News::where('show_on', $dt)->where('locked',0)->get();
+
+        $topic_arr = [];
+        $topic = new Topic;
+        foreach ($news as $current_news) {
+            $topic_arr[$current_news->topic_id] = $topic->getTopicHier($current_news->sub, $current_news->topic_id);
+        }
+
+        $questions = Question::select('id', 'question', 'option_a', 'option_b', 'option_c', 'option_d')
                                     ->where('show_on', $dt)
                                     ->where('type', 1)      // config('aspirant.question.types.front')
                                     ->where('locked',0)
                                     ->get();
 
-        $news_stat = NewsScore::select(\DB::raw("count(id) as total_users"), \DB::raw("avg(score) as median"))->where('news_show_on', $dt)->first();
+        $news_stat = NewsScore::select(\DB::raw("count(id) as total_users"), \DB::raw("avg(score) as avg"))->where('news_show_on', $dt)->first();
 
-        $median = $total_users = $user_score = 0;
+        $avg = $total_users = $user_score = 0;
         if(\Gate::allows('prelim-user')){
             $account_id = \UserHelper::getAccountId();
             $us = NewsScore::select('score')->where('account_id', $account_id)->where('news_show_on', $dt)->first();
             if(!empty($us)){
                 $user_score = $us->score;
             }
-        }
-        
+        }        
 
         if(!empty($news_stat)){
-            $median = round((float) $news_stat->median,2, PHP_ROUND_HALF_UP);
+            $avg = round((float) $news_stat->avg,2, PHP_ROUND_HALF_UP);
             $total_users = $news_stat->total_users;
         }
 
-        $view_arr['median'] = $median;
+        $comments = new Comment;
+        $path = $this->request->path();
+        $page_comments = $comments->pageComments($path);
+
+        $view_arr['news'] = $news;
+        $view_arr['avg'] = $avg;
+        $view_arr['topic_arr'] = $topic_arr;
+        $view_arr['questions'] = $questions;
+        $view_arr['page_comments'] = $page_comments;
         $view_arr['total_users'] = $total_users;
         $view_arr['user_score'] = $user_score;
         
