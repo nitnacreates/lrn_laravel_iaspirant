@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Spatie\Searchable\Search;
+use Spatie\Searchable\ModelSearchAspect;
+
+use App\Model\News\News;
+use App\Model\Question\Question;
+
 
 class SearchController extends Controller
 {
@@ -22,9 +28,26 @@ class SearchController extends Controller
         $query = preg_replace("/[^a-zA-Z0-9\s]/", "", $query);
         
         if(\Gate::allows('full-user')){
-            if(!empty($query) && (strlen($query) > 4)){
+            if(!empty($query) && (strlen($query) > 3)){
             
-                $msg = "Total 5 results found";
+                $searchResults = (new Search())
+                                    ->registerModel(News::class, function(ModelSearchAspect $modelSearchAspect) {
+                                        $modelSearchAspect
+                                            ->addSearchableAttribute('news_title')
+                                            ->addSearchableAttribute('news_content')
+                                            ->where('locked', 0);
+                                    })
+                                    ->registerModel(Question::class, function(ModelSearchAspect $modelSearchAspect) {
+                                        $modelSearchAspect
+                                            ->addSearchableAttribute('question')
+                                            ->addSearchableAttribute('explanation')
+                                            ->where('type', 1)
+                                            ->where('locked', 0);
+                                    })
+                                    ->perform($query);
+
+                $view_arr['search_results'] = $searchResults;
+                $msg = "Total {$searchResults->count()} results found";
             } else{
                 $msg = "search needs to be at least 4 characters";
             }
