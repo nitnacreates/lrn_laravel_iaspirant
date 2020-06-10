@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
-use App\Facades\SuperHelper;
+use App\Facades\Helper\SuperHelper;
 
 class SuperServiceProvider extends ServiceProvider
 {

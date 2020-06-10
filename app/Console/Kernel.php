@@ -4,9 +4,15 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Storage;
 
 class Kernel extends ConsoleKernel
 {
+    protected function scheduleTimezone()
+    {
+        return 'Asia/Kolkata';
+    }
+
     /**
      * The Artisan commands provided by your application.
      *
@@ -24,8 +30,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // prelim daily
+        $schedule->call(function () {
+            \CronHelper::unlockPrelim();
+        })->dailyAt('00:05');
     }
 
     /**

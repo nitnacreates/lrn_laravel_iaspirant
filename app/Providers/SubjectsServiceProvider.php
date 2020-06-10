@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
-use App\Facades\Subject;
+use App\Facades\Helper\Subject;
 
 class SubjectsServiceProvider extends ServiceProvider
 {

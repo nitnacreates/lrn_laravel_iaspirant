@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Facades;
+namespace App\Facades\Helper;
 
 use Illuminate\Support\Facades\Auth;
 use App\User;

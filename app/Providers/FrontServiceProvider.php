@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
-use App\Facades\FrontHelper;
+use App\Facades\Helper\FrontHelper;
 
 class FrontServiceProvider extends ServiceProvider
 {

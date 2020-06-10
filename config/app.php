@@ -182,7 +182,8 @@ return [
         App\Providers\SubjectsServiceProvider::class,
         App\Providers\SuperServiceProvider::class,
         App\Providers\UserServiceProvider::class,
-        App\Providers\FrontServiceProvider::class
+        App\Providers\FrontServiceProvider::class,
+        App\Providers\CronServiceProvider::class
     ],
 
     /*
@@ -238,7 +239,8 @@ return [
         'SubjectHelper' => App\Facades\SubjectFacade::class,
         'SuperHelper' => App\Facades\SuperFacade::class,
         'UserHelper' => App\Facades\UserFacade::class,
-        'FrontHelper' => App\Facades\FrontFacade::class
+        'FrontHelper' => App\Facades\FrontFacade::class,
+        'CronHelper' => App\Facades\CronFacade::class
     ],
 
 ];

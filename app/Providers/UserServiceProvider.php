@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
-use App\Facades\UserHelper;
+use App\Facades\Helper\UserHelper;
 
 class UserServiceProvider extends ServiceProvider
 {

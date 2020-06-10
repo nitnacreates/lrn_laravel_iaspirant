@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Facades;
+namespace App\Facades\Helper;
 
 use Request; // use facade alias, or use Illuminate\Support\Facades\Request;
 
