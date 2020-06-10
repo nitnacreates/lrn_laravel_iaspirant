@@ -51,12 +51,14 @@
                     <i class="fa fa-search" aria-hidden="true"></i>
                   </button>
                   <div class="search-box dropdown-menu" aria-labelledby="dropdownSearchButton">
+                    <form method="get" action="{{ route('front::search', ['action' => 'show']) }}">
                     <div class="input-group md-form form-sm form-2">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <span class="input-group-text lighten-3" id="basic-text1"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
-                        </div>
+                      <input type="text" class="form-control rounded-0" name="q" type="text" placeholder="Search" aria-label="Search">
+                      <span class="input-group-append">
+                        <button type="button" class="btn btn-secondary btn-flat"><i class="fa fa-search text-grey" aria-hidden="true"></i></button>
+                      </span>
                     </div>
+                  </form>
                   </div>
                 </div>
                 <div class="profile btn-group">

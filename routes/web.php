@@ -185,6 +185,7 @@ Route::group([
         'comment' => ['populate'],
         'essays' => ['list', 'write', 'show', 'summon'],
         'essay-response' => ['summon'],
+        'search' => ['show'],
         'index' => ['index'],
     );
 
