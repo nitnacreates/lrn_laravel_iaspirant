@@ -67,7 +67,7 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownUserButton">
                     @guest
-                      <a href="{{ route('login') }}" class="dropdown-item">Login</a>
+                      <a href="{{ route('login') }}" class="dropdown-item">Sign In</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item disabled" href="javascript:void(0);">My Account</a>
                       <a class="dropdown-item disabled" href="javascript:void(0);">My Notes</a>                      

@@ -52,11 +52,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'max:255', 'regex:/^[a-z\._]+$/', 'unique:users'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'first_name' => 'required|alpha|min:2',
+            'last_name' => 'required|alpha|min:2',
+            'name' => ['required', 'min:6', 'max:255', 'regex:/^[a-z\._]+$/', 'unique:users'],
+            'email' => ['required', 'email', 'regex:/^[A-Za-z0-9-\._]+@(gmail.com|yahoo.co.in|yahoo.co.in|yahoo.com|rediff.com|rediff.in|rediffmail.com|zoho.com|zoho.in|outlook.com|live.com)$/', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ],[
-            'name.regex' => 'Only alphabet, period and underscore allowed'
+            'name.regex' => 'Only alphabet, period and underscore allowed',
+            'email.regex' => 'Enter a valid domain name'
         ]);
     }
 
@@ -72,11 +75,13 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'subscription' => 0
+            'subscription' => '1'         // free subscription
         ]);
 
         $user_keep = new UserKeep;
         $user_keep->user_id = $user->id;
+        $user_keep->first_name = $data['first_name'];
+        $user_keep->last_name = $data['last_name'];
         $user_keep->phone_validated = 0;
         $user_keep->save();
 
