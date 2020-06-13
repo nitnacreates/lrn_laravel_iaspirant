@@ -177,6 +177,7 @@ $(document).ready(function() {
                         val: vl
                     },
                     success: function(data){
+                        $(ts).closest('.form-group').find('.feedback-msg').remove();
                         if(data.code == "0"){
                            $(ts).removeClass('is-valid').addClass('is-invalid');
                            $(ts).closest('.form-group').append('<span class="invalid-feedback feedback-msg" role="alert"><strong>'+data.message+'</strong></span>');
@@ -184,9 +185,6 @@ $(document).ready(function() {
                             $(ts).removeClass('is-invalid').addClass('is-valid');
                             $(ts).closest('.form-group').append('<span class="valid-feedback feedback-msg" role="alert"><strong>'+data.message+'</strong></span>');
                         }
-                    },
-                    error: function(error) {
-                        
                     }
                 });
             }

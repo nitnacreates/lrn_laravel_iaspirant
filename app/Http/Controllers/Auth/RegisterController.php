@@ -54,6 +54,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'g-recaptcha-response' => 'required|captcha',
             'first_name' => 'required|alpha|min:2',
             'last_name' => 'required|alpha|min:2',
             'name' => ['required', 'min:6', 'max:255', 'regex:/^[a-z\._]+$/', 'unique:users'],
@@ -61,7 +62,8 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ],[
             'name.regex' => 'Only alphabet, period and underscore allowed',
-            'email.regex' => 'Enter a valid domain name'
+            'email.regex' => 'Enter a valid domain name',
+            'g-recaptcha-response.required' => 'Captcha entered was wrong'
         ]);
     }
 

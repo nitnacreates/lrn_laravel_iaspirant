@@ -56,7 +56,21 @@
                 <input id="password_confirmation" type="password" class="form-control @error('password') is-invalid @enderror" name="password_confirmation"  required autocomplete="off" minlength="6" autofocus placeholder="Re-type">
             </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col">
+                {!! NoCaptcha::display() !!}
+                @error('g-recaptcha-response')
+                    <span class="invalid-feedback" role="alert">
+                       <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form> 
 </div>
 @endsection
+
+@push('scripts_foot')
+{!! NoCaptcha::renderJs() !!}
+@endpush
