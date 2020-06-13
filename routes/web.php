@@ -66,12 +66,12 @@ Route::group([
 
 // ////////// user section //////////
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::group([
     'as' => 'user::',
     'prefix' => 'user',
     'namespace' => 'User',
-    'middleware' => 'auth'
+    'middleware' => ['auth', 'verified']
     ], function () {
 
     \View::share ( 'namespace', 'user');
@@ -102,7 +102,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Prelim',
-    'middleware' => ['auth', 'prelimcheck']
+    'middleware' => ['auth', 'verified', 'prelimcheck']
     ], function () {
 
     \View::share ( 'namespace', 'prelim');
