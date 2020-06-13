@@ -161,5 +161,35 @@ $(document).ready(function() {
             $(this).closest('.card').find('.options li[data-right="1"]').toggleClass('text-success');
             $(this).closest('.card').find('.answer-block').collapse('toggle');
         })
+    } else if($('body').hasClass('user_registeration')){
+        $('#user_registration input[name="name"], #user_registration input[name="email"]').on("input", function(){
+            let tp = $(this).attr('name');
+            let vl = $(this).val();
+            let ts = $(this);
+            $(ts).closest('.form-group').find('.feedback-msg').remove();
+            if(vl.length>4){
+                $.ajax({
+                    url:"/rear/user-register",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+                        type: tp,
+                        val: vl
+                    },
+                    success: function(data){
+                        if(data.code == "0"){
+                           $(ts).removeClass('is-valid').addClass('is-invalid');
+                           $(ts).closest('.form-group').append('<span class="invalid-feedback feedback-msg" role="alert"><strong>'+data.message+'</strong></span>');
+                        } else{
+                            $(ts).removeClass('is-invalid').addClass('is-valid');
+                            $(ts).closest('.form-group').append('<span class="valid-feedback feedback-msg" role="alert"><strong>'+data.message+'</strong></span>');
+                        }
+                    },
+                    error: function(error) {
+                        
+                    }
+                });
+            }
+        });
     }
 });

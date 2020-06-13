@@ -7,6 +7,14 @@
 <div class="row">
     <div class="col-2"></div>
     <div class="col-8">
+        <legend>Subscriptions</legend>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Current Subscription</label>
+            <div class="col-sm-8">
+                <span>{{  config('aspirant.user_subscription')[$user->subscription] }}</span>
+            </div>
+        </div>
+        <hr />
         <form role="form" id="stash_form" method="post" action="{{ route('user::profile', ['action' => 'mutate-profile']) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <legend>Profile</legend>
@@ -23,25 +31,26 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">First Name</label>
+                <label class="col-sm-4 col-form-label">First Name<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" name="first_name" class="form-control" value="{{$user_keep->first_name}}">
+                    <input type="text" name="first_name" class="form-control" value="{{$user_keep->first_name}}" required pattern="[a-zA-z]{2,20}" autofocus>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Last Name</label>
+                <label class="col-sm-4 col-form-label">Last Name<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" name="last_name" class="form-control" value="{{$user_keep->last_name}}">
+                    <input type="text" name="last_name" class="form-control" value="{{$user_keep->last_name}}" required pattern="[a-zA-z]{2,20}" autofocus>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Mobile</label>
+                <label class="col-sm-4 col-form-label">Mobile<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" name="phone" class="form-control" value="{{$user_keep->phone}}">
+                    <input type="text" name="phone" class="form-control" value="{{$user_keep->phone}}" minlength="10" required>
+                    <small id="phone" class="form-text text-muted">10 digits</small>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Gender</label>
+                <label class="col-sm-4 col-form-label">Gender<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="m" @if($user_keep->gender == 'm') checked @endif>
@@ -54,13 +63,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Date of Birth</label>
+                <label class="col-sm-4 col-form-label">Date of Birth<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" name="dob" placeholder="YYYY-MM-DD" value="{{$user_keep->dob}}">
+                    <input type="text" class="form-control" name="dob" placeholder="YYYY-MM-DD" value="{{$user_keep->dob}}" required>
+                    <small id="phone" class="form-text text-muted">YYYY-MM-DD</small>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Highest Qualification</label>
+                <label class="col-sm-4 col-form-label">Highest Qualification<sup class="text-danger">*</sup></label>
                 <div class="col-sm-4">
                     <select class="form-control" name="qualification_type" autocomplete="off">
                         @foreach(config('aspirant.user.qualification_type') as $key => $val)
@@ -118,15 +128,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Update Password</button>
-            <hr />
         </form>
-        <legend>Subscriptions</legend>
-        <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Current Subscription</label>
-            <div class="col-sm-8">
-                <span>{{  config('aspirant.user_subscription')[$user->subscription] }}</span>
-            </div>
-        </div>
     </div>
     <div class="col-2"></div>
 </div>

@@ -20,10 +20,9 @@ const mix = require('laravel-mix');
 */
 
 mix.scripts([
-    'resources/js/main/front.js',
-    'resources/js/main/prelim.js',
-    'resources/js/main/user.js'
-], 'public/assets/js/front_user.js');
+    'resources/js/main/front.js'
+], 'public/assets/js/front_main.js');
+
 mix.less('resources/less/front/entry.less', 'public/assets/css/front_main.css');
 
 /* ******** FULL ******** */

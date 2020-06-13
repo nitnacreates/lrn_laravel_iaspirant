@@ -3,12 +3,12 @@
 @section('content')
 <h1 class="page-title">Sign Up</h1>
 <div class="container">
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" id="user_registration">
         @csrf
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="first_name">First Name<sup class="text-danger">*</sup></label>
-                <input type="text" class="form-control" id="first_name" placeholder="First Name" name="first_name" value="{{ old('first_name') }}" required autocomplete="first_name" pattern="[a-z]{2,20}" autofocus>
+                <input type="text" class="form-control" id="first_name" placeholder="First Name" name="first_name" value="{{ old('first_name') }}" required autocomplete="first_name" pattern="[a-zA-z]{2,20}" autofocus>
                 @error('first_name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -17,7 +17,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="last_name">Last Name<sup class="text-danger">*</sup></label>
-                <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" pattern="[a-z]{2,20}" autofocus>
+                <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" pattern="[a-zA-z]{2,20}" autofocus>
                 @error('last_name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

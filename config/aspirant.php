@@ -150,6 +150,10 @@ return [
         ]
     ],
 
+    'view_msg' => [
+        'comment_box' => 'Please upgrade your subscription for this section'
+    ],
+
     'user_subscription' => [
         '1' => 'Free',
         '2' => 'Premium',

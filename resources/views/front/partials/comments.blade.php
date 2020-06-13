@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12"><h3>Comments</h3></div>
     </div>
-    @if(Gate::allows('account-holder'))
+    @if(Gate::allows('prelim-user'))
     <div class="form-group row comment-box border-right">
         <div class="col">
             <div class="card">
@@ -32,6 +32,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    @else
+    <div class="row">
+        <div class="col">
+            <p>{{ config('aspirant.view_msg.comment_box') }}</p>
         </div>
     </div>
     @endif

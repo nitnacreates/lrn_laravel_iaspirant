@@ -33,9 +33,9 @@ class ProfileController extends Controller
             $params = $this->request->all();
 
             $this->validate($this->request, [
-                'first_name' => 'required|string',
-                'last_name' => 'required|string',
-                'phone' => 'required|integer|min:111111111',
+                'first_name' => 'required|alpha|min:2',
+                'last_name' => 'required|alpha|min:2',
+                'phone' => 'required|integer|min:1111111111',
                 'gender' => 'required|in:m,f',
                 'dob' => 'required|date_format:Y-m-d',
                 'qualification_type' => 'required|integer|min:1',
@@ -74,7 +74,7 @@ class ProfileController extends Controller
 
             $this->validate($this->request, [
                 'old_password' => 'required|string',
-                'password' => 'required|string|confirmed|min:6',
+                'password' => 'required|string|min:6|confirmed',
             ]);
 
             $user_id = \UserHelper::getUserId();
