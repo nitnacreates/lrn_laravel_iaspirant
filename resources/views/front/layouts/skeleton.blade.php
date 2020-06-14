@@ -142,7 +142,7 @@
                           <div class="dropdown-menu dropdown-menu-right">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"><a href="#">FAQs</a></li>
-                                <li class="list-group-item"><a href="#">Terms and Conditions</a></li>
+                                <li class="list-group-item"><a href="{{ route('front::about', ['action' => 'subscription']) }}">Subscription</a></li>
                             </ul>
                           </div>
                         </div>

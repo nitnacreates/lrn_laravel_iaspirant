@@ -7,14 +7,6 @@
 <div class="row">
     <div class="col-2"></div>
     <div class="col-8">
-        <legend>Subscriptions</legend>
-        <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Current Subscription</label>
-            <div class="col-sm-8">
-                <span>{{  config('aspirant.user_subscription')[$user->subscription] }}</span>
-            </div>
-        </div>
-        <hr />
         <form role="form" id="stash_form" method="post" action="{{ route('user::profile', ['action' => 'mutate-profile']) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <legend>Profile</legend>

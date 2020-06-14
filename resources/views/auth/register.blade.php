@@ -3,6 +3,12 @@
 @section('content')
 <h1 class="page-title">Sign Up</h1>
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <p>Already a user? <a href="{{ route('login') }}">Sign In</a></p>
+            <hr />
+        </div>
+    </div>
     <form method="POST" action="{{ route('register') }}" id="user_registration">
         @csrf
         <div class="form-row">
