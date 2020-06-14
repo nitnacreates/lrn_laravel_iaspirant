@@ -11,12 +11,12 @@ class ModifyTables extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * Run all other migrations first, delete its entry from migrations and rerun this
      * @return void
      */
     public function up()
     {
-        //
+
     }
 
     /**
@@ -31,8 +31,6 @@ class ModifyTables extends Migration
 
     public function previous()
     {
-        // 2020-06-10
-        DB::statement('ALTER TABLE news ADD FULLTEXT full_news_content (news_content)');
-        DB::statement('ALTER TABLE essay_responses ADD FULLTEXT full_essay_response_content (response_content)');
+
     }
 }

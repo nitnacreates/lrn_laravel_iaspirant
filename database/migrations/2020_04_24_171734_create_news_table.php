@@ -16,7 +16,6 @@ class CreateNewsTable extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('news_title',300);
-            $table->boolean('locked')->default(1);
             $table->string('news_link',300)->unique();
             $table->string('meta_key',300)->nullable();
             $table->string('meta_descr',500)->nullable();
@@ -27,12 +26,13 @@ class CreateNewsTable extends Migration
             $table->enum('category',['p', 'm', 'b'])->default('b');
             $table->enum('type',['dn', 'ed'])->default('dn');
             $table->tinyInteger('weightage');
-            $table->date('show_on')->index();
 
             $table->timestamps();
 
             $table->foreign('topic_id')->references('id')->on('topics');
         });
+
+        DB::statement('ALTER TABLE news ADD FULLTEXT full_news_content (news_content)');
     }
 
     /**

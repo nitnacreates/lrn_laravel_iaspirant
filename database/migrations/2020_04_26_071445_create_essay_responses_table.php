@@ -27,6 +27,8 @@ class CreateEssayResponsesTable extends Migration
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->foreign('essay_id')->references('id')->on('essays');
         });
+
+        DB::statement('ALTER TABLE essay_responses ADD FULLTEXT full_essay_response_content (response_content)');
     }
 
     /**

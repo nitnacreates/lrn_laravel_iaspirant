@@ -27,7 +27,7 @@
             <ul class="card-text">
                 <li>View daily News</li>
                 <li>View daily essay quesstions</li>
-                <li>Important Notifications</li>
+                <li>Notifications</li>
             </ul>
             <div class="border text-center p-1 mb-2">
                 Rs 0
@@ -46,7 +46,7 @@
           <div class="card-body">
             <h5 class="card-title">Premium</h5>
             <ul class="card-text">
-                <li><strong>Everything in Free</strong></li>
+                <li><strong>Everything in <u>Free</u></strong></li>
                 <li>Prelim mock test series</li>
                 <li>Comments Section</li>
             </ul>
@@ -67,13 +67,14 @@
           <div class="card-body">
             <h5 class="card-title">Pro</h5>
             <ul class="card-text">
-                <li><strong>Everything in Free and Premium</strong></li>
+                <li><strong>Everything in <u>Premium</u></strong></li>
                 <li>Notes section</li>
                 <li>Media section</li>
-                <li>Subject wise News and Questions</li>
-                <li>Upload and Save Essays</li>
+                <li>Search section</li>
+                <li>Subject wise news and questions</li>
+                <li>Upload and save essays</li>
                 <li>View and save other user essays</li>
-                <li>Article Access</li>
+                <li>Article access</li>
             </ul>
             <div class="border text-center p-1 mb-2">
                 Rs 9999<sup class="text-danger">*</sup>

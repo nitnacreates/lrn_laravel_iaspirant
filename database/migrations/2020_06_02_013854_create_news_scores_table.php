@@ -22,7 +22,7 @@ class CreateNewsScoresTable extends Migration
             $table->unique(['news_show_on', 'account_id'], 'news_account_unique');
 
             $table->foreign('account_id')->references('id')->on('accounts');
-            $table->foreign('news_show_on')->references('show_on')->on('news');
+            $table->foreign('news_show_on')->references('show_on')->on('news_shows');
         });
     }
 

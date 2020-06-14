@@ -60,9 +60,9 @@
             <li>Daily questions, daily news, daily essays</li>
             <li>Note making, note browsing, note saving</li>
             <li>Search entire site</li>
-            <li>Syllabus browsing for notes, questions and news</li>
+            <li>Browse syllabus section for notes, questions and news</li>
             <li>Timely notifications and tracking</li>
-            <li>Test series for prelim and mains</li>
+            <li>Prelim and Mains test series</li>
         </ul>
         <div class="text-right">
             <a class="btn btn-primary" href="{{ route('register')}}" role="button">Register</a>
