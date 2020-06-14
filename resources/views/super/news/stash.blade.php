@@ -16,13 +16,6 @@
                     <input type="text" name="news_title" @if($mode == 'edit') value="{{ $news->news_title }}" @endif class="form-control" placeholder="Title ...">
                 </div>
                 <div class="form-group">
-                    <div class="custom-control custom-switch custom-switch-on-danger custom-switch-off-success">
-                        <input type="hidden" name="locked" value="0" />
-                        <input type="checkbox" name="locked" value="1" @if($mode != 'edit' || $news->locked) checked="checked" @endif class="custom-control-input" id="newslocked">
-                        <label class="custom-control-label" for="newslocked">Locked ?</label>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label>News Link</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -86,9 +79,18 @@
                         @endfor
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Show On</label>
-                    <input type="text" name="show_on" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $news->show_on }}" @endif />
+                <div class="row">
+                    <div class="col form-group">
+                        <label>Show On</label>
+                        <input type="text" name="show_on" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $news->show_on }}" @endif />
+                    </div>
+                    <div class="col form-group">
+                        <label>Is Locked</label>
+                        <div class="form-check">
+                            <input type="hidden" name="locked" value="0" />
+                            <input class="form-check-input" type="checkbox" value="1" id="newslocked"><label class="form-check-label" for="newslocked"> Locked ?</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>News Content</label>

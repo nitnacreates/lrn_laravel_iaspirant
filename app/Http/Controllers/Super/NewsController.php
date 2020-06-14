@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Validation\Rule;
 use App\Model\News\News;
+use App\Model\News\NewsShow;
 
 class NewsController extends Controller
 {
@@ -22,7 +23,7 @@ class NewsController extends Controller
         $view_arr = array();
         if($this->request->ajax()){
             $date = $this->request->input('date');
-            $view_arr['news'] = News::where('show_on', $date)->get();
+            $view_arr['news_show'] = NewsShow::with('news')->where('show_on', $date)->first();
 
             return view('super.news.limited')->with($view_arr);
         }
@@ -84,7 +85,8 @@ class NewsController extends Controller
         $mode = 'add';
         if($news_id){
             $mode = 'edit';
-            $view_arr['news'] = News::find($news_id);
+            $view_arr['news'] = News::with('news_shows')->find($news_id);
+
             if(empty($view_arr['news'])){
                 $this->request->session()->flash('msgs', array('News does not exist'));
                 return redirect()->route('super::news', ['action' => 'show','date' => date('Y-m-d')]);
@@ -105,7 +107,7 @@ class NewsController extends Controller
                     $start_date = $this->request->input('sdt');
                     $end_date = $this->request->input('edt');
 
-                    $dates = News::select(['show_on as dater'])
+                    $dates = NewsShow::select(['show_on as dater'])
                                     ->whereBetween('show_on', [$start_date, $end_date])
                                     ->groupBy('show_on')
                                     ->get();

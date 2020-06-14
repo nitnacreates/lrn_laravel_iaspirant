@@ -1,11 +1,11 @@
-@foreach ($news as $cn)
+@foreach ($news_show->news as $cn)
     <div class="row post">
         <div class="col-12">
             <div class="row">
                 <div class="col-4">
                     <div class="text-muted">
-                        <p class="text-sm"><b class="d-block">Date</b>{{ $cn->show_on }}</p>
-                        <p class="text-sm"><b class="d-block">Locked</b>{{ $cn->locked ? 'Yes' : 'No' }}</p>
+                        <p class="text-sm"><b class="d-block">Date</b>{{ $news_show->show_on }}</p>
+                        <p class="text-sm"><b class="d-block">Locked</b>{{ $news_show->locked ? 'Yes' : 'No' }}</p>
                         <p class="text-sm"><b class="d-block">Created</b>{{ $cn->created_at }}</p>
                         <p class="text-sm"><b class="d-block">Updated</b>{{ $cn->updated_at }}</p>
                     </div>

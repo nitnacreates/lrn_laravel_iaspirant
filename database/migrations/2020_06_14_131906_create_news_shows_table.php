@@ -15,11 +15,8 @@ class CreateNewsShowsTable extends Migration
     {
         Schema::create('news_shows', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('news_id')->unsigned();
+            $table->date('show_on')->unique();
             $table->boolean('locked')->default(1);
-            $table->date('show_on')->index();
-
-            $table->foreign('news_id')->references('id')->on('news');
         });
     }
 

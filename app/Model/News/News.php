@@ -10,9 +10,12 @@ use Spatie\Searchable\SearchResult;
 class News extends Model implements Searchable
 {    
     protected $fillable = ['id'];
-    protected $dates = ['show_on'];
-
     public $searchableType = 'News';
+
+    public function news_shows()
+    {
+        return $this->belongsToMany('App\Model\News\NewsShow');
+    }
 
     public function getSearchResult(): SearchResult
     {
