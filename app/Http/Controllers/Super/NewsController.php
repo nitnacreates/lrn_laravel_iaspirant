@@ -38,6 +38,9 @@ class NewsController extends Controller
         $news_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
 
         if ($this->request->isMethod('post')) {
+
+dd($params);
+
             $subject_maps = array_keys(config('aspirant.subject_map'));
             $this->validate($this->request, [
                 'news_title' => 'required',

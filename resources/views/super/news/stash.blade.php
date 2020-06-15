@@ -79,19 +79,6 @@
                         @endfor
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col form-group">
-                        <label>Show On</label>
-                        <input type="text" name="show_on" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $news->show_on }}" @endif />
-                    </div>
-                    <div class="col form-group">
-                        <label>Is Locked</label>
-                        <div class="form-check">
-                            <input type="hidden" name="locked" value="0" />
-                            <input class="form-check-input" type="checkbox" value="1" id="newslocked"><label class="form-check-label" for="newslocked"> Locked ?</label>
-                        </div>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label>News Content</label>
                     <textarea class="form-control wyswyg_block" name="news_content" rows="3" placeholder="News Content ...">@if($mode == 'edit'){{ $news->news_content }}@endif</textarea>
@@ -99,6 +86,43 @@
                 <div class="form-group">
                     <label>Self Note</label>
                     <textarea class="form-control" name="self_note" rows="3" placeholder="Self Note ...">@if($mode == 'edit'){{ $news->self_note }}@endif</textarea>
+                </div>
+                <hr/>
+                <div class="card card-info" id="show_dates">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-calendar" aria-hidden="true"></i> Show On Dates</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>Locked</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody id="essay_dates_show">
+                                <?php $counter = 1; ?>
+                                @foreach($news->news_shows as $date)
+                                <tr>
+                                    <td>
+                                        <input type="text" name="show_on[{{$counter}}]" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $date->show_on->format('Y-m-d') }}" @endif />
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="locked[{{$counter}}]" value="0" />
+                                        <input type="checkbox" name="locked[{{$counter++}}]" value="1" @if($mode == 'edit' && $date->locked) checked="checked" @endif> 
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm delete-date">Delete</button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                          </table>
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="button" class="btn btn-warning btn-sm" id="add_new_show" value="{{$counter}}">Add New</button>
+                    </div>
                 </div>
             </div>
             <div class="card-footer text-right">
@@ -115,9 +139,24 @@
     </section>
     <script type="text/javascript">
         myglobes.picker_url = "{{ $picker_url }}";
+
     </script>
 @stop
 
 @push('scripts_foot')
+    <script type="text/unders" id="render_show_dates">
+        <tr>
+            <td>
+                <input type="text" name="show_on[<%= cntr %>]" class="form-control pick-date" placeholder="yyyy-mm-dd" />
+            </td>
+            <td>
+                <input type="hidden" name="locked[<%= cntr %>]" value="0" />
+                <input type="checkbox" name="locked[<%= cntr %>]" value="1"> 
+            </td>
+            <td>
+                <button type="button" value="<%= cntr %>" class="btn btn-danger btn-sm delete-date">Delete</button>
+            </td>
+        </tr>
+    </script>
     <script type="text/javascript" src="{!! asset('assets/plugins/tinymce/tinymce.min.js') !!}"></script>
 @endpush

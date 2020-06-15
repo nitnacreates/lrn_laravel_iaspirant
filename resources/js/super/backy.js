@@ -134,11 +134,15 @@ $(document).ready(function() {
             } 
         });
     // date pickers
-        $('.pick-date').datepicker({
-            autoclose: true,
-            todayHighlight: true,
-            todayBtn: true,
-            format: 'yyyy-mm-dd'
+        $(document).on('click', '.pick-date', function(){
+            if( $(this).hasClass('hasDatepicker') === false )  {
+                $(this).datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    todayBtn: true,
+                    format: 'yyyy-mm-dd'
+                });
+            }
         });
 
     /*** Pages ***/
@@ -257,6 +261,20 @@ $(document).ready(function() {
                     $('#stash_form input[name="news_link"]').removeClass('is-valid').addClass('is-invalid');
                 }
                 return true;
+            });
+
+            $('#show_dates').on('click', '.delete-date', function(){
+                if($('#show_dates tbody tr').length > 1){
+                    $(this).closest('tr').remove();
+                }
+            });
+
+            let min_new_show = $('#add_new_show').val();
+            $('#add_new_show').click(function(){
+                let crcnt = parseInt($(this).val());
+                let date_tmpl = _.template($('#render_show_dates').html());
+                $('#show_dates tbody').append(date_tmpl({'cntr' : crcnt}));
+                $(this).val(++crcnt);
             });
         }
 
