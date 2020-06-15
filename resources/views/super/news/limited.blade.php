@@ -1,34 +1,37 @@
+<div class="row border-bottom mb-3">
+    <div class="col"><p class="text-sm"><strong>Date:</strong> {{ $news_show->show_on->format('d M, Y') }}</p></div>
+    <div class="col"><p class="text-sm"><strong>Locked:</strong> {{ $news_show->locked ? 'Yes' : 'No' }}</p></div>
+    <div class="col"><button type="button" class="btn btn-sm {{ $news_show->locked ? 'btn-success' : 'btn-danger' }}" id="news_date_action" data-date="{{ $news_show->show_on->format('Y-m-d') }}" value="{{ $news_show->locked ? 0 : 1 }}">{{ $news_show->locked ? 'Unlock' : 'Lock' }}</button></div>
+</div>
 @foreach ($news_show->news as $cn)
     <div class="row post">
         <div class="col-12">
             <div class="row">
                 <div class="col-4">
                     <div class="text-muted">
-                        <p class="text-sm"><b class="d-block">Date</b>{{ $news_show->show_on }}</p>
-                        <p class="text-sm"><b class="d-block">Locked</b>{{ $news_show->locked ? 'Yes' : 'No' }}</p>
-                        <p class="text-sm"><b class="d-block">Created</b>{{ $cn->created_at }}</p>
-                        <p class="text-sm"><b class="d-block">Updated</b>{{ $cn->updated_at }}</p>
+                        <p class="text-sm"><strong>Type:</strong> {{ config('aspirant.news.type')[$cn->type] }}</p>
+                        <p class="text-sm"><strong>Created:</strong> {{ $cn->created_at }}</p>
+                        <p class="text-sm"><strong>Updated:</strong> {{ $cn->updated_at }}</p>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="text-muted">
-                        <p class="text-sm"><b class="d-block">Sub</b>{{ config('aspirant.subject_map')[$cn->sub] }}</p>
-                        <p class="text-sm"><b class="d-block">Topic</b>{{ $cn->topic_id }}</p>
-                        <p class="text-sm"><b class="d-block">Category</b>@switch($cn->category)
+                        <p class="text-sm"><strong>Sub:</strong> {{ config('aspirant.subject_map')[$cn->sub] }}</p>
+                        <p class="text-sm"><strong>Topic:</strong> {{ $cn->topic_id }}</p>
+                        <p class="text-sm"><strong>Category:</strong> @switch($cn->category)
                             @case('b') Both @break
                             @case('p') Prelims @break
                             @case('m') Mains @break
                             @endswitch
                         </p>
-                        <p class="text-sm"><b class="d-block">Link</b>{{ $cn->news_link }}</p>
+                        <p class="text-sm"><strong>Link:</strong> {{ $cn->news_link }}</p>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="text-muted">
-                        <p class="text-sm"><b class="d-block">Type</b>{{ config('aspirant.news.type')[$cn->type] }}</p>
-                        <p class="text-sm"><b class="d-block">Weightage</b>{{ $cn->weightage }}</p>
-                        <p class="text-sm"><b class="d-block">Meta Keys</b>{{ $cn->meta_key }}</p>
-                        <p class="text-sm"><b class="d-block">Meta Description</b>{{ $cn->meta_descr }}</p>
+                        <p class="text-sm"><strong>Weightage:</strong> {{ $cn->weightage }}</p>
+                        <p class="text-sm"><strong>Meta Keys:</strong> {{ $cn->meta_key }}</p>
+                        <p class="text-sm"><strong>Meta Description:</strong> {{ $cn->meta_descr }}</p>
                     </div>
                 </div>
             </div>

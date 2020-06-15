@@ -156,11 +156,13 @@ $(document).ready(function() {
             if(typeof dt === 'undefined'){
                 let searchParams = new URLSearchParams(window.location.search);
                 if(searchParams.has('date')){
-                    dt = searchParams.get('date');
+                    dt = moment(searchParams.get('date')).format("YYYY-MM-DD");
                 } else{
                     dt = moment().format("YYYY-MM-DD");
                 }
             }
+
+            $('#select_date').html(moment(dt).format('DD MMM,YY'));
 
             $.ajax({
                 url:"/super/news/show",
@@ -227,6 +229,24 @@ $(document).ready(function() {
             });
 
             fetchNews();
+
+            $('#news_display').on('click', '#news_date_action', function(){
+                let dt = $(this).attr('data-date');
+                let act = $(this).val();
+                $.ajax({
+                    url:"/super/news/summon",
+                    type:"POST",
+                    dataType: "json",
+                    data:{
+                        type: 'date_lock',
+                        date: dt,
+                        act: act
+                    },
+                    success: function(){
+                        fetchNews(dt);
+                    }
+                });
+            });
         }
 
         /*Stash starts */

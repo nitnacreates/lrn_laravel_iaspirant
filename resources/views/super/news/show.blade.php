@@ -45,6 +45,9 @@
         <div class="card">
         <div class="card-header">
             <h3 class="card-title"><i class="fa fa-newspaper"></i> News</h3>
+            <div class="card-tools">
+              <p>Date: <span id="select_date">-</span></p>
+            </div>
         </div>
         <div class="card-body" id="news_display">
 

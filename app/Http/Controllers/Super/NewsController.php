@@ -132,13 +132,13 @@ class NewsController extends Controller
                     $start_date = $this->request->input('sdt');
                     $end_date = $this->request->input('edt');
 
-                    $dates = NewsShow::select(['show_on as dater'])
+                    $dates = NewsShow::select(['show_on'])
                                     ->whereBetween('show_on', [$start_date, $end_date])
-                                    ->groupBy('show_on')
+                                    ->orderBy('show_on', 'ASC')
                                     ->get();
                     $dt_arr = [];
                     foreach ($dates as $dt) {
-                        $dt_arr[] = ['date' => $dt->dater];
+                        $dt_arr[] = ['date' => $dt->show_on];
                     }          
                     return response()->json($dt_arr);
                     break;
@@ -153,6 +153,13 @@ class NewsController extends Controller
                     }
                     
                     return response()->json(['message' => 'An error occurred'], 404);
+                    break;
+                case 'date_lock':
+                    $date = $this->request->input('date');
+                    $act = $this->request->input('act');
+                    NewsShow::where('show_on', $date)->first()->update(['locked' => $act]);
+                    
+                    return response()->json();
                     break;
                 default:
                     # code...
