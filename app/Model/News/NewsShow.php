@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NewsShow extends Model
 {
-    protected $fillable = ['id', 'locked'];
+    protected $fillable = ['id', 'show_on', 'locked'];
     public $timestamps = false;
     protected $dates = ['show_on'];
 

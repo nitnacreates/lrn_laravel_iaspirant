@@ -97,7 +97,6 @@
                               <thead>
                                 <tr>
                                   <th>Date</th>
-                                  <th>Locked</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>
@@ -106,11 +105,7 @@
                                 @foreach($news->news_shows as $date)
                                 <tr>
                                     <td>
-                                        <input type="text" name="show_on[{{$counter}}]" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $date->show_on->format('Y-m-d') }}" @endif />
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="locked[{{$counter}}]" value="0" />
-                                        <input type="checkbox" name="locked[{{$counter++}}]" value="1" @if($mode == 'edit' && $date->locked) checked="checked" @endif> 
+                                        <input type="text" name="show_on[{{$counter++}}]" class="form-control pick-date" placeholder="yyyy-mm-dd" @if($mode == 'edit') value="{{ $date->show_on->format('Y-m-d') }}" @endif />
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm delete-date">Delete</button>
@@ -148,10 +143,6 @@
         <tr>
             <td>
                 <input type="text" name="show_on[<%= cntr %>]" class="form-control pick-date" placeholder="yyyy-mm-dd" />
-            </td>
-            <td>
-                <input type="hidden" name="locked[<%= cntr %>]" value="0" />
-                <input type="checkbox" name="locked[<%= cntr %>]" value="1"> 
             </td>
             <td>
                 <button type="button" value="<%= cntr %>" class="btn btn-danger btn-sm delete-date">Delete</button>

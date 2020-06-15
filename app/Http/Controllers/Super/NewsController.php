@@ -39,12 +39,9 @@ class NewsController extends Controller
 
         if ($this->request->isMethod('post')) {
 
-dd($params);
-
             $subject_maps = array_keys(config('aspirant.subject_map'));
             $this->validate($this->request, [
                 'news_title' => 'required',
-                'locked' => 'boolean',
                 'news_link' => ['required', 'regex:/^[a-z0-9-]*$/', Rule::unique('news', 'news_link')->ignore($news_id)],
                 'meta_key' => 'nullable',
                 'meta_descr' => 'nullable',
@@ -53,9 +50,9 @@ dd($params);
                 'category' => 'required|in:p,m,b',
                 'type' => 'required|in:dn,ed',
                 'weightage' => 'required|integer',
-                'show_on' => 'required|date_format:Y-m-d',
                 'news_content' => 'required',
-                'self_note' => 'nullable'
+                'self_note' => 'nullable',
+                'show_on' => 'required|array|min:1'
             ],[
                 'topic_id.min' => 'Topic is missing'
             ]);
@@ -64,9 +61,7 @@ dd($params);
 
             $news_obj = News::firstOrNew(['id' => $news_id]);
             $msg_type = $news_obj->exists ? 'updated' : 'added';
-
             $news_obj->news_title = $params['news_title'];
-            $news_obj->locked = $params['locked'];
             $news_obj->news_link = $params['news_link'];
             $news_obj->meta_key = $params['meta_key'];
             $news_obj->meta_descr = $params['meta_descr'];
@@ -75,10 +70,35 @@ dd($params);
             $news_obj->category = $params['category'];
             $news_obj->type = $params['type'];
             $news_obj->weightage = $params['weightage'];
-            $news_obj->show_on = $params['show_on'];
             $news_obj->news_content = $params['news_content'];
             $news_obj->self_note = $params['self_note'];
             $news_obj->save();
+
+            // show, at least one has to exist
+            $valid_dts = [];
+            $news_show_attach = [];
+            foreach ($params['show_on'] as $key => $dt) {
+                if(\FrontHelper::validateDate($dt, 'Y-m-d')){
+                    if(!in_array($dt, $valid_dts)){
+                        array_push($valid_dts, $dt);
+                        $news_show = NewsShow::firstOrNew(
+                            ['show_on' => $dt],
+                            ['locked' => 1]
+                        );
+                        $news_show->save();
+                        $news_show_attach[] = $news_show->id;
+                    }
+                }
+            }
+
+            // reattach
+            if(!empty($news_show_attach)){
+                $news_obj->news_shows()->detach();
+                $news_obj->news_shows()->attach($news_show_attach);
+            }
+
+            //remove orphan dates
+            NewsShow::doesntHave('News')->delete();
 
             $this->request->session()->flash('msgs', array('News successfully ' . $msg_type));
             return redirect()->route('super::news', ['action' => 'show', 'date' => $news_obj->show_on]);  
@@ -88,7 +108,9 @@ dd($params);
         $mode = 'add';
         if($news_id){
             $mode = 'edit';
-            $view_arr['news'] = News::with('news_shows')->find($news_id);
+            $view_arr['news'] = News::with(['news_shows' =>function($q){
+                $q->orderBy('show_on','DESC');
+            }])->find($news_id);
 
             if(empty($view_arr['news'])){
                 $this->request->session()->flash('msgs', array('News does not exist'));

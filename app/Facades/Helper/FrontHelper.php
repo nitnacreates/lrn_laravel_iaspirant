@@ -34,6 +34,12 @@ class FrontHelper
         return $counter_exist > 1;
     }
 
+    public function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
     public function countdownto24($created_at)
     {
         $response_carb = Carbon::createFromFormat('Y-m-d H:i:s', $created_at);
