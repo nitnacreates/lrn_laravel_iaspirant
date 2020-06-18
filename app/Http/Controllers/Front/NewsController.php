@@ -56,11 +56,11 @@ class NewsController extends Controller
             abort(403, 'Date not found');
         }
 
-        $news = NewsShow::with('news')->where('show_on', $dt)->where('locked',0)->get();
+        $news_show = NewsShow::with('news')->where('show_on', $dt)->where('locked',0)->first();
 
         $topic_arr = [];
         $topic = new Topic;
-        foreach ($news as $current_news) {
+        foreach ($news_show->news as $current_news) {
             $topic_arr[$current_news->topic_id] = $topic->getTopicHier($current_news->sub, $current_news->topic_id);
         }
 
@@ -90,7 +90,7 @@ class NewsController extends Controller
         $path = $this->request->path();
         $page_comments = $comments->pageComments($path);
 
-        $view_arr['news'] = $news;
+        $view_arr['news_show'] = $news_show;
         $view_arr['avg'] = $avg;
         $view_arr['topic_arr'] = $topic_arr;
         $view_arr['questions'] = $questions;
@@ -105,7 +105,7 @@ class NewsController extends Controller
 
     public function show($link)
     {
-        $view_arr['news'] = News::where('news_link', $link)->where('locked',0)->first();
+        $view_arr['news'] = News::where('news_link', $link)->first();
         if(empty($view_arr['news'])){
             abort(404, 'News not found');
         }

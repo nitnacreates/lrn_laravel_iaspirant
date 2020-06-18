@@ -3,7 +3,7 @@
 @section('content')
 <h2>News</h2>
 
-@foreach ($news as $cn)
+@foreach ($news_show->news as $cn)
 <div class="row mt-4 border-bottom {{ $cn->type == 'dn' ? 'news-brick' : 'news-editorial' }}">
     <div class="col-12">
         <div class="row">
