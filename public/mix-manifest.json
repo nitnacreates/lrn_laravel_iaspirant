@@ -1,4 +1,21 @@
 {
+    "/assets/plugins/clndr/clndr.css": "/assets/plugins/clndr/clndr.css",
+    "/assets/css/front_main.css": "/assets/css/front_main.css",
     "/assets/css/super_main.css": "/assets/css/super_main.css",
+    "/assets/plugins/tinymce/tinymce.min.js": "/assets/plugins/tinymce/tinymce.min.js",
+    "/assets/plugins/select2/select2.min.js": "/assets/plugins/select2/select2.min.js",
+    "/assets/plugins/select2/select2.min.css": "/assets/plugins/select2/select2.min.css",
+    "/assets/plugins/clndr/clndr.min.js": "/assets/plugins/clndr/clndr.min.js",
+    "/assets/plugins/chart/Chart.min.css": "/assets/plugins/chart/Chart.min.css",
+    "/assets/plugins/chart/Chart.min.js": "/assets/plugins/chart/Chart.min.js",
+    "/assets/plugins/clndr/triangle.svg": "/assets/plugins/clndr/triangle.svg",
+    "/resources/js/main/tinymce/plugins/image/plugin.min.js": "/resources/js/main/tinymce/plugins/image/plugin.min.js",
+    "/assets/js/front_libs.js": "/assets/js/front_libs.js",
+    "/assets/css/front_libs.css": "/assets/css/front_libs.css",
+    "/assets/js/front_user.js": "/assets/js/front_user.js",
+    "/assets/js/front_median.js": "/assets/js/front_median.js",
+    "/assets/js/front_main.js": "/assets/js/front_main.js",
+    "/assets/js/super_core_libs.js": "/assets/js/super_core_libs.js",
+    "/assets/css/super_core_libs.css": "/assets/css/super_core_libs.css",
     "/assets/js/super_main.js": "/assets/js/super_main.js"
 }

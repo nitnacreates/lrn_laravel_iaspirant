@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 
 use App\Model\News\News;
+use App\Model\News\NewsShow;
 use App\Model\Comment\Comment;
 use App\Model\Question\Question;
 use App\Model\News\NewsScore;
@@ -30,16 +31,15 @@ class NewsController extends Controller
         $start_month = $now->startofMonth()->format('Y-m-d');
         $end_month = $now->endofMonth()->format('Y-m-d');
 
-        $view_arr['latest_dt'] = News::select(['show_on'])
+        $view_arr['latest_dt'] = NewsShow::select(['show_on'])
                         ->where('locked', 0)
                         ->orderBy('show_on', 'DESC')
                         ->pluck('show_on')
                         ->first();
 
-        $view_arr['month_dates'] = News::select(['show_on'])
+        $view_arr['month_dates'] = NewsShow::select(['show_on'])
                     ->whereBetween('show_on', [$start_month, $end_month])
                     ->where('locked', 0)
-                    ->groupBy('show_on')
                     ->orderBy('show_on', 'DESC')
                     ->pluck('show_on');
 
@@ -56,7 +56,7 @@ class NewsController extends Controller
             abort(403, 'Date not found');
         }
 
-        $news = News::where('show_on', $dt)->where('locked',0)->get();
+        $news = NewsShow::with('news')->where('show_on', $dt)->where('locked',0)->get();
 
         $topic_arr = [];
         $topic = new Topic;

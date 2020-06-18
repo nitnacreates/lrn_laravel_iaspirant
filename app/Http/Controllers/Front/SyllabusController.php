@@ -40,7 +40,6 @@ class SyllabusController extends Controller
         $news_arr = [];
         $news =  News::select('topic_id', \DB::raw("count(topic_id) as news_count"))
                         ->where('sub', $sub)
-                        ->where('locked',0)
                         ->groupBy('topic_id')
                         ->get();
         foreach ($news as $curr_news) {
@@ -93,7 +92,7 @@ class SyllabusController extends Controller
 
         $view_arr['sub'] = $sub;
 
-        $view_arr['news'] = News::select('id', 'news_title', 'news_link', 'news_content', 'sub', 'topic_id', 'category', 'type', 'weightage', 'show_on', 'created_at', 'updated_at')->where('sub', $sub)->where('topic_id',$topic)->where('locked',0)->get();
+        $view_arr['news'] = News::select('id', 'news_title', 'news_link', 'news_content', 'sub', 'topic_id', 'category', 'type', 'weightage', 'show_on', 'created_at', 'updated_at')->where('sub', $sub)->where('topic_id',$topic)->get();
         return view('front.syllabus.news')->with($view_arr);
     }
 

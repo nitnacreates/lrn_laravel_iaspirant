@@ -102,6 +102,7 @@
                               </thead>
                               <tbody id="essay_dates_show">
                                 <?php $counter = 1; ?>
+                                @if($mode == 'edit')
                                 @foreach($news->news_shows as $date)
                                 <tr>
                                     <td>
@@ -112,6 +113,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                @endif
                               </tbody>
                           </table>
                     </div>
