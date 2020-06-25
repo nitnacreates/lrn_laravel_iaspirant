@@ -13,7 +13,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label>News Title</label>
-                    <input type="text" name="news_title" @if($mode == 'edit') value="{{ $news->news_title }}" @endif class="form-control" placeholder="Title ...">
+                    <input type="text" name="news_title" @if($mode == 'edit') value="{{ $news->news_title }}" @endif class="form-control" placeholder="Title ..." required>
                 </div>
                 <div class="form-group">
                     <label>News Link</label>
@@ -21,7 +21,7 @@
                         <div class="input-group-prepend">
                             <button type="button" class="btn btn-primary" id="check_link">Check Link</button>
                         </div>
-                        <input type="text" name="news_link" @if($mode == 'edit') value="{{ $news->news_link }}" @endif class="form-control" placeholder="Link ...">
+                        <input type="text" name="news_link" @if($mode == 'edit') value="{{ $news->news_link }}" @endif class="form-control" placeholder="Link ..." required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -123,6 +123,9 @@
                 </div>
             </div>
             <div class="card-footer text-right">
+                <div class="btn-group">
+                    <a href="javascript:void(0)" class="btn btn-block btn-danger">Please copy news content before saving</a>
+                </div>
                 <div class="btn-group">
                     <a href="javascript:history.go(-1)" class="btn btn-block btn-primary">Back</a>
                 </div>
