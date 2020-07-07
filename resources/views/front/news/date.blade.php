@@ -1,7 +1,7 @@
 @extends('front.layouts.skeleton')
 
 @section('content')
-<h2>News</h2>
+<h1 class="page-title">News</h1>
 
 @foreach ($news_show->news as $cn)
 <div class="row mt-4 border-bottom {{ $cn->type == 'dn' ? 'news-brick' : 'news-editorial' }}">
@@ -41,6 +41,7 @@
 </div>
 @endforeach
 
+@if($questions->count())
 <h2>Questions</h2>
 <div class="row" id="daily-questions">
     <?php $counter = 1; ?>
@@ -100,5 +101,6 @@
         <button type="button" id="today-answers" class="btn btn-sm btn-success">Submit</button>
     </div>
 </div>
+@endif
 @include('front.partials.comments', $page_comments)
 @stop

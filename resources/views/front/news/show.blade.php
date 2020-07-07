@@ -1,7 +1,7 @@
 @extends('front.layouts.skeleton')
 
 @section('content')
-<h2>News</h2>
+<h1 class="page-title">News</h1>
 
 <div class="row mt-4 {{ $news->type == 'dn' ? 'news-brick' : 'news-editorial' }}">
     <div class="col-12">

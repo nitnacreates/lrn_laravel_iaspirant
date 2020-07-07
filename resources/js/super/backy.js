@@ -5,6 +5,7 @@ var tiny_gl_configs = {
     'toolbar1': 'formatselect styleselect | bold italic underline | forecolor backcolor link | alignleft aligncenter alignright alignjustify superscript subscript | numlist bullist | removeformat code',
     'image_advtab': true,
     'paste_as_text': true,
+    'contextmenu' : false,
     'plugins': [
         'advlist autolink lists link image charmap preview hr anchor pagebreak',
         'searchreplace wordcount code paste',
@@ -209,8 +210,8 @@ $(document).ready(function() {
                 forceSixRows: true,
                 ignoreInactiveDaysInSelection: true,
                 constraints: {
-                    startDate: '2020-03-10',
-                    endDate: '2021-06-01'
+                    startDate: '2020-06-01',
+                    endDate: '2021-07-01'
                 },
                 ready: function(){
                     getMonthNews(moment().format());
@@ -253,7 +254,7 @@ $(document).ready(function() {
         if($('#stash_form textarea[name="news_content"]').length){
             let tiny_lc_configs = $.extend({
                 selector: '#stash_form textarea[name="news_content"]',
-                height: 500,
+                height: 700,
             }, tiny_gl_configs);
             tinymce.init(tiny_lc_configs);
 
@@ -295,6 +296,33 @@ $(document).ready(function() {
                 let date_tmpl = _.template($('#render_show_dates').html());
                 $('#show_dates tbody').append(date_tmpl({'cntr' : crcnt}));
                 $(this).val(++crcnt);
+            });
+
+            $('#stash_form').on('submit', function(e){
+                if(!$('#stash_form input[name="news_title"]').val()){
+                    alert('Title is empty');
+                    return false;
+                }
+                if(!$('#stash_form input[name="news_link"]').hasClass('is-valid')){
+                    alert('Link check');
+                    return false;
+                }
+                if($('#stash_form input[name="topic_id"]').val() == "0"){
+                    alert('Topic check');
+                    return false;
+                }
+                if(!$('#stash_form input[name="weightage"]:checked').length){
+                    alert('Weightage check');
+                    return false;
+                }
+                if(!$('#stash_form #essay_dates_show input:first').val()){
+                    alert('Date check');
+                    return false;
+                }
+                
+                $('#stash_form').submit();
+                e.preventDefault();
+                return false;
             });
         }
 
@@ -446,8 +474,8 @@ $(document).ready(function() {
                 forceSixRows: true,
                 ignoreInactiveDaysInSelection: true,
                 constraints: {
-                    startDate: '2020-03-10',
-                    endDate: '2021-06-01'
+                    startDate: '2020-06-01',
+                    endDate: '2021-07-01'
                 },
                 ready: function(){
                     getMonthEssays(moment().format());

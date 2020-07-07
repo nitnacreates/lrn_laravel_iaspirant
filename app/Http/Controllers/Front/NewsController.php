@@ -38,9 +38,8 @@ class NewsController extends Controller
                         ->first();
 
         $view_arr['month_dates'] = NewsShow::select(['show_on'])
-                    ->whereBetween('show_on', [$start_month, $end_month])
                     ->where('locked', 0)
-                    ->orderBy('show_on', 'DESC')
+                    ->orderBy('show_on', 'ASC')
                     ->pluck('show_on');
 
 
@@ -53,10 +52,16 @@ class NewsController extends Controller
 
         $d = \DateTime::createFromFormat('Y-m-d', $dt);
         if(!$d || ($d->format('Y-m-d') != $dt)){
-            abort(403, 'Date not found');
+            $this->request->session()->flash('msgs', array('Invalid Date specified'));
+            return redirect()->route('front::news', ['action' => 'list']);
         }
 
         $news_show = NewsShow::with('news')->where('show_on', $dt)->where('locked',0)->first();
+        if(is_null($news_show)){
+            $this->request->session()->flash('msgs', array('Inactive Date'));
+            return redirect()->route('front::news', ['action' => 'list']);
+        }
+
 
         $topic_arr = [];
         $topic = new Topic;
@@ -122,6 +127,7 @@ class NewsController extends Controller
                     $end_date = $this->request->input('edt');
 
                     $dates = NewsShow::select(['show_on'])
+                                    ->where('locked', 0)
                                     ->whereBetween('show_on', [$start_date, $end_date])
                                     ->orderBy('show_on', 'ASC')
                                     ->get();

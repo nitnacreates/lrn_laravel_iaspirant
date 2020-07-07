@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<h3 class="page-title">Topic News</h3>
+<h1 class="page-title">Topic News</h1>
 @foreach ($news as $cn)
 <div class="card mb-3">
   <div class="card-body">
@@ -19,7 +19,7 @@
         <div class="col-6">
             <div class="text-muted">
                 <p class="text-sm"><b>Subject: </b>{{ config('aspirant.subject_map')[$cn->sub] }}</p>
-                <p class="text-sm"><b>Topic: </b>{{ $cn->topic_id }}</p>
+                <p class="text-sm"><b>Topic: </b>@include('front.partials.topic_hier', ['topic_arr' => $topic_arr, 'topic_id' => $cn->topic_id])</p>
                 <p class="text-sm"><b>Category: </b>@switch($cn->category)
                     @case('b') Both @break
                     @case('p') Prelims @break

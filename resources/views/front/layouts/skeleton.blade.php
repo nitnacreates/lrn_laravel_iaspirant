@@ -92,8 +92,8 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">Schdeule</h2>
-                                <p>New batches start from June</p>
+                                <h2 class="title">Schedule</h2>
+                                <p>Next batch starts on August 1</p>
                             </div>
                           </div>
                         </div>
@@ -110,8 +110,16 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">Prelims</h2>
-                                <p>12 months left</p>
+                                <h2 class="title">Prelims 2020</h2>
+                                <p>3 months left</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sidebar-item">
+                          <div class="sidebar-item-radial">
+                            <div class="side-item-container">
+                                <h2 class="title">Prelims 2021</h2>
+                                <p>11 months left</p>
                             </div>
                           </div>
                         </div>
@@ -129,10 +137,10 @@
                     <div class="footer-links col-lg-8 col-xl-8 col-12 text-center text-lg-right text-xl-right">
                         <ul class="list-inline d-inline-block">
                           <li class="list-inline-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="{{ route('front::manifest', ['action' => 'about-us']) }}">About</a>
                           </li>
                           <li class="list-inline-item">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" href="{{ route('front::manifest', ['action' => 'contact']) }}">Contact</a>
                           </li>
                         </ul>
                         <div class="btn-group dropup">
@@ -141,8 +149,7 @@
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><a href="#">FAQs</a></li>
-                                <li class="list-group-item"><a href="{{ route('front::about', ['action' => 'subscription']) }}">Subscription</a></li>
+                                <li class="list-group-item"><a href="{{ route('front::manifest', ['action' => 'subscription']) }}">Subscription</a></li>
                             </ul>
                           </div>
                         </div>

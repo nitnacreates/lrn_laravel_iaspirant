@@ -36,7 +36,7 @@ class SyllabusController extends Controller
         $topics_arr = $topics->structuredSubject($sub);
         $view_arr['topics_arr'] = $topics_arr;
 
-        // news
+        // news, no check for locked
         $news_arr = [];
         $news =  News::select('topic_id', \DB::raw("count(topic_id) as news_count"))
                         ->where('sub', $sub)
@@ -92,7 +92,15 @@ class SyllabusController extends Controller
 
         $view_arr['sub'] = $sub;
 
-        $view_arr['news'] = News::select('id', 'news_title', 'news_link', 'news_content', 'sub', 'topic_id', 'category', 'type', 'weightage', 'show_on', 'created_at', 'updated_at')->where('sub', $sub)->where('topic_id',$topic)->get();
+        $news = News::select('id', 'news_title', 'news_link', 'news_content', 'sub', 'topic_id', 'category', 'type', 'weightage', 'created_at', 'updated_at')->where('sub', $sub)->where('topic_id',$topic)->get();
+        $topic_arr = [];
+        $topic = new Topic;
+        foreach ($news as $current_news) {
+            $topic_arr[$current_news->topic_id] = $topic->getTopicHier($current_news->sub, $current_news->topic_id);
+        }
+
+        $view_arr['news'] = $news;
+        $view_arr['topic_arr'] = $topic_arr;
         return view('front.syllabus.news')->with($view_arr);
     }
 

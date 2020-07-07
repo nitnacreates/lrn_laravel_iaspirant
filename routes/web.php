@@ -186,7 +186,7 @@ Route::group([
         'essays' => ['list', 'write', 'show', 'summon'],
         'essay-response' => ['summon'],
         'search' => ['show'],
-        'about' => ['us','subscription'],
+        'manifest' => ['about-us','subscription', 'contact'],
         'rear' => ['user-register'],
         'index' => ['index'],
     );

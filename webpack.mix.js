@@ -19,8 +19,7 @@ const mix = require('laravel-mix');
 *  temperory small ones
 */
 
-mix.scripts(['resources/js/super/backy.js'], 'public/assets/js/super_main.js');
-mix.less('resources/less/super/backy.less', 'public/assets/css/super_main.css');
+mix.less('resources/less/front/plugins/clndr.less', 'public/assets/plugins/clndr/clndr.css');
 
 /* ******** FULL ******** */
 

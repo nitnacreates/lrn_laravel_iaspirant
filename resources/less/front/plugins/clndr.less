@@ -4,7 +4,7 @@
 @red: #ff5a45;
 @blue: #71bbd2;
 @dark-blue: #057dac;
-@light-yellow: #d7d2b7;
+@light-yellow: #d7d5cc;
 @dark-green:  #69a776;
 @light-green: #97ce7f;
 @dark-gray: #414141;
@@ -71,7 +71,7 @@
         float: left;
         width: 14.2857%;
         height: 66px;
-        padding: 24px 0;
+        padding: 0;
         text-align: center;
         color: #4f4f4f;
         background-color: @light-gray;
@@ -81,16 +81,18 @@
         background-position: center;
         &.event{
           color: @dark-blue;
-          background-color: #bfcdd3;
+          background-color: #e6e6e6;
           cursor: pointer;
           .day-number
           {
-            padding-bottom: 4px;
-            border-bottom: 2px solid @dark-blue;
+            color: #007bff;
           }
           a{
             &:hover{
-              color: #262609;
+              .day-number
+              {
+                color: #ec8585;
+              }
             }
           }
         }
@@ -106,6 +108,11 @@
             opacity: 0.3;
           }
         }
+        .day-number
+        {
+          padding: 24px 0;
+          display: block;
+        }
         a{
           color: #7e7c26;
           &:hover{
@@ -115,7 +122,7 @@
       }
       .today
       {
-        background-color: white;
+        background-color: #e3e2db;
         background-image: none;
       }
     }

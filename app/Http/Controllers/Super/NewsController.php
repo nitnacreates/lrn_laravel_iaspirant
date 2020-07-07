@@ -77,31 +77,52 @@ class NewsController extends Controller
             // show, at least one has to exist
             $valid_dts = [];
             $news_show_attach = [];
+
             foreach ($params['show_on'] as $key => $dt) {
                 if(\FrontHelper::validateDate($dt, 'Y-m-d')){
                     if(!in_array($dt, $valid_dts)){
                         array_push($valid_dts, $dt);
-                        $news_show = NewsShow::firstOrNew(
-                            ['show_on' => $dt],
-                            ['locked' => 1]
-                        );
-                        $news_show->save();
+                        $news_show = NewsShow::where('show_on', $dt)->first();
+                        if($news_show === null){
+                            $news_show = new NewsShow;
+                            $news_show->show_on = $dt;
+                            $news_show->locked = '1';
+                            $news_show->save();
+                        }
                         $news_show_attach[] = $news_show->id;
                     }
                 }
             }
 
+            $display_date = reset($valid_dts);
             // reattach
             if(!empty($news_show_attach)){
-                $news_obj->news_shows()->detach();
-                $news_obj->news_shows()->attach($news_show_attach);
+                
+                // current
+                $attached_rows = $news_obj->news_shows()->get();
+                $exist_dt = [];
+                foreach ($attached_rows as $row) {
+                    $exist_dt[$row->id] = $row->show_on->format('Y-m-d');
+                }
+
+                $detach_dates = array_diff($exist_dt, $valid_dts);
+                if(!empty($detach_dates)){
+                    $news_obj->news_shows()->detach(array_keys($detach_dates));
+                }
+
+                $attach_dates = array_diff($valid_dts, $exist_dt);
+                if(!empty($attach_dates)){
+                    $display_date = end($attach_dates);
+                    $attach__ids = NewsShow::whereIn('show_on', $attach_dates)->pluck('id');
+                    $news_obj->news_shows()->attach($attach__ids);
+                }
             }
 
             //remove orphan dates
             NewsShow::doesntHave('News')->delete();
 
             $this->request->session()->flash('msgs', array('News successfully ' . $msg_type));
-            return redirect()->route('super::news', ['action' => 'show', 'date' => $news_obj->show_on]);  
+            return redirect()->route('super::news', ['action' => 'show', 'date' => $display_date]);  
         }
 
         // show

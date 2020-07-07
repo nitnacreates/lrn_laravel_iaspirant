@@ -5,20 +5,16 @@
 @endpush
 
 @section('content')
-<h2>News</h2>
+<h1 class="page-title">News</h1>
 
 <div class="row">
-    <div class="col-6">
-        <h3>Latest News</h3>
-    </div>
-    <div class="col-6">
-        <h4><a href="{{ route('front::news-date', ['param' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('M d,Y') }}</a></h4>
+    <div class="col">
+        <h3>Latest News : <a href="{{ route('front::news-date', ['param' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('F d, Y') }}</a></h3>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-        <h3>Select Day</h3>
         <div id="full-clndr" class="clearfix">
         <script type="text/javascript">
             pub_globes.clndr_summon = "{{ route('front::news', ['action' => 'summon']) }}";
@@ -38,11 +34,13 @@
             <div class="days">
               <% _.each(days, function(day) { %>
                 <div class="<%= day.classes %>" id="<%= day.id %>">
-                    <% if (day.classes.indexOf("event") >= 0) { %>
-                        <a href="{{ url('/') }}/news/date/<% print(moment(day.date).format("YYYY-MM-DD")) %>"><span class="day-number"><%= day.day %></span></a>
-                    <% } else{ %>
+                <% if (day.classes.indexOf("event") >= 0) { %>
+                    <a href="{{ url('/') }}/news/date/<% print(moment(day.date).format("YYYY-MM-DD")) %>">
                         <span class="day-number"><%= day.day %></span>
-                    <% } %>
+                    </a>
+                <% } else{ %>
+                    <span class="day-number"><%= day.day %></span>
+                <% } %>
                 </div>
               <% }); %>
             </div>
@@ -52,15 +50,19 @@
     </div>
 </div>
 
+<?php $current_month = 0; ?>
 <div class="row mt-5">
-    <div class="col-12">
-        <h3>{{ date('M') }} Listing</h3>
-        <ul>
-            @foreach($month_dates as $dt)
-                <li><a href="{{ route('front::news-date', ['param' => $dt->format('Y-m-d')]) }}">{{ $dt->format('M d, Y') }}</a></li>
-            @endforeach
-        </ul>
-    </div>
+    @foreach($month_dates as $dt)
+        @if($dt->format('F') !== $current_month)
+            @if($current_month)
+                </ul></div></div>
+            @endif
+            <?php $current_month = $dt->format('F'); ?>
+            <div class="col-3"><div class="month"><h3>{{ $dt->format('F, Y') }}</h3></div><div class="month-dates"><ul>
+        @endif
+        <li><a href="{{ route('front::news-date', ['param' => $dt->format('Y-m-d')]) }}">{{ $dt->format('d, Y') }}</a></li>
+    @endforeach
+    </ul></div></div>
 </div>
 @stop
 

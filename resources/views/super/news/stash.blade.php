@@ -13,7 +13,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label>News Title</label>
-                    <input type="text" name="news_title" @if($mode == 'edit') value="{{ $news->news_title }}" @endif class="form-control" placeholder="Title ..." required>
+                    <input type="text" name="news_title" @if($mode == 'edit') value="{{ old('news_title', ($mode == 'edit' ? $news->news_title : '')) }}" @endif class="form-control" placeholder="Title ..." required>
                 </div>
                 <div class="form-group">
                     <label>News Link</label>
@@ -21,7 +21,7 @@
                         <div class="input-group-prepend">
                             <button type="button" class="btn btn-primary" id="check_link">Check Link</button>
                         </div>
-                        <input type="text" name="news_link" @if($mode == 'edit') value="{{ $news->news_link }}" @endif class="form-control" placeholder="Link ..." required>
+                        <input type="text" name="news_link" @if($mode == 'edit') value="{{ old('news_link', ($mode == 'edit' ? $news->news_link : '')) }}" @endif class="form-control @if($mode == 'edit') is-valid @endif" placeholder="Link ..." required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -81,7 +81,7 @@
                 </div>
                 <div class="form-group">
                     <label>News Content</label>
-                    <textarea class="form-control wyswyg_block" name="news_content" rows="3" placeholder="News Content ...">@if($mode == 'edit'){{ $news->news_content }}@endif</textarea>
+                    <textarea class="form-control wyswyg_block" name="news_content" rows="3" placeholder="News Content ...">{{ old('news_content', ($mode == 'edit' ? $news->news_content : '')) }}</textarea>
                 </div>
                 <div class="form-group">
                     <label>Self Note</label>

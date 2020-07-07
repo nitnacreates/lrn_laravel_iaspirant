@@ -16,7 +16,7 @@ class CreateEssaysTable extends Migration
         Schema::create('essays', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->text('framework');
+            $table->text('framework')->nullable();
             $table->string('references',2000)->nullable();
             $table->unsignedSmallInteger('word_limit')->comment('multiples of 50');
             $table->string('sub',50);
