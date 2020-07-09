@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'first_name' => 'required|alpha|min:2',
             'last_name' => 'required|alpha|min:2',
             'name' => ['required', 'min:6', 'max:255', 'regex:/^[a-z\._]+$/', 'unique:users'],
-            'email' => ['required', 'email', 'regex:/^[A-Za-z0-9-\._]+@(gmail.com|yahoo.co.in|yahoo.co.in|yahoo.com|rediff.com|rediff.in|rediffmail.com|zoho.com|zoho.in|outlook.com|live.com)$/', 'max:255', 'unique:users'],
+            'email' => ['required', 'email', 'regex:/^[A-Za-z0-9-\._]+@(gmail.com|yahoo.co.in|yahoo.in|yahoo.com|rediff.com|rediff.in|rediffmail.com|zoho.com|zoho.in|outlook.com|live.com)$/', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ],[
             'name.regex' => 'Only alphabet, period and underscore allowed',
