@@ -4,6 +4,10 @@
     <link href="{!! asset('assets/plugins/clndr/clndr.css') !!}" media="all" rel="stylesheet" type="text/css" />
 @endpush
 
+@push('col_left_top')
+@include('front.partials.news_read')
+@endpush
+
 @section('content')
 <h1 class="page-title">News</h1>
 

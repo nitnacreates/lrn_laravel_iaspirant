@@ -1,5 +1,9 @@
 @extends('front.layouts.skeleton')
 
+@push('col_left_top')
+@include('front.partials.news_read')
+@endpush
+
 @section('content')
 <h1 class="page-title">News</h1>
 
