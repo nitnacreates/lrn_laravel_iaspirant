@@ -35,13 +35,13 @@
     </div>
     <div class="row border-top mt-2 pt-3">
         <div class="col">
-            <h3>Important Dates</h3>
+            <h4>CSE dates</h4>
             <ul>
                 <li>Sunday, October 4, 2020: Civil Services Preliminary Exam</li>
                 <li>Friday, Jaunuary 8, 2021: Civil Services Mains Exam</li>
                 <li>Sunday, Febuary 28, 2021:  Indian Forest Service Mains Exam</li>
             </ul>
-            <h3>IASPIRANT Dates</h3>
+            <h4>Portal dates</h4>
             <ul>
                 <li>July 7, 2020: Prelims 2021 Mock Test Series</li>
                 <li>September 1, 2020: All India Prelim (2020 batch) Test Series</li>

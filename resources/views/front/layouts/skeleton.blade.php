@@ -18,7 +18,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-2 col-12 logo">
-                        <p class="home"><a href="{{ url('/') }}"><img src="{{ asset('assets/imgs/front/logo/logo7.png') }}" /></a></p>
+                        <p class="home"><a href="{{ url('/') }}"><img src="{{ asset('assets/imgs/front/logo/logo7a.png') }}" /></a></p>
                     </div>
                     <div class="col-lg-10 banner-top-container d-none d-lg-block d-xl-block">
                         <div class="banner-top"></div>
@@ -35,11 +35,11 @@
                       <li class="nav-item @if(Request::is('/')) active @endif">
                         <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home" aria-hidden="true"></i></a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link @if(in_array(Route::currentRouteName(), ['front::essays','front::essay-response','front::essays-date'])) active @endif" href="{{ route('front::essays', ['action' => 'list']) }}">Essays</a>
+                      <li class="nav-item @if(in_array(Route::currentRouteName(), ['front::essays','front::essay-response','front::essays-date'])) active @endif">
+                        <a class="nav-link" href="{{ route('front::essays', ['action' => 'list']) }}">Essays</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link @if(in_array(Route::currentRouteName(), ['front::news-date','front::news-show','front::news'])) active @endif" href="{{ route('front::news', ['action' => 'list']) }}">News</a>
+                      <li class="nav-item @if(in_array(Route::currentRouteName(), ['front::news-date','front::news-show','front::news'])) active @endif">
+                        <a class="nav-link" href="{{ route('front::news', ['action' => 'list']) }}">News</a>
                       </li>
                       <li class="nav-item @if(in_array(Route::currentRouteName(), ['prelim'])) active @endif">
                         <a class="nav-link" href="{{ route('prelim', ['action' => 'schedule']) }}">Prelims</a>

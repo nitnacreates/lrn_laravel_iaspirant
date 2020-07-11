@@ -62,19 +62,16 @@ class SyllabusController extends Controller
         return view('front.syllabus.show')->with($view_arr);
     }
 
-    /*
-    * TODO - Add pagination if list increases
-    */
+
     public function news($sub)
     {
-        view()->share('pagetitle', 'Topic News');
         $view_arr = array();
-        $topic = $this->request->input('topic','');
+        $topic_id = $this->request->input('topic','');
         // validation
         $subject_maps = array_keys(config('aspirant.subject_map'));
         $data = [
             'sub' => $sub,
-            'topic' => $topic
+            'topic' => $topic_id
         ];
         $validator = Validator::make($data, [
             'sub' => ['required',Rule::in($subject_maps)],
@@ -90,9 +87,12 @@ class SyllabusController extends Controller
             return redirect()->route('front::syllabus-show', ['param' => 'polity'])->withErrors($validator);
         }
 
+        
         $view_arr['sub'] = $sub;
 
-        $news = News::select('id', 'news_title', 'news_link', 'news_content', 'sub', 'topic_id', 'category', 'type', 'weightage', 'created_at', 'updated_at')->where('sub', $sub)->where('topic_id',$topic)->get();
+        $news = News::select('id', 'news_title', 'news_link', 'news_content', 'sub', 'topic_id', 'category', 'type', 'weightage', 'created_at', 'updated_at')
+                    ->where('sub', $sub)->where('topic_id',$topic_id)
+                    ->paginate(10);
         $topic_arr = [];
         $topic = new Topic;
         foreach ($news as $current_news) {
@@ -100,6 +100,8 @@ class SyllabusController extends Controller
         }
 
         $view_arr['news'] = $news;
+        $view_arr['pagetitle'] = config('aspirant.subject_map')[$sub] . ' News';
+        $view_arr['topic_id'] = $topic_id;
         $view_arr['topic_arr'] = $topic_arr;
         return view('front.syllabus.news')->with($view_arr);
     }

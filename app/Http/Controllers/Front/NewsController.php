@@ -110,10 +110,20 @@ class NewsController extends Controller
 
     public function show($link)
     {
-        $view_arr['news'] = News::where('news_link', $link)->first();
-        if(empty($view_arr['news'])){
-            abort(404, 'News not found');
+        $news = News::with(['news_shows' => function($query){
+            $query->where('locked',0)->orderBy('show_on', 'DESC');
+        }])->where('news_link', $link)->first();
+
+        if(empty($news)){
+            $this->request->session()->flash('msgs', array('The news you are looking for no longer exist or has moved. <br/> You can brose other news items below'));
+            return redirect()->route('front::news', ['action' => 'list']);
         }
+        $topic_arr = [];
+        $topic = new Topic;
+        $topic_arr[$news->topic_id] = $topic->getTopicHier($news->sub, $news->topic_id);
+
+        $view_arr['news'] = $news;
+        $view_arr['topic_arr'] = $topic_arr;
         return view('front.news.show')->with($view_arr);
     }
 

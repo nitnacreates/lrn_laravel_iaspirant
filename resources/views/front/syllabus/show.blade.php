@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<h3 class="page-title">Syllabus</h3>
+<h1 class="page-title">Syllabus</h1>
 <div class="row">
     <div class="col-12">
         <form>

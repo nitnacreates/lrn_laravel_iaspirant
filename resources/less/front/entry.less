@@ -59,9 +59,39 @@ h1{font-size: 1.8em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
 h2{font-size: 1.6em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
 h3{font-size: 1.4em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
 h4{font-size: 1.2em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
-h5{font-size: 1.0em; font-family: 'Helvetica Neue', sans-serif; line-height: 1; font-weight: bold;}
-h6{font-size: 0.8em; font-family: 'Helvetica Neue', sans-serif; line-height: 1; font-weight: bold;}
+h5{font-size: 1.0em; font-family: 'Helvetica Neue', sans-serif; line-height: 1; color: #b099b0;}
+h6{font-size: 0.8em; font-family: 'Helvetica Neue', sans-serif; line-height: 1; font-weight:bold; color: #b099b0}
 
+.pagination_section{
+    ul{
+        li{
+            margin-left: 0;
+        }
+    }
+}
+
+.news-wrapper{
+    .card-header{
+        p{
+            margin-bottom: 0;
+        }
+    }
+    .card-body{
+        .news-title{
+            border-bottom: 1px dashed #e6f0fb;
+            margin-bottom: 1em;
+        }
+        h2{
+            text-align: center;
+        }
+        h3{
+            border-bottom: 1px solid #f7f7f1;
+        }
+        h4{
+            opacity: 0.7;
+        }
+    }
+}
 
 /* *form* */
 .form-control::placeholder {
@@ -77,6 +107,9 @@ header{
     }
     nav{
         background-color: #b099b0;
+        .navbar-nav .active > .nav-link{
+            font-weight: 600;
+        }
         .search{
             display: inline-block;
             .input-group-append{
@@ -157,10 +190,10 @@ footer {
                         &.list-group-item{
                             background-color: inherit;
                             &.active{
-                                background-color: #fbf7f0;
+                                background-color: #dfcfdf;
                                 border-color: #e6d5b4;
                                 a{
-                                    color: #625f57;
+                                    color: #5e525e;
                                 }
                             }
                         }
@@ -279,28 +312,6 @@ body{
         }
     }
     &.news{
-        .news-wrapper{
-            .card-header{
-                p{
-                    margin-bottom: 0;
-                }
-            }
-            .card-body{
-                .news-title{
-                    border-bottom: 1px dashed #e6f0fb;
-                    margin-bottom: 1em;
-                }
-                h2{
-                    text-align: center;
-                }
-                h3{
-                    border-bottom: 1px solid #f7f7f1;
-                }
-                h4{
-                    opacity: 0.7;
-                }
-            }
-        }
         ol.question-options{
             list-style: upper-alpha;
             li{
