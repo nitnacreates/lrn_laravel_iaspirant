@@ -6,9 +6,9 @@
             <li>Every news item carries a weightage indicating its probability</li>
             <li>Click on topic to view its news</li>
             <li>News items repeat on days when they get mentioned or there is new information</li>
-            <li>This way you will not carry obsolete information to exam</li>
+            <li>This is to make sure aspirants do not carry obsolete information to exam</li>
             <li>Updates are <span style="background-color: #bfedd2;">highlighted in green</span>, so skip rest</li>
-            <li>Below every news item there will be a [In News] section providing context to news</li>
+            <li>Below every news item there will be a [In News] section for context</li>
         </ul>
     </div>
   </div>

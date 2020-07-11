@@ -18,30 +18,33 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-2 col-12 logo">
-                        <p class="home"><img src="{{ asset('assets/imgs/front/logo/logo7.png') }}" /></p>
+                        <p class="home"><a href="{{ url('/') }}"><img src="{{ asset('assets/imgs/front/logo/logo7.png') }}" /></a></p>
                     </div>
                     <div class="col-lg-10 banner-top-container d-none d-lg-block d-xl-block">
                         <div class="banner-top"></div>
                     </div>
                 </div>
             </div>
-            <nav class="navbar navbar-expand-lg navbar-light">
+            <nav class="navbar navbar-expand-lg navbar-dark">
                 <button type="button" class="btn sidebar-toggler d-lg-none d-xl-none left-bar-toggle" data-sidebar="left"><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
                 <button class="navbar-toggler btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('front::essays', ['action' => 'list']) }}">Essays</a>
+                      <li class="nav-item @if(Request::is('/')) active @endif">
+                        <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home" aria-hidden="true"></i></a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ route('front::news', ['action' => 'list']) }}">News</a>
+                        <a class="nav-link @if(in_array(Route::currentRouteName(), ['front::essays','front::essay-response','front::essays-date'])) active @endif" href="{{ route('front::essays', ['action' => 'list']) }}">Essays</a>
                       </li>
                       <li class="nav-item">
+                        <a class="nav-link @if(in_array(Route::currentRouteName(), ['front::news-date','front::news-show','front::news'])) active @endif" href="{{ route('front::news', ['action' => 'list']) }}">News</a>
+                      </li>
+                      <li class="nav-item @if(in_array(Route::currentRouteName(), ['prelim'])) active @endif">
                         <a class="nav-link" href="{{ route('prelim', ['action' => 'schedule']) }}">Prelims</a>
                       </li>
-                      <li class="nav-item">
+                      <li class="nav-item @if(in_array(Route::currentRouteName(), ['front::syllabus-news','front::syllabus-questions','front::syllabus-show', 'front::syllabus'])) active @endif">
                         <a class="nav-link" href="{{ route('front::syllabus-show', ['param' => 'polity']) }}">Syllabus</a>
                       </li>
                     </ul>
@@ -55,7 +58,7 @@
                     <div class="input-group md-form form-sm form-2">
                       <input type="text" class="form-control rounded-0" name="q" type="text" placeholder="Search" aria-label="Search">
                       <span class="input-group-append">
-                        <button type="button" class="btn btn-secondary btn-flat"><i class="fa fa-search text-grey" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-light btn-flat"><i class="fa fa-search text-grey" aria-hidden="true"></i></button>
                       </span>
                     </div>
                   </form>
@@ -92,8 +95,10 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">Schedule</h2>
-                                <p>Next batch starts on August 1</p>
+                                <h2 class="title">Upcoming</h2>
+                                <ul>
+                                  <li>Next 2021 batch: Aug 4, 20</li>
+                                </ul>
                             </div>
                           </div>
                         </div>
@@ -110,16 +115,21 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">Prelims 2020</h2>
-                                <p>3 months left</p>
+                                <h2 class="title">CSE 2020</h2>
+                                <ul>
+                                  <li>Prelim: {{ \FrontHelper::examTimeLeft(1) }} left</li>
+                                  <li>Mains: {{ \FrontHelper::examTimeLeft(2) }} left</li>
+                                </ul>
                             </div>
                           </div>
                         </div>
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">Prelims 2021</h2>
-                                <p>11 months left</p>
+                                <h2 class="title">CSE 2021</h2>
+                                <ul>
+                                  <li>Prelim: {{ \FrontHelper::examTimeLeft(3) }} left</li>
+                                </ul>
                             </div>
                           </div>
                         </div>

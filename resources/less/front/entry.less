@@ -18,8 +18,8 @@ html, body{
     height:100%;
 }
 body{
-    background-color: #fbf7ec;
-    color: #827966;
+    background-color: #f7f6f3;
+    color: #978c82;
 }
 
 ul ul, ol ul, ol ol{
@@ -55,11 +55,12 @@ h1{
         }
     }
 }
-h2{font-size: 1.8em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
-h3{font-size: 1.6em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
-h4{font-size: 1.4em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
-h5{font-size: 1.2em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
-h6{font-size: 1.0em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
+h1{font-size: 1.8em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
+h2{font-size: 1.6em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
+h3{font-size: 1.4em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
+h4{font-size: 1.2em; font-family: 'Helvetica Neue', sans-serif; line-height: 1;}
+h5{font-size: 1.0em; font-family: 'Helvetica Neue', sans-serif; line-height: 1; font-weight: bold;}
+h6{font-size: 0.8em; font-family: 'Helvetica Neue', sans-serif; line-height: 1; font-weight: bold;}
 
 
 /* *form* */
@@ -75,7 +76,7 @@ header{
         margin: 10px 0 0;
     }
     nav{
-        background-color: #fdfbf7;
+        background-color: #b099b0;
         .search{
             display: inline-block;
             .input-group-append{
@@ -87,8 +88,8 @@ header{
             display: inline-block;
             margin-left: 5px;
             button.dropdown-toggle{
-                color: rgba(0,0,0,.5);
-                border-color: rgba(0,0,0,.1);    
+                color: rgba(255, 255, 255, 0.8);
+                border-color: #d0c2d0;    
             }
             .dropdown-menu{
                 right: 0;
@@ -128,7 +129,7 @@ footer {
         .sidebar-item-radial{
             border: 1px solid #f0e9da;
             border-radius: 4px;
-            background-color: #fdfbf7;
+            background-color: #fffefb;
             .side-item-container{
                 margin: 30px;
                 overflow: hidden;
@@ -185,7 +186,7 @@ main{
         .main-wrapper-radial{
             border: 1px solid #f0e9da;
             border-radius: 4px;
-            background-color: #fdfbf7;
+            background-color: #fffefb;
             flex: 1 1;
             .main-content{
                 margin: 30px;
@@ -278,6 +279,28 @@ body{
         }
     }
     &.news{
+        .news-wrapper{
+            .card-header{
+                p{
+                    margin-bottom: 0;
+                }
+            }
+            .card-body{
+                .news-title{
+                    border-bottom: 1px dashed #e6f0fb;
+                    margin-bottom: 1em;
+                }
+                h2{
+                    text-align: center;
+                }
+                h3{
+                    border-bottom: 1px solid #f7f7f1;
+                }
+                h4{
+                    opacity: 0.7;
+                }
+            }
+        }
         ol.question-options{
             list-style: upper-alpha;
             li{

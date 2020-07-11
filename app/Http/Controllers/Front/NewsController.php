@@ -50,8 +50,8 @@ class NewsController extends Controller
     {
         $view_arr = array();
 
-        $d = \DateTime::createFromFormat('Y-m-d', $dt);
-        if(!$d || ($d->format('Y-m-d') != $dt)){
+        $cd = \DateTime::createFromFormat('Y-m-d', $dt);
+        if(!$cd || ($cd->format('Y-m-d') != $dt)){
             $this->request->session()->flash('msgs', array('Invalid Date specified'));
             return redirect()->route('front::news', ['action' => 'list']);
         }
@@ -103,7 +103,7 @@ class NewsController extends Controller
         $view_arr['total_users'] = $total_users;
         $view_arr['user_score'] = $user_score;
         
-        $view_arr['date'] = $dt;
+        $view_arr['date'] = $cd;
 
         return view('front.news.date')->with($view_arr);
     }

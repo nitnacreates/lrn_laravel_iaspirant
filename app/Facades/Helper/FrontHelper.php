@@ -61,4 +61,30 @@ class FrontHelper
         
         return $more_than_day > 0 ? $more_than_day : 0;
     }
+
+    public function examTimeLeft($mode)
+    {
+        $now = Carbon::now();
+        switch ($mode) {
+            case '1':
+                $to_date = Carbon::createFromFormat('Y-m-d', "2020-10-04");
+                $rem_days = $now->diffInDays($to_date, false); 
+                return $rem_days . " days";
+                break;
+            case '2':
+                $to_date = Carbon::createFromFormat('Y-m-d', "2021-01-08");
+                $rem_days = $now->diffInMonths($to_date, false); 
+                return $rem_days . " months";
+                break;
+            case '3':
+                $to_date = Carbon::createFromFormat('Y-m-d', "2021-06-30");
+                $rem_days = $now->diffInMonths($to_date, false); 
+                return $rem_days . " months";
+                break;
+            
+            default:
+                return "22 months";    
+            break;
+        }
+    }
 }
