@@ -30,10 +30,10 @@
                     </div>
                 </div>
                 <div class="col-2">
-                    @if(Gate::allows('full-user'))
+                    @if(Gate::allows('pro-user'))
                         <a class="btn btn-primary" href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'create']) }}" role="button">Create Note</a>
                     @else
-                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Pro feature">Create Note</button>
+                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="{{ config('aspirant.user_subscription.plans')[20] }} subscribers">Create Note</button>
                     @endif
                     <p class="mb-0">&nbsp;</p>
                     <p><b>News:</b> {{ $curr_count++ ."/" . $news_count}}</p>

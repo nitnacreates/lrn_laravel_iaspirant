@@ -18,23 +18,46 @@ class AuthServiceProvider extends ServiceProvider
 
     /**
      * Register any authentication / authorization services.
-     *
+     * Do not use < less than, or > greater than
      * @return void
      */
     public function boot()
     {
         $this->registerPolicies();
 
-        Gate::define('account-holder', function ($user) {
-            return $user->subscription >= 1;
+        // allows, denies, any, none
+        // \Gate::any(['premium-user', 'penman-user', 'pro-user'])
+
+        // account-holder
+        // pro user, access to prelim and prelim plus
+        Gate::define('free-user', function ($user) {
+            return $user->subscription == 5;
         });
 
-        Gate::define('prelim-user', function ($user) {
-            return $user->subscription >= 2;
+        // premium user, access to prelim
+        Gate::define('premium-user', function ($user) {
+            return $user->subscription == 10;
         });
 
-        Gate::define('full-user', function ($user) {
-            return $user->subscription >= 3;
+        // penman user, access to mains
+        Gate::define('penman-user', function ($user) {
+            return $user->subscription == 15;
+        });
+
+        // full-user
+        // pro user, access to prelim and prelim plus
+        Gate::define('pro-user', function ($user) {
+            return $user->subscription == 20;
+        });
+
+        // assembler user, access to prelim and mains only
+        Gate::define('assembler-user', function ($user) {
+            return $user->subscription == 25;
+        });
+
+        // omnipotent user, access to prelim plus and mains
+        Gate::define('omnipotent-user', function ($user) {
+            return $user->subscription == 30;
         });
     }
 }

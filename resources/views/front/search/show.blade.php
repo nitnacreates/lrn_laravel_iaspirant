@@ -7,7 +7,7 @@
             <p class="lead">Query: {{ $q }}</p>
             <p class="text-danger">{{ $msg }}</p>
         </div>
-        @if(Gate::allows('full-user') && $search_results->count())
+        @if(Gate::any(['penman-user', 'pro-user']) && $search_results->count())
         <div class="w-100"></div>
         <div class="col">
             @foreach($search_results->groupByType() as $type => $modelSearchResults)

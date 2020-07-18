@@ -26,7 +26,7 @@ class EssayResponseController extends Controller
         $essay_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
         $view_arr = array();
 
-        if(\Gate::denies('full-user')){
+        if(\Gate::denies('pro-user')){
             $this->request->session()->flash('msgs', array('Unauthorized access'));
             return redirect()->route('front::three-essay-response', ['user_name' => \UserHelper::getUserName(), 'action' => 'show']);              
         }
@@ -78,7 +78,7 @@ class EssayResponseController extends Controller
         $essay_id = isset($params['id']) ? intval(trim($params['id'])) : 0;
         $view_arr = array();
 
-        if(\Gate::denies('full-user') || ($user_name != \UserHelper::getUserName())){
+        if(\Gate::denies('pro-user') || ($user_name != \UserHelper::getUserName())){
             $this->request->session()->flash('msgs', array('Unauthorized access'));
             return redirect()->route('front::three-essay-response', ['user_name' => \UserHelper::getUserName(), 'action' => 'show']);              
         }
@@ -132,7 +132,7 @@ class EssayResponseController extends Controller
     public function summon()
     {
         if($this->request->ajax()){
-            if(\Gate::denies('full-user')){
+            if(\Gate::denies('pro-user')){
                 return response()->json(['message' => 'Unauthorised access'], 404);
             }
             $response_id = intval($this->request->input('response',0));

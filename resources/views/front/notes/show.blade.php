@@ -24,7 +24,7 @@
     </div>
     @endif
 </div>
-@if(Gate::allows('full-user') && $is_user_same)
+@if(Gate::allows('pro-user') && $is_user_same)
 <div class="row">
     <div class="col-6">
         Note Status: {{  $note->locked ? 'Hidden' : 'Public' }} <br />

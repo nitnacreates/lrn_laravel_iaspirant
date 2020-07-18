@@ -79,7 +79,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'subscription' => '1'         // free subscription
+            'subscription' => '5'         // free subscription
         ]);
 
         $user_keep = new UserKeep;

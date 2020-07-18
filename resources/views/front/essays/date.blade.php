@@ -79,7 +79,7 @@
             </dl>
         </div>
     </div>
-    @if(Gate::allows('full-user'))
+    @if(Gate::any(['penman-user', 'pro-user']))
     <div class="w-100"></div>
     <div class="col">
         <div class="row essay-action">
@@ -97,7 +97,7 @@
 
 <section>
     <h1>Completed Essays</h1>
-    @if(Gate::allows('full-user'))
+    @if(Gate::any(['penman-user', 'pro-user']))
         @foreach($essay_responses as $response)
         <div class="row user-essays border-bottom py-4">
             <div class="col">
@@ -119,7 +119,7 @@
         </div>
         @endforeach
     @else
-        <p>You should see essays here if you are subscribed</p>
+        <p>You should see essays here if you are subscribed to {{ config('aspirant.user_subscription')['15'] . " or ". config('aspirant.user_subscription')['20'] }} plans</p>
     @endif
 </section>
 

@@ -27,7 +27,7 @@ class CommentController extends Controller
                     /*
                     * TODO: If too frequest, create a check based on created at
                     */
-                    if(\Gate::allows('prelim-user')){
+                    if(\Gate::any(['free-user'])){
                         $user_comment = $this->request->input('cmtx');
                         $page_link = $this->request->input('cmpt');
                         $resp = \FrontHelper::checkRoute($page_link);
@@ -69,7 +69,7 @@ class CommentController extends Controller
                     }
                     break;
                 case 'user_reaction':
-                    if(\Gate::allows('prelim-user')){
+                    if(\Gate::any(['free-user'])){
                         $comment_id = intval($this->request->input('cid'), 0);
                         $reaction_type = $this->request->input('rt');
                         

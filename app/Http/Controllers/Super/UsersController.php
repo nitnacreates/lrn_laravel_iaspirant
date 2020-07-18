@@ -38,7 +38,7 @@ class UsersController extends Controller
                 'id' => 'required|integer|min:1',
                 'name' => ['required', 'max:255', 'regex:/^[a-z\._]+$/', Rule::unique('users')->ignore($user_id)],
                 'email' => ['required', 'email', 'max:255',  Rule::unique('users')->ignore($user_id)],
-                'subscription' => 'required|in:1,2,3',
+                'subscription' => 'required|in:5,10,15,20',
                 'first_name' => 'required|string',
                 'last_name' => 'required|string',
                 'phone' => 'required|integer|min:111111111',

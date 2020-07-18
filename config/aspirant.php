@@ -154,9 +154,16 @@ return [
         'comment_box' => 'Please upgrade your subscription for this section'
     ],
 
+    // plans stay same, just they are reduced based on dates
+    // config('aspirant.user_subscription.plans')[5]
     'user_subscription' => [
-        '1' => 'Free',
-        '2' => 'Premium',
-        '3' => 'Pro'
+        'plans' => [
+            '5' => 'Free',
+            '10' => 'Premium',
+            '15' => 'Penman',
+            '20' => 'Pro',
+            // '25' => 'Assembler',
+            // '30' => 'Omnipotent'
+        ]
     ]
 ];

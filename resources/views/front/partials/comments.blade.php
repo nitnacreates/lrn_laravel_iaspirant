@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12"><h3>Comments</h3></div>
     </div>
-    @if(Gate::allows('prelim-user'))
+    @if(Gate::any(['free-user', 'premium-user', 'penman-user', 'pro-user']))
     <div class="form-group row comment-box border-right">
         <div class="col">
             <div class="card">

@@ -78,7 +78,9 @@ class NewsController extends Controller
         $news_stat = NewsScore::select(\DB::raw("count(id) as total_users"), \DB::raw("avg(score) as avg"))->where('news_show_on', $dt)->first();
 
         $avg = $total_users = $user_score = 0;
-        if(\Gate::allows('prelim-user')){
+        
+        // users whose scores are saved
+        if(\Gate::any(['premium-user', 'penman-user', 'pro-user'])){
             $account_id = \UserHelper::getAccountId();
             $us = NewsScore::select('score')->where('account_id', $account_id)->where('news_show_on', $dt)->first();
             if(!empty($us)){
@@ -187,7 +189,7 @@ class NewsController extends Controller
                     }
                     $score = round((float) $score,2, PHP_ROUND_HALF_UP);
 
-                    if(\Gate::allows('prelim-user')){
+                    if(\Gate::any(['premium-user', 'penman-user', 'pro-user'])){
                         $account_id = \UserHelper::getAccountId();
                         $news_score = NewsScore::where('account_id', $account_id)->where('news_show_on', $date)->first();
                         if(empty($news_score)){

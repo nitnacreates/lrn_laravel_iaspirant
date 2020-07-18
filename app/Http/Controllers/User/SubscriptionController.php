@@ -14,19 +14,30 @@ class SubscriptionController extends Controller
     public function __construct(Request $request)
     {
         view()->share('page', 'user_subscription');
-        view()->share('pagetitle', 'User Subscription');
+        view()->share('pagetitle', 'Subscription');
         $this->request = $request;
     }
 
     public function show()
     {
         $user_id = \UserHelper::getUserId();
+        
         $view_arr['user'] = User::select('subscription')
                                 ->with(['user_keep' => function($query){
                                     $query->select('transaction_data');
                                 }])
                                 ->find($user_id);
-
+        $view_arr['plans'] = 'Subscription Plans';
         return view('user.subscription.show')->with($view_arr);
+    }
+
+    public function review()
+    {
+        exit('halo');
+    }
+
+    public function ensue()
+    {
+        exit('susu');   
     }
 }

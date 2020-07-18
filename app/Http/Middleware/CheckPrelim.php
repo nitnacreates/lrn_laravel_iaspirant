@@ -17,9 +17,10 @@ class CheckPrelim
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && (Auth::user()->subscription >= 2)){
+        $user_sub = Auth::user()->subscription;
+        if(Auth::check() && in_array($user_sub, [10,20])){
             return $next($request);
         }
-        abort(403, 'Sorry, your subscription doesnt allow this section');
+        abort(403, 'Sorry, your subscription doesnt allow prelim section');
     }
 }

@@ -29,7 +29,6 @@ class CreateUserKeepsTable extends Migration
             $table->boolean('phone_validated')->default(0);
             $table->string('phone_otp', 10)->nullable();
             $table->string('phone_data', 1000)->nullable();
-            $table->string('transaction_data', 1000)->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->primary('user_id');

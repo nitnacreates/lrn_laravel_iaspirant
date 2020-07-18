@@ -29,9 +29,9 @@
         </main>
         <script type="text/javascript" src="{!! asset('assets/js/front_libs.js') !!}"></script>
         @stack('scripts_foot')
-        @if(Gate::allows('full-user'))
+        @if(Gate::allows('pro-user'))
           <script type="text/javascript" src="{!! asset('assets/js/front_user.js') !!}"></script>
-        @elseif(Gate::allows('prelim-user'))
+        @elseif(Gate::allows('premium-user'))
           <script type="text/javascript" src="{!! asset('assets/js/front_median.js') !!}"></script>
         @else
           <script type="text/javascript" src="{!! asset('assets/js/front_main.js') !!}"></script>

@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="col-3">
-                @if(Gate::allows('full-user'))
+                @if(Gate::allows('pro-user'))
                     <a class="btn btn-primary" href="{{ route('front::three-notes', ['user_name' => auth()->user()->name, 'action' => 'create']) }}" role="button">Create Note</a>
                 @else
                     <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Pro feature">Create Note</button>

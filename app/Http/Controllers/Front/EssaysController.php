@@ -85,7 +85,7 @@ class EssaysController extends Controller
 
         $view_arr['essay_responses'] = $essay_responses;
 
-        $view_arr['account_id'] = \Gate::allows('full-user') ? \UserHelper::getAccountId() : 0;
+        $view_arr['account_id'] = \Gate::allows('pro-user') ? \UserHelper::getAccountId() : 0;
         return view('front.essays.date')->with($view_arr);
     }
 
@@ -111,7 +111,7 @@ class EssaysController extends Controller
                     break;
                 case 'pick_essay':
 
-                    if(\Gate::allows('full-user')){
+                    if(\Gate::allows('pro-user')){
                         $essay_id = $this->request->input('eid');
                         $essay = Essay::where('id', $essay_id)->where('locked', 0)->first();
 

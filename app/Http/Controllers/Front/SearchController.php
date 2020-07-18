@@ -27,8 +27,8 @@ class SearchController extends Controller
         $query = $this->request->input('q','');
         $query = preg_replace("/[^a-zA-Z0-9\s]/", "", $query);
         
-        if(\Gate::allows('full-user')){
-            if(!empty($query) && (strlen($query) > 3)){
+        if(\Gate::any(['penman-user', 'pro-user'])){
+            if(!empty($query) && (strlen($query) > 2)){
             
                 $searchResults = (new Search())
                                     ->registerModel(News::class, function(ModelSearchAspect $modelSearchAspect) {
@@ -49,11 +49,11 @@ class SearchController extends Controller
                 $view_arr['search_results'] = $searchResults;
                 $msg = "Total {$searchResults->count()} results found";
             } else{
-                $msg = "search needs to be at least 4 characters";
+                $msg = "search needs to be at least 3 characters";
             }
 
         } else{
-            $msg = "Searching is a " . config('aspirant.user_subscription')['3'] . " feature";
+            $msg = "Searching is available for " . config('aspirant.user_subscription')['15'] . " and ". config('aspirant.user_subscription')['20'] ." users";
         }
 
         $view_arr['q'] = $query;

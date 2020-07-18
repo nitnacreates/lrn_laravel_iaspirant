@@ -16,7 +16,9 @@ class ModifyTables extends Migration
      */
     public function up()
     {
-
+        Schema::table('user_keeps', function (Blueprint $table) {
+            $table->dropColumn('transaction_data');
+        });
     }
 
     /**
