@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Model\User\UserKeep;
+use Illuminate\Support\Facades\Validator;
 
 class SubscriptionController extends Controller
 {
@@ -22,18 +23,33 @@ class SubscriptionController extends Controller
     {
         $user_id = \UserHelper::getUserId();
         
-        $view_arr['user'] = User::select('subscription')
-                                ->with(['user_keep' => function($query){
-                                    $query->select('transaction_data');
-                                }])
-                                ->find($user_id);
-        $view_arr['plans'] = 'Subscription Plans';
+        $view_arr['user'] = User::find($user_id);
+        $view_arr['pagetitle'] = 'Subscription Plans';
         return view('user.subscription.show')->with($view_arr);
     }
 
     public function review()
     {
-        exit('halo');
+        $params = $this->request->all();
+
+        $validator = Validator::make($params, [
+            'plan' => 'required|in:premium,pro'
+        ]);
+
+        if ($validator->fails()) {
+            $this->request->session()->flash('msgs', ['Plan expired or does not exist']);
+            return redirect()->route('user::subscription', ['action' => 'show']);  
+        }
+
+        if($params['plan'] == 'free'){
+            return redirect()->route('user::subscription', ['action' => 'show']);
+        }
+
+        $user_id = \UserHelper::getUserId();
+        $view_arr['user'] = User::with('user_keep')->find($user_id);
+
+        $view_arr['pagetitle'] = 'Subscription Review';
+        return view('user.subscription.review')->with($view_arr);
     }
 
     public function ensue()

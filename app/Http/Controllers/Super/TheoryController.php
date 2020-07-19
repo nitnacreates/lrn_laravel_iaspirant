@@ -123,10 +123,10 @@ class TheoryController extends Controller
         $mode = 'add';
         if($theory_id){
             $mode = 'edit';
-            $theory = Theory::find($theory_id)->with(['theory_summaries' => function ($query) use ($account_id) {
+            $theory = Theory::with(['theory_summaries' => function ($query) use ($account_id) {
                 $query->where('account_id', $account_id)
                         ->where('user_type', 's');
-            }])->first();
+            }])->find($theory_id);
             if(!$theory->count()){
                 $this->request->session()->flash('msgs', array('Theory does not exist'));
                 return redirect()->route('super::theory', ['action' => 'show']);  

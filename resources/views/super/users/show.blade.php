@@ -24,7 +24,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ empty($user->email_verified_at) ? 'NO' : 'YES' }}</td>
-                        <td>{{ config('aspirant.user_subscription')[$user->subscription] }}</td>
+                        <td>{{ config('aspirant.user_subscription.plans')[$user->subscription] }}</td>
                         <td>{{ $user->created_at->format('Y-m-d') }}</td>
                     </tr>
                     @endforeach

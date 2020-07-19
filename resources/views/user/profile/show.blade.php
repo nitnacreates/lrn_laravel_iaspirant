@@ -3,7 +3,7 @@
 @include('user.partials.left_col')
 @endpush
 @section('content')
-<h3>User profile</h3>
+<h1 class="page-title">User profile</h1>
 <div class="row">
     <div class="col-2"></div>
     <div class="col-8">

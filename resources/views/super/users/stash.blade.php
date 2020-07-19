@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label>Subscription</label>
                     <select class="form-control" name="subscription" autocomplete="off">
-                        @foreach(config('aspirant.user_subscription') as $key => $val)
+                        @foreach(config('aspirant.user_subscription.plans') as $key => $val)
                             <option value="{{ $key }}" @if($key == $user->subscription)) selected="selected" @endif>{{$val}}</option>
                         @endforeach
                     </select>

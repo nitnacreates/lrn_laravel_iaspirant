@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-<title>@if(!empty($pagetitle)){{ $pagetitle }} -@endif IASpirant</title>
+<title>@if(!empty($pagetitle)){{ $pagetitle }} -@endif Iaspirant</title>
 <link href="{!! asset('assets/css/front_libs.css') !!}" media="all" rel="stylesheet" type="text/css" />
 @stack('styles_header')
 <link href="{!! asset('assets/css/front_main.css') !!}" media="all" rel="stylesheet" type="text/css" />

@@ -47,6 +47,9 @@
                       <li class="nav-item @if(in_array(Route::currentRouteName(), ['front::syllabus-news','front::syllabus-questions','front::syllabus-show', 'front::syllabus'])) active @endif">
                         <a class="nav-link" href="{{ route('front::syllabus-show', ['param' => 'polity']) }}">Syllabus</a>
                       </li>
+                      <li class="nav-item @if(Request::is('manifest/subscription') || in_array(Route::currentRouteName(), ['user::subscription'])) active @endif">
+                        <a class="nav-link" href="{{ route('front::manifest', ['action' => 'subscription']) }}">Subscription</a>
+                      </li>
                     </ul>
                 </div>
                 <div class="btn-group search-toggler">
@@ -142,7 +145,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="copyright-block col-lg-4 col-xl-4 col-12 text-center text-lg-left text-xl-left">
-                        <span class="text-muted">&copy; 2020. IASpirant</span>
+                        <span class="text-muted">&copy; 2020. IASPIRANT</span>
                     </div>
                     <div class="footer-links col-lg-8 col-xl-8 col-12 text-center text-lg-right text-xl-right">
                         <ul class="list-inline d-inline-block">
@@ -153,6 +156,7 @@
                             <a class="nav-link" href="{{ route('front::manifest', ['action' => 'contact']) }}">Contact</a>
                           </li>
                         </ul>
+                        {{--
                         <div class="btn-group dropup">
                           <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             More
@@ -163,6 +167,7 @@
                             </ul>
                           </div>
                         </div>
+                        --}}
                     </div>
                 </div>
                 

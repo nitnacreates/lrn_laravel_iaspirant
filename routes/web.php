@@ -78,7 +78,7 @@ Route::group([
     
     $allowed_paths = array(
         'profile' => ['show', 'mutate-profile', 'mutate-password'],
-        'subscription' => ['show', 'checkout', 'success'],
+        'subscription' => ['show', 'review', 'ensue'],
         'media' => ['show', 'store', 'picker', 'summon']
     );
     foreach($allowed_paths as $controller => $act) {

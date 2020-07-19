@@ -119,7 +119,7 @@
         </div>
         @endforeach
     @else
-        <p>You should see essays here if you are subscribed to {{ config('aspirant.user_subscription')['15'] . " or ". config('aspirant.user_subscription')['20'] }} plans</p>
+        <p>You should see essays here if you are subscribed to {{ config('aspirant.user_subscription.plans')['15'] . " or ". config('aspirant.user_subscription.plans')['20'] }} plans</p>
     @endif
 </section>
 

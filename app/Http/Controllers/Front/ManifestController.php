@@ -19,15 +19,6 @@ class ManifestController extends Controller
         $this->request = $request;
     }
 
-    public function subscription()
-    {
-        if (Auth::check()) {
-            return redirect()->route('user::subscription', ['action' => 'show']);
-        }
-        
-        return view('user.subscription.show');
-    }
-
     public function about_us()
     {
         $view_arr['pagetitle'] = 'About';   
@@ -74,4 +65,11 @@ class ManifestController extends Controller
         $view_arr['pagetitle'] = 'Contact Us';
         return view('front.manifest.contact')->with($view_arr);
     }
+
+    public function subscription()
+    {
+        $view_arr['pagetitle'] = 'Subscription Plans';
+        return view('front.manifest.subscription')->with($view_arr);
+    }
+
 }
