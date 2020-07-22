@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<h1 class="page-title">News:{{ $date->format('M d, Y') }}</h1>
+<h1 class="page-title">News: {{ $date->format('F d, Y') }}</h1>
 
 <div class="news-wrapper">
     <?php 

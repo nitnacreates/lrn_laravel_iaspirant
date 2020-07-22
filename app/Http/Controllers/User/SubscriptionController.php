@@ -33,7 +33,7 @@ class SubscriptionController extends Controller
         $params = $this->request->all();
 
         $validator = Validator::make($params, [
-            'plan' => 'required|in:premium,pro'
+            'plan' => 'required|in:free,premium,pro'
         ]);
 
         if ($validator->fails()) {
@@ -42,7 +42,20 @@ class SubscriptionController extends Controller
         }
 
         if($params['plan'] == 'free'){
+            $this->request->session()->flash('msgs', ['Free is already part of your subscription']);
             return redirect()->route('user::subscription', ['action' => 'show']);
+        }else{
+            switch ($params['plan']) {
+                case 'premium': 
+                    $view_arr['plan'] = 'Premium User';
+                    $view_arr['price'] = 4999.00;
+                    break;
+                case 'pro': 
+                    $view_arr['plan'] = 'Pro User';
+                    $view_arr['price'] = 9999.00; 
+                    break;
+                default:break;
+            }
         }
 
         $user_id = \UserHelper::getUserId();
