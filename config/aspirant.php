@@ -165,5 +165,10 @@ return [
             // '25' => 'Assembler',
             // '30' => 'Omnipotent'
         ]
+    ],
+
+    'razorpay' => [
+        'api_key' => env('RAZORPAY_API_KEY'),
+        'api_secret' => env('RAZORPAY_API_SECRET')
     ]
 ];

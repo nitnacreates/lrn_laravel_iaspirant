@@ -43,11 +43,28 @@
                     <div class="col-12"><p>You will be redirected to Razorpay. Razorpay is an Indian PCI-DSS compliant payment gateway system, manging lakhs of businesses, so buy without any worries </p></div>
                 </div>
                 <div class="row py-1">
-                    <div class="col-12 text-right"><button type="button" class="btn btn-success">Buy</button></div>
+                    <div class="col-12 text-right"><button type="button" class="btn btn-success" id="razorpay_subscription">Buy</button></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-2"></div>
 </div>
+<div class="row">
+    <div class="col">
+    <form method="post" id="razorpayform-response-form" action="{{ route('user::subscription', ['action' => 'ensue'])  }}">
+        @csrf
+        <input type="hidden" name="razorpay_order_id" value="{{ $razorpay_order_id }}" />
+        <input type="hidden" name="razorpay_payment_id" />
+        <input type="hidden" name="razorpay_signature" />
+    </form>
+    </div>
+</div>
 @stop
+
+@push('scripts_foot')
+<script type="text/javascript">
+    pub_globes.razor_options = JSON.parse('{!! json_encode($razordata); !!}');
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+@endpush

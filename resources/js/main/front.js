@@ -189,5 +189,19 @@ $(document).ready(function() {
                 });
             }
         });
+    } else if($('body').hasClass('user_subscription')){
+        if (typeof Razorpay === 'function'){
+            options = pub_globes.razor_options;
+            options.handler = function(response){
+                $('#razorpayform-response-form input[name="razorpay_payment_id"]').val(response.razorpay_payment_id);
+                $('#razorpayform-response-form input[name="razorpay_signature"]').val(response.razorpay_signature);
+                $('#razorpayform-response-form').submit();
+            }
+            var rzp = new Razorpay(options);
+            $('#razorpay_subscription').click(function(e){
+                rzp.open();
+                e.preventDefault();
+            })
+        }
     }
 });
