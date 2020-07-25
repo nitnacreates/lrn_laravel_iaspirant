@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserSubsciptionsTable extends Migration
+class CreateUserSubscriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateUserSubsciptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_subsciptions', function (Blueprint $table) {
+        Schema::create('user_subscriptions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->tinyInteger('plan_id');
+            $table->string('portal_id', 40)->nullable()->unique();
             $table->tinyInteger('current_step')->default(1);
-            $table->string('tr_identifier')->nullable();
+            $table->string('tr_identifier', 100)->nullable()->unique();
             $table->dateTime('tr_completed')->nullable(); // update on verification
             $table->text('tr_meta')->nullable();
             $table->boolean('payment_verified')->default(0);
@@ -36,6 +37,6 @@ class CreateUserSubsciptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_subsciptions');
+        Schema::dropIfExists('user_subscriptions');
     }
 }

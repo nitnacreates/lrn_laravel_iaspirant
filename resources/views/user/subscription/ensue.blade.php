@@ -19,6 +19,9 @@
                     <div class="alert alert-danger" role="alert">
                       {{ $msg }}
                     </div>
+                    <div class="d-inline float right">
+                      <a class="btn btn-primary" href="{{ route('user::subscription', ['action' => 'show']) }}" role="button">Retry</a> &nbsp; <a class="btn btn-primary" href="{{ route('front::manifest', ['action' => 'contact']) }}" role="button">Drop a message</a>
+                    </div>
                @endif
             </div>
         </div>

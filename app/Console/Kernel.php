@@ -34,6 +34,11 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             \CronHelper::unlockPrelim();
         })->dailyAt('00:05');
+
+        // clean up subscription table
+        $schedule->call(function () {
+            \CronHelper::authorizeUserSubscription();
+        })->dailyAt('00:05');
     }
 
     /**
