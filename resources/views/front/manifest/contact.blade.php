@@ -4,7 +4,7 @@
 <h1 class="page-title">Contact Us</h1>
 <div class="row">
     <div class="col">
-        <p>If you have any queries with please send your query below, or send an email to support@iaspirant.com, or call us on 0120 4128557 (11am to 3pm).</p>
+        <p>For any query, feedback, bug report, feature request, please send a query below, or drop an email on <a href="mailto:support@iaspirant.com">support@iaspirant.com</a>, or call us on 0120 4128557 (11am to 5pm).</p>
         <p><strong>Address:</strong><br/>
             IASPIRANT, <br/>
             252, SECTOR 1,<br/>

@@ -1,5 +1,6 @@
 <div class="row border-bottom mb-3">
     <div class="col"><p class="text-sm"><strong>Date:</strong> {{ $news_show->show_on->format('d M, Y') }}</p></div>
+    <div class="col"><p class="text-sm"><strong>Total:</strong> {{ $news_show->news->count() }}</p></div>
     <div class="col"><p class="text-sm"><strong>Locked:</strong> {{ $news_show->locked ? 'Yes' : 'No' }}</p></div>
     <div class="col"><button type="button" class="btn btn-sm {{ $news_show->locked ? 'btn-success' : 'btn-danger' }}" id="news_date_action" data-date="{{ $news_show->show_on->format('Y-m-d') }}" value="{{ $news_show->locked ? 0 : 1 }}">{{ $news_show->locked ? 'Unlock' : 'Lock' }}</button></div>
 </div>

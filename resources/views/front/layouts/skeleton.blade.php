@@ -98,10 +98,28 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">Upcoming</h2>
+                                <h2 class="title">Prelim-21 batches</h2>
                                 <ul>
-                                  <li>Next 2021 batch: Aug 4, 20</li>
+                                  <li>Aug 4, 2020</li>
+                                  <li>Sep 1, 2020</li>
+                                  <li>Oct 6, 2020</li>
                                 </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sidebar-item">
+                          <div class="sidebar-item-radial">
+                            <div class="side-item-container">
+                                <h2 class="title">Sticky</h2>
+                                <p>Write a quick note to yourself, something to motivate, a to-do list, some links, anything. Login to see them here.</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sidebar-item">
+                          <div class="sidebar-item-radial">
+                            <div class="side-item-container">
+                                <h2 class="title">PIB</h2>
+                                <a class="twitter-timeline" data-height="500" data-theme="light" href="https://twitter.com/PIB_India?ref_src=twsrc%5Etfw"></a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
                             </div>
                           </div>
                         </div>
