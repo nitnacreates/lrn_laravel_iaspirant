@@ -19,11 +19,11 @@ const mix = require('laravel-mix');
 *  temperory small ones
 */
 
-mix.less('resources/less/front/plugins/clndr.less', 'public/assets/plugins/clndr/clndr.css');
+// mix.less('resources/less/front/plugins/clndr.less', 'public/assets/plugins/clndr/clndr.css');
 
 /* ******** FULL ******** */
 
-/*
+
 // ////////////////// PLUGINS ////////////////// 
 
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/assets/plugins/tinymce/plugins')
@@ -103,4 +103,3 @@ mix.styles([
 
 mix.scripts(['resources/js/super/backy.js'], 'public/assets/js/super_main.js');
 mix.less('resources/less/super/backy.less', 'public/assets/css/super_main.css');
-*/

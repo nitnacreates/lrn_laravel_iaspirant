@@ -48,7 +48,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'stg_aspirant'),
+            'database' => env('DB_DATABASE', 'aspire_db_box'),
             'username' => env('DB_USERNAME', 'iaspirant'),
             'password' => env('DB_PASSWORD', 'a$91r@3+W0rI<s'),
             'unix_socket' => env('DB_SOCKET', ''),

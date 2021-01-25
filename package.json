@@ -33,6 +33,7 @@
         "clndr": "^1.5.1",
         "countdown": "^2.6.0",
         "font-awesome": "^4.7.0",
+        "gulp": "^4.0.2",
         "jbox": "^1.0.9",
         "jquery": "^3.4.1",
         "jquery-validation": "^1.19.1",
