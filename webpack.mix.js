@@ -98,7 +98,6 @@ mix.styles([
     'resources/adminlte/css/ionicons.min.css',
     'node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
     'resources/adminlte/css/adminlte.css',
-    'resources/less/super/css/backy.less'
 ], 'public/assets/css/super_core_libs.css');
 
 mix.scripts(['resources/js/super/backy.js'], 'public/assets/js/super_main.js');
