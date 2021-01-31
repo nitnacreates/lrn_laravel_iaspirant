@@ -83,8 +83,8 @@ $(document).ready(function() {
             forceSixRows: true,
             ignoreInactiveDaysInSelection: true,
             constraints: {
-                startDate: '2020-06-01',
-                endDate: '2021-07-01'
+                startDate: '2021-01-01',
+                endDate: '2022-10-01'
             },
             ready: function(){
                 getMonthEvents(moment().format());

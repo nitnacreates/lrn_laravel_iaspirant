@@ -12,7 +12,7 @@
         <h3>Latest Essay</h3>
     </div>
     <div class="col-6">
-        <h4><a href="{{ route('front::essays-date', ['param' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('M d,Y') }}</a></h4>
+        @if($latest_dt)<h4><a href="{{ route('front::essays-date', ['param' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('M d,Y') }}</a></h4>@endif
     </div>
 </div>
 

@@ -52,7 +52,9 @@
         </div>
     </div>
     <div class="w-100"></div>
-    <div class="col mt-4"><span class="text-success font-weight-bold">*</span>  Transparent pricing - No extra charges - All prices shown are final. - No GST, no service, and no net banking charges.</div>
+    <div class="col mt-4">
+        <p><span class="text-danger font-weight-bold">*</span> Prices may increase without intimation.</p>
+        <p><span class="text-success font-weight-bold">*</span> Transparent pricing - No extra charges - All prices shown are final. - No GST, no service, and no net banking charges.<br/>All plans valid till CSE mains</p>
+    </div>
     <div class="w-100"></div>
-    <div class="col">All plans valid till CSE mains</div>
 </div>

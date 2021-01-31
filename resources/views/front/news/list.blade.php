@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col">
-        <h3>Latest News : <a href="{{ route('front::news-date', ['param' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('F d, Y') }}</a></h3>
+        @if($latest_dt)<h3>Latest News : <a href="{{ route('front::news-date', ['param' => $latest_dt->format('Y-m-d')]) }}">{{ $latest_dt->format('F d, Y') }}</a></h3>@endif
     </div>
 </div>
 
@@ -56,17 +56,19 @@
 
 <?php $current_month = 0; ?>
 <div class="row mt-5">
-    @foreach($month_dates as $dt)
-        @if($dt->format('F') !== $current_month)
-            @if($current_month)
-                </ul></div></div>
+    @if($month_dates->count())
+        @foreach($month_dates as $dt)
+            @if($dt->format('F') !== $current_month)
+                @if($current_month)
+                    </ul></div></div>
+                @endif
+                <?php $current_month = $dt->format('F'); ?>
+                <div class="col-3"><div class="month"><h3>{{ $dt->format('F, Y') }}</h3></div><div class="month-dates"><ul>
             @endif
-            <?php $current_month = $dt->format('F'); ?>
-            <div class="col-3"><div class="month"><h3>{{ $dt->format('F, Y') }}</h3></div><div class="month-dates"><ul>
-        @endif
-        <li><a href="{{ route('front::news-date', ['param' => $dt->format('Y-m-d')]) }}">{{ $dt->format('d, Y') }}</a></li>
-    @endforeach
-    </ul></div></div>
+            <li><a href="{{ route('front::news-date', ['param' => $dt->format('Y-m-d')]) }}">{{ $dt->format('d, Y') }}</a></li>
+        @endforeach
+        </ul></div></div>
+    @endif
 </div>
 @stop
 

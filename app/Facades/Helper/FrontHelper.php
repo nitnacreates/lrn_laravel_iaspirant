@@ -62,26 +62,50 @@ class FrontHelper
         return $more_than_day > 0 ? $more_than_day : 0;
     }
 
+    public function testSeriesTimeLeft($mode)
+    {
+        $now = Carbon::now();
+        switch ($mode) {
+            case '1': // prelims test series
+                $to_date = Carbon::createFromFormat('Y-m-d', "2021-07-05");
+                $rem_days = $now->diffInDays($to_date, false); 
+                return $rem_days . " days";
+                break;
+            case '2': // prelims test series
+                $to_date = Carbon::createFromFormat('Y-m-d', "2021-07-05");
+                $rem_days = $now->diffInMonths($to_date, false); 
+                return $rem_days . " months";
+                break;
+            case '3': // mains test series
+                $to_date = Carbon::createFromFormat('Y-m-d', "2021-11-01");
+                $rem_days = $now->diffInMonths($to_date, false); 
+                return $rem_days . " months";
+                break;
+            default:
+                return "22 months";    
+            break;
+        }
+    }
+
     public function examTimeLeft($mode)
     {
         $now = Carbon::now();
         switch ($mode) {
-            case '1':
-                $to_date = Carbon::createFromFormat('Y-m-d', "2020-10-04");
+            case '1': // prelims
+                $to_date = Carbon::createFromFormat('Y-m-d', "2022-07-03");
                 $rem_days = $now->diffInDays($to_date, false); 
                 return $rem_days . " days";
                 break;
-            case '2':
-                $to_date = Carbon::createFromFormat('Y-m-d', "2021-01-08");
+            case '2': // prelims
+                $to_date = Carbon::createFromFormat('Y-m-d', "2022-07-03");
                 $rem_days = $now->diffInMonths($to_date, false); 
                 return $rem_days . " months";
                 break;
-            case '3':
-                $to_date = Carbon::createFromFormat('Y-m-d', "2021-06-30");
+            case '3': // mains
+                $to_date = Carbon::createFromFormat('Y-m-d', "2022-09-28");
                 $rem_days = $now->diffInMonths($to_date, false); 
                 return $rem_days . " months";
                 break;
-            
             default:
                 return "22 months";    
             break;

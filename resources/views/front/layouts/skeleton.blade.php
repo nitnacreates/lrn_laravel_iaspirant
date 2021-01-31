@@ -98,11 +98,9 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">Prelim-21 batches</h2>
+                                <h2 class="title">Prelim-22 batches</h2>
                                 <ul>
-                                  <li>Aug 4, 2020</li>
-                                  <li>Sep 1, 2020</li>
-                                  <li>Oct 6, 2020</li>
+                                  <li>July 5, 2021</li>
                                 </ul>
                             </div>
                           </div>
@@ -136,10 +134,10 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">CSE 2020</h2>
+                                <h2 class="title">Test Series 2022</h2>
                                 <ul>
-                                  <li>Prelim: {{ \FrontHelper::examTimeLeft(1) }} left</li>
-                                  <li>Mains: {{ \FrontHelper::examTimeLeft(2) }} left</li>
+                                  <li>Prelim: {{ \FrontHelper::testSeriesTimeLeft(2) }} left</li>
+                                  <li>Mains: {{ \FrontHelper::testSeriesTimeLeft(3) }} left</li>
                                 </ul>
                             </div>
                           </div>
@@ -147,9 +145,10 @@
                         <div class="sidebar-item">
                           <div class="sidebar-item-radial">
                             <div class="side-item-container">
-                                <h2 class="title">CSE 2021</h2>
+                                <h2 class="title">CSE 2022</h2>
                                 <ul>
-                                  <li>Prelim: {{ \FrontHelper::examTimeLeft(3) }} left</li>
+                                  <li>Prelim: {{ \FrontHelper::examTimeLeft(2) }} left</li>
+                                  <li>Mains: {{ \FrontHelper::examTimeLeft(3) }} left</li>
                                 </ul>
                             </div>
                           </div>
@@ -163,7 +162,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="copyright-block col-lg-4 col-xl-4 col-12 text-center text-lg-left text-xl-left">
-                        <span class="text-muted">&copy; 2020. IASPIRANT</span>
+                        <span class="text-muted">&copy; 2021. IASPIRANT</span>
                     </div>
                     <div class="footer-links col-lg-8 col-xl-8 col-12 text-center text-lg-right text-xl-right">
                         <ul class="list-inline d-inline-block">

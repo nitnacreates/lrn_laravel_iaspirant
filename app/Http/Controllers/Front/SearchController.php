@@ -53,7 +53,7 @@ class SearchController extends Controller
             }
 
         } else{
-            $msg = "Searching is available for " . config('aspirant.user_subscription')['15'] . " and ". config('aspirant.user_subscription')['20'] ." users";
+            $msg = "Searching is available for " . config('aspirant.user_subscription.plans')['10'] . " and ". config('aspirant.user_subscription.plans')['20'] ." users";
         }
 
         $view_arr['q'] = $query;
